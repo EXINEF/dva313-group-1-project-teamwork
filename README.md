@@ -26,6 +26,11 @@ python manage.py runserver
 
 3) Check the website<br>http://127.0.0.1:8000/
 
+### TEST DATABASE Credentials
+Hostname:   eu-cdbr-west-01.cleardb.com
+Username:   b630dce8abed0f
+Password:   37cbbdac
+Database:   heroku_71aa00777cf80be
 
 
 
