@@ -11,3 +11,21 @@ All the Slides and Documents are saved online in Google Forms, this is the link 
 
 ### TRELLO REPOSITORY
 We put all the activities schedule on Trello Website.
+
+### HOW TO RUN SERVER LOCALLY
+
+1) Go in the folder /project
+```bash
+cd project
+```
+
+2) Start the local server
+```bash
+python manage.py runserver
+```
+
+3) Check the website<br>http://127.0.0.1:8000/
+
+
+
+
