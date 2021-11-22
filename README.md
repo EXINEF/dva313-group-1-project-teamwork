@@ -32,5 +32,10 @@ python manage.py runserver
 <br>Password:   37cbbdac
 <br>Database:   heroku_71aa00777cf80be
 
+### ADMIN CREDENTIALS TO LOG IN DJANGO locally
+http://127.0.0.1:8000/admin
+<br>Username:   a
+<br>Password:   a
+
 
 
