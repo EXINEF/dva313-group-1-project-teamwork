@@ -28,7 +28,7 @@ class Tire(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    #vehicles = models.ManyToManyField(Vehicle, blank=True)
+
     fleet_managers = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
