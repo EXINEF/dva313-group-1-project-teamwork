@@ -37,5 +37,10 @@ http://127.0.0.1:8000/admin
 <br>Username:   a
 <br>Password:   a
 
+### CREATING CLASS DIAGRAM
+```bash
+python manage.py graph_models -a -o classUML.png
+```
+
 
 
