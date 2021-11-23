@@ -39,7 +39,7 @@ class Vehicle(models.Model):
     tires = models.ManyToManyField(Tire, blank=True)
     company = models.ForeignKey(Company,on_delete=models.CASCADE,default=None)
 
-    model = models.CharField(max_length=50, blank=True, null=True)
+    model = models.CharField(max_length=50, blank=True)
     ambient_temperature = models.IntegerField(blank=True, null=True)
     distance_driven = models.IntegerField(blank=True, null=True)
     machine_hours = models.IntegerField(blank=True, null=True)

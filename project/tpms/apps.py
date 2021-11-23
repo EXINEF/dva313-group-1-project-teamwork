@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class VolvotpmsConfig(AppConfig):
+class TpmsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'volvoTPMS'
+    name = 'tpms'
