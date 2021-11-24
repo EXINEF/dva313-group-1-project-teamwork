@@ -1,24 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CopilotApp"
              x:Class="CopilotApp.MainPage">
 
+    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function
+    in some class, in this case MainPageFunctionality.cs -->
+    <ContentPage.BindingContext>
+        <local:MainPageViewmodel/>
+    </ContentPage.BindingContext>  
+
     <StackLayout>
-        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        <Frame BackgroundColor="#2196F3" Padding="10" CornerRadius="0">
+            <Label Text="TMPS app" HorizontalTextAlignment="Center" TextColor="White" FontSize="24"/>
         </Frame>
-        <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
-        <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
-        <Label FontSize="16" Padding="30,24,30,0">
-            <Label.FormattedText>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Learn more at "/>
-                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+
+        <Frame BackgroundColor="#FFFFFF" Padding="10" CornerRadius="0">
+            <StackLayout>
+                <Label Text="Tire ID" FontSize="10"/>
+                <Entry x:Name="entryTireID" Text="{Binding tireID}" Placeholder="TireID" FontSize="10"/>
+                <Label Text="Tire Pressure" FontSize="10" />
+                <Entry x:Name="entryTirePressure" Text="{Binding tirePressure}" Placeholder="Tire Pressure kPa" FontSize="10" />
+                <Label Text="Tire Temperature" FontSize="10"/>
+                <Entry x:Name="entryTireTemperature" Text="{Binding tireTemperature}" Placeholder="Tire Temperature C" FontSize="10" />
+
+            </StackLayout>
+        </Frame>
+
+        <Button Command="{Binding OnClickSendDataButton}"
+                Text="Send Data"
+                IsEnabled="True"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"/>
+
+        <Label x:Name="xtot" Text="{Binding tot}" FontSize="10"/>
     </StackLayout>
 
 </ContentPage>
