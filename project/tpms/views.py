@@ -19,6 +19,7 @@ def homePage(request):
     return render(request, 'user/home.html', context)
 
 def vehiclePage(request, pk):
+    # SELECT * FROM vehicle WHERE id=pk
     vehicle = Vehicle.objects.get(id=pk)
     tires = vehicle.tires.all()
 

@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Sensor(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    temperature = models.IntegerField(blank=True, null=True)
-    pressure = models.IntegerField(blank=True, null=True)
+    temperature = models.FloatField(blank=True, null=True)
+    pressure = models.FloatField(blank=True, null=True)
     remaning_battery = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=30, null=True)
 
