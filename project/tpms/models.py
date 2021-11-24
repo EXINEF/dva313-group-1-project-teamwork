@@ -14,7 +14,7 @@ class Sensor(models.Model):
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, blank=True, null=True)
+    sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING, blank=True, null=True)
     
     remaining_life = models.IntegerField(blank=True, null=True)
     baseline_pressure = models.IntegerField(blank=True, null=True) 
@@ -49,7 +49,7 @@ class Vehicle(models.Model):
     machine_hours = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return 'Vehicle model: '+self.model + ' ID: '+self.id
+        return 'Vehicle model: '+ self.model + ' ID: '+ self.id
     
 
     

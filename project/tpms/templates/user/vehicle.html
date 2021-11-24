@@ -1,0 +1,56 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <h1>VEHICLE Home Page</h1>
+
+    <h2>ID: {{vehicle.id}}</h2>
+
+    <h4>company: {{vehicle.company}}</h4>
+    <h4>model: {{vehicle.model}}</h4>
+    <h4>ambient temperature: {{vehicle.ambient_temperature}}</h4>
+    <h4>distance driven: {{vehicle.distance_driven}}</h4>
+    <h4>machine hours: {{vehicle.machine_hours}}</h4>
+    <h4>payload: {{vehicle.payload}}</h4>
+    <h4>consumed fuel: {{vehicle.consumed_fuel}}</h4>
+    <h4>weight: {{vehicle.weight}}</h4>
+    <h4>machine hours: {{vehicle.machine_hours}}</h4>
+    
+    <h3>Vehicle Tires</h3>
+    <table class="table table-dark table-striped">
+    <thead>
+        <tr>
+        <th scope="col">Tire ID</th>
+        <th scope="col">Sensor ID</th>
+        <th scope="col">remaining life</th>
+        <th scope="col">baseline pressure</th>
+        <th scope="col">fill material</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tire in tires %}
+            <tr>
+            <th scope="row"><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></th>
+            <td>{{tire.sensor.id}}</td>
+            
+            <td>{{tire.remaining_life}}</td>
+            <td>{{tire.baseline_pressure}}</td>
+            <td>{{tire.fill_material}}</td>
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+    </table>
+
+</div>
+
+
+
+
+{% endblock content %}
+
+
+

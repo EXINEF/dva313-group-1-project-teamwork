@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Vehicle
+from .models import Vehicle, Tire, Sensor
 
 # Create your views here.
 def indexPage(request):
@@ -14,10 +14,25 @@ def indexPage(request):
 
 def homePage(request):
     vehicles = Vehicle.objects.all()
-    for vehicle in vehicles:
-        print(vehicle.id, vehicle.model)
-        for tire in vehicle.tires.all():
-            print(tire.id)
-        print('\n')
+
     context = {'vehicles':vehicles}
     return render(request, 'user/home.html', context)
+
+def vehiclePage(request, pk):
+    vehicle = Vehicle.objects.get(id=pk)
+    tires = vehicle.tires.all()
+
+    context = {'vehicle':vehicle, 'tires':tires}
+    return render(request, 'user/vehicle.html', context)
+
+def tirePage(request, pk):
+    tire = Tire.objects.get(id=pk)
+
+    context = {'tire':tire}
+    return render(request, 'user/tire.html', context)
+
+def sensorPage(request, pk):
+    sensor = Sensor.objects.get(id=pk)
+
+    context = {'sensor':sensor}
+    return render(request, 'user/sensor.html', context)

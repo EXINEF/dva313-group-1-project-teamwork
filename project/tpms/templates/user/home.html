@@ -22,10 +22,10 @@
     <tbody>
         {% for vehicle in vehicles %}
             <tr>
-            <th scope="row">{{vehicle.id}}</th>
+            <th scope="row"><a href="{% url 'vehicle' vehicle.id%}">{{vehicle.id}}</a></th>
             <td>{{vehicle.model}}</td>
             
-            <td>{{Otto}}</td>
+            <td>ibi</td>
             <td>@mdo</td>
             <td>Otto</td>
             <td>@mdo</td>
