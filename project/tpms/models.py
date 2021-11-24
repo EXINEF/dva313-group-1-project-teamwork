@@ -1,13 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+ALL_SENSOR_STATUS = (
+    ('WORKING', 'WORKING'),
+    ('WARNING', 'WARNING'),
+    ('DANGER', 'DANGER'),
+    ('LOST', 'LOST'),
+    ('BROKEN', 'BROKEN'),
+)
+
 # Create your models here.
 class Sensor(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    temperature = models.FloatField(blank=True, null=True)
-    pressure = models.FloatField(blank=True, null=True)
-    remaning_battery = models.IntegerField(blank=True, null=True)
-    status = models.CharField(max_length=30, null=True)
+    temperature = models.FloatField(blank=True, null=True, default=0)
+    pressure = models.FloatField(blank=True, null=True, default=0)
+    remaning_battery = models.IntegerField(blank=True, null=True, default=0)
+    status = models.CharField(max_length=30, null=True, default="ACTIVE", choices=ALL_SENSOR_STATUS)
 
     def __str__(self):
         return 'Sensor: '+self.id
@@ -50,6 +58,14 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return 'Vehicle model: '+ self.model + ' ID: '+ self.id
+
+    def getSensorsTemperatures(self):
+        tires = self.tires.all()
+        sensors = []
+        for tire in tires:
+            sensors.append(tire.sensor.temperature)
+        return sensors
+
     
 
     

@@ -25,6 +25,8 @@
         <tr>
         <th scope="col">Tire ID</th>
         <th scope="col">Sensor ID</th>
+        <th scope="col">TEMPERATURE</th>
+        <th scope="col">PRESSURE</th>
         <th scope="col">remaining life</th>
         <th scope="col">baseline pressure</th>
         <th scope="col">fill material</th>
@@ -34,8 +36,9 @@
         {% for tire in tires %}
             <tr>
             <th scope="row"><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></th>
-            <td>{{tire.sensor.id}}</td>
-            
+            <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
+            <td>{{tire.sensor.temperature}}</td>
+            <td>{{tire.sensor.pressure}}</td>
             <td>{{tire.remaining_life}}</td>
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>

@@ -24,11 +24,17 @@
             <tr>
             <th scope="row"><a href="{% url 'vehicle' vehicle.id%}">{{vehicle.id}}</a></th>
             <td>{{vehicle.model}}</td>
+
+            {% for tire in vehicle.tires.all %}
+                {% if tire is None %}
+                    <td>MISSING TIRE</td>
+                {% elif tire.sensor is None %}
+                    <td>MISSING SENSOR</td>
+                {% else %}
+                    <td>{{tire.sensor.status}}</td>
+                {% endif %}                
+            {% endfor %}
             
-            <td>ibi</td>
-            <td>@mdo</td>
-            <td>Otto</td>
-            <td>@mdo</td>
             </tr>
         {% endfor %}
         
