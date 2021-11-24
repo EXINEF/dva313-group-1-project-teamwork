@@ -36,3 +36,7 @@ def sensorPage(request, pk):
 
     context = {'sensor':sensor}
     return render(request, 'user/sensor.html', context)
+
+# https://tmps-volvo.herokuapp.com/send-data-VEHICLE_ID-SENSOR_ID-20-20-SENSOR_ID-20-20-SENSOR_ID-20-20-SENSOR_ID-20-20
+def sendData(request, query):
+    return 
