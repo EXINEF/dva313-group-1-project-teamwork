@@ -27,7 +27,7 @@
             </StackLayout>
         </Frame>
 
-        <Button Command="{Binding OnClickSendDataButton}"
+        <Button Command="{Binding SendDataCommand}"
                 Text="Send Data"
                 IsEnabled="True"
                 VerticalOptions="CenterAndExpand"

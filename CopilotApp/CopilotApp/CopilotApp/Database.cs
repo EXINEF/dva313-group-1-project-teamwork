@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MySql.Data.MySqlClient;
+//using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace CopilotApp
 {
@@ -13,7 +14,7 @@ namespace CopilotApp
         static string _password = "";
         static string _database = "dva313";
 
-        static string myConnectionString = "datasource=130.243.94.123;port=3306;username=root;password=;database=dva313";
+        static string myConnectionString = "datasource=db4free.net;port=3306;username=dva313user;password=zlLJiR6JCd;database=dva313";
         static MySqlConnection mysql_connection;
 
         public Database()
@@ -25,7 +26,7 @@ namespace CopilotApp
         {
             // 'GetSQLDateTime()'
 
-            string query = "INSERT INTO tire(ID, Pressure, Temperature) VALUES(" + tireID + "," + "," + tirePressure + "," + tireTemperature + ")";
+            string query = "INSERT INTO tire(ID, Pressure, Temperature) VALUES(" + tireID + "," + tirePressure + "," + tireTemperature + ")";
             SendQuery(query);
         }
 
@@ -43,6 +44,7 @@ namespace CopilotApp
 
         public static void SendQuery(string query)
         {
+            Console.WriteLine("Sending Query: " + query);
             mysql_connection = new MySqlConnection(myConnectionString);
             MySqlCommand sql_cmd = new MySqlCommand(query, mysql_connection);
             sql_cmd.CommandTimeout = 60;
