@@ -8,12 +8,17 @@ namespace CopilotApp
 {
     public class Database
     {
-        static string _ip = "127.0.0.1";
+        static string _ip = "db4free.net";
         static string _port = "3306";
-        static string _username = "root";
-        static string _password = "";
+        static string _username = "dva313user";
+        static string _password = "zlLJiR6JCd";
         static string _database = "dva313";
 
+
+        //This database, "db4free.net" is extremely slow but works for now
+        //You can access it(pHpMyAdmin) here: https://www.db4free.net/phpMyAdmin
+        //username: dva313user
+        //password: zlLJiR6JCd
         static string myConnectionString = "datasource=db4free.net;port=3306;username=dva313user;password=zlLJiR6JCd;database=dva313";
         static MySqlConnection mysql_connection;
 
