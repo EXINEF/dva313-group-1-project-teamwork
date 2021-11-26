@@ -1,0 +1,25 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <h1>SENSOR Page</h1>
+
+    <h2>ID: {{sensor.id}}</h2>
+
+    <h4>temperature: {{sensor.temperature}}</h4>
+    <h4>pressure: {{sensor.pressure}}</h4>
+    <h4>remaining battery: {{sensor.remaining_battery}}</h4>
+    <h4>status: {{sensor.status}}</h4>
+
+</div>
+
+
+
+
+{% endblock content %}
+
+
+
