@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CopilotApp.TirePage">
+
+    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function
+    in some class, in this case MainPageFunctionality.cs -->
+    <!--<ContentPage.BindingContext>
+        <local:TirePageViewmodel/>
+    </ContentPage.BindingContext> -->
+
+    <StackLayout>
+        <Frame BackgroundColor="#FFFFFF" Padding="10" CornerRadius="0">
+            <StackLayout>
+                <Label Text="Tire ID" FontSize="10"/>
+                <Entry x:Name="entryTireID" Text="{Binding tireID}" Placeholder="TireID" FontSize="10"/>
+                <Label Text="Tire Pressure" FontSize="10" />
+                <Entry x:Name="entryTirePressure" Text="{Binding tirePressure}" Placeholder="Tire Pressure kPa" FontSize="10" />
+                <Label Text="Tire Temperature" FontSize="10"/>
+                <Entry x:Name="entryTireTemperature" Text="{Binding tireTemperature}" Placeholder="Tire Temperature C" FontSize="10" />
+
+            </StackLayout>
+        </Frame>
+
+        <Button Command="{Binding SendDataCommand}"
+                Text="Send Data"
+                IsEnabled="True"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"/>
+
+        <Label x:Name="xtot" Text="{Binding tot}" FontSize="10"/>
+    </StackLayout>
+
+</ContentPage>

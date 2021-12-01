@@ -133,4 +133,7 @@
       <Name>CopilotApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\WheelLoaderWireFrame.png" />
+  </ItemGroup>
 </Project>

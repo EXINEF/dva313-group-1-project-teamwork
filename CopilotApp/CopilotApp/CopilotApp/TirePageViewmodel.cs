@@ -1,30 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace CopilotApp
 {
-    public partial class MainPageViewmodel : INotifyPropertyChanged
+    public partial class TirePageViewmodel : INotifyPropertyChanged
     {
         //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
         //So we'll just keep automatically updated copies here for now.
         string _tireID = string.Empty;
-        string _tireTemperature = string.Empty;
-        string _tirePressure = string.Empty;
+        string _baselinePressure;
+        string _fillMaterial;
+        string _treadDepth;
+
         string _tot = string.Empty;
-        public string tireID { get => _tireID; set { _tireID = value; OnPropertyChanged(nameof(tot)); } }
-        public string tirePressure { get => _tirePressure; set { _tirePressure = value; OnPropertyChanged(nameof(tot)); } }
-        public string tireTemperature { get => _tireTemperature; set { _tireTemperature = value; OnPropertyChanged(nameof(tot)); } }
-        public string tot { get => tireID + ", " + tirePressure + ", " + tireTemperature ; set { _tot = value; } } //This is just used to verify that the other values gets updated
+        public string tireID { get => _tireID; set { _tireID = value; } }
+        public string baselinePressure{ get => _baselinePressure; set { _baselinePressure = value; } }
+        public string fillMaterial { get => _fillMaterial; set { _fillMaterial = value; } }
+        public string treadDepth { get => _treadDepth; set { _treadDepth = value; } }
 
 
         //Event handler
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MainPageViewmodel()
+        public TirePageViewmodel()
         {
             //Binds "SendDataCommand" which is called by the button in XAML to the "SendData" function in this class.
             SendDataCommand = new Command(SendData);
@@ -43,8 +46,7 @@ namespace CopilotApp
         //Calls the Database.cs class with the data as arguments.
         void SendData()
         {
-            Database.SendData(tireID, tirePressure, tireTemperature);
+            //Database.SendData(tireID, tirePressure, tireTemperature);
         }
-
     }
 }
