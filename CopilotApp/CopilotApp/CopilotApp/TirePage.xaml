@@ -1,34 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CopilotApp"
              x:Class="CopilotApp.TirePage">
 
-    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function
-    in some class, in this case MainPageFunctionality.cs -->
-    <!--<ContentPage.BindingContext>
+    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function in this case TirePageViewmodel.cs -->
+    <ContentPage.BindingContext>
         <local:TirePageViewmodel/>
-    </ContentPage.BindingContext> -->
+    </ContentPage.BindingContext>
 
+    
     <StackLayout>
-        <Frame BackgroundColor="#FFFFFF" Padding="10" CornerRadius="0">
+        <Frame BackgroundColor="Black" Padding="10" CornerRadius="0">
             <StackLayout>
-                <Label Text="Tire ID" FontSize="10"/>
-                <Entry x:Name="entryTireID" Text="{Binding tireID}" Placeholder="TireID" FontSize="10"/>
-                <Label Text="Tire Pressure" FontSize="10" />
-                <Entry x:Name="entryTirePressure" Text="{Binding tirePressure}" Placeholder="Tire Pressure kPa" FontSize="10" />
-                <Label Text="Tire Temperature" FontSize="10"/>
-                <Entry x:Name="entryTireTemperature" Text="{Binding tireTemperature}" Placeholder="Tire Temperature C" FontSize="10" />
-
+                <Label Text="Tire ID" TextColor="White" FontSize="10"/>
+                <Entry x:Name="entryTireID" Text="{Binding tireID}" Placeholder="TireID" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
+                <Label Text="Tire Baseline Pressure" TextColor="White" FontSize="10" />
+                <Entry x:Name="entryBaselinePressure" Text="{Binding baselinePressure}" Placeholder="Baseline Pressure kPa"  PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
+                <Label Text="Tire Fill Material" TextColor="White" FontSize="10"/>
+                <Entry x:Name="entryFillMaterial" Text="{Binding fillMaterial}" Placeholder="Tire Fill Material" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
+                <Label Text="Tire Tread Depth" TextColor="White" FontSize="10"/>
+                <Entry x:Name="entryTreadDepth" Text="{Binding treadDepth}" Placeholder="Tire Tread Depth" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray" />
             </StackLayout>
         </Frame>
 
         <Button Command="{Binding SendDataCommand}"
-                Text="Send Data"
+                Text="OK"
                 IsEnabled="True"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"/>
-
-        <Label x:Name="xtot" Text="{Binding tot}" FontSize="10"/>
+        <Button Command="{Binding SendDataCommand}"
+                Text="Back"
+                IsEnabled="True"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"/>
     </StackLayout>
 
 </ContentPage>

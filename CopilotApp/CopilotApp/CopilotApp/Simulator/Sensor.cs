@@ -19,6 +19,8 @@ namespace CopilotApp
             ID = id;
         }
 
+
+        //Quick function that will just produce random temp/pressure data and send i to Input.cs
         public void SimulateRandomData(float baselinePressure)
         {
             Random random = new Random();

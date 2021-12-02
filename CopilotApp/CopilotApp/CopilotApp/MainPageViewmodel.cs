@@ -9,16 +9,16 @@ namespace CopilotApp
 {
     public partial class MainPageViewmodel : INotifyPropertyChanged
     {
+        
         //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
         //So we'll just keep automatically updated copies here for now.
         string _tireID = string.Empty;
         string _tireTemperature = string.Empty;
         string _tirePressure = string.Empty;
         string _tot = string.Empty;
-        public string tireID { get => _tireID; set { _tireID = value; OnPropertyChanged(nameof(tot)); } }
-        public string tirePressure { get => _tirePressure; set { _tirePressure = value; OnPropertyChanged(nameof(tot)); } }
-        public string tireTemperature { get => _tireTemperature; set { _tireTemperature = value; OnPropertyChanged(nameof(tot)); } }
-        public string tot { get => tireID + ", " + tirePressure + ", " + tireTemperature ; set { _tot = value; } } //This is just used to verify that the other values gets updated
+        public string tireID { get => _tireID; set { _tireID = value; } }
+        public string tirePressure { get => _tirePressure; set { _tirePressure = value; } }
+        public string tireTemperature { get => _tireTemperature; set { _tireTemperature = value; } }
 
 
         //Event handler
@@ -28,15 +28,25 @@ namespace CopilotApp
         {
             //Binds "SendDataCommand" which is called by the button in XAML to the "SendData" function in this class.
             SendDataCommand = new Command(SendData);
+
+            //Binds the "TireFrontLeftPressedCommand" called in MainPage.xaml to the TireFrontLeftPressed() C# in this class
+            TireFrontLeftPressedCommand = new Command(TireFrontLeftPressed);
+            TireFrontRightPressedCommand = new Command(TireFrontRightPressed);
+            TireBackLeftPressedCommand = new Command(TireBackLeftPressed);
+            TireBackRightPressedCommand = new Command(TireBackRightPressed);
         }
 
 
-        //New command. The thing we call from the xaml code.
+        //New command. The command we call from the xaml code (Command="{Binding TireFrontLeftPressedCommand}).
         public ICommand SendDataCommand { get; }
+        public ICommand TireFrontLeftPressedCommand { get; }
+        public ICommand TireFrontRightPressedCommand { get; }
+        public ICommand TireBackLeftPressedCommand { get; }
+        public ICommand TireBackRightPressedCommand { get; }
 
         void OnPropertyChanged(string name)
         {
-            //Some property changed send the event hanlder the name of the property
+            //Some property changed send the event hanlder the name of the property.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
@@ -46,5 +56,23 @@ namespace CopilotApp
             Database.SendData(tireID, tirePressure, tireTemperature);
         }
 
+        //Tire button actions, code to execute when a tire button is pressed.
+        void TireFrontLeftPressed()
+        {
+            Console.WriteLine("Tire Front Left Button Pressed");
+        }
+        void TireFrontRightPressed()
+        {
+            Console.WriteLine("Tire Front Right Button Pressed");
+        }
+        void TireBackLeftPressed()
+        {
+            Console.WriteLine("Tire Back Left Button Pressed");
+        }
+        void TireBackRightPressed()
+        {
+            Console.WriteLine("Tire Back Right Button Pressed");
+        }
+        
     }
 }

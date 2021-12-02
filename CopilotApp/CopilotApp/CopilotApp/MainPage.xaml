@@ -3,27 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CopilotApp"
              x:Class="CopilotApp.MainPage"
+             NavigationPage.HasNavigationBar="False"
              BackgroundColor="Black">
 
-    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function
-    in some class, in this case MainPageViewmodel.cs -->
+    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function in MainPageViewmodel.cs 
+         Basically tells this xaml page where to look for C# functionality -->
     <ContentPage.BindingContext>
         <local:MainPageViewmodel/>
     </ContentPage.BindingContext>
 
+
+    <!-- The Design/Layout (images, buttons, text) -->
     <AbsoluteLayout>
+
+        <!-- Draws the picture of the wheel loader -->
+        <!-- AbsoluteLayout.LayoutBounds="x (0-1), y(0-1),  width, height"-->
         <Image Source="WheelLoaderWireFrame.png"
                   VerticalOptions="CenterAndExpand"
-                  AbsoluteLayout.LayoutBounds="0.5, 0.5, 900, 400"
-                  AbsoluteLayout.LayoutFlags="PositionProportional"></Image>
+                  AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, 540"
+                  AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
         
+        <!-- Tire Front Left -->
+        <!--Command="{Binding TireFrontLeftPressedCommand}" Binds the button to the command(function) "TireFrontLeftPressedCommand" in the MainPageViewmodel.cs-->
         <Button Text="Tire 1"
+                Command="{Binding TireFrontLeftPressedCommand}"
                 BackgroundColor="Transparent"
                 TextColor="White"
                 BorderColor="White"
                 BorderWidth="1"
                 AbsoluteLayout.LayoutBounds="0.25,0.25,100,100"
                 AbsoluteLayout.LayoutFlags="PositionProportional" />
+        <Label  Text="Tire 1 pressure"
+                TextColor="White"
+                AbsoluteLayout.LayoutBounds="0.10, 0.24, 100,30" 
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
+                HorizontalTextAlignment="Center"/>
+        <Label  Text="Tire 1 temp"
+                TextColor="White"
+                AbsoluteLayout.LayoutBounds="0.10, 0.38,100,30" 
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
+                HorizontalTextAlignment="Center"/>
+        
+        <!-- Temporary status indicator shape for Tire 1, We'll fix some proper graphics later -->
         <Ellipse    Stroke="Green"
                     StrokeThickness="6"
                     WidthRequest="90"
@@ -31,75 +53,67 @@
                     AbsoluteLayout.LayoutBounds="0.25,0.25,100,90"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     HorizontalOptions="Center"/>
+
+        <!-- Tire Front Right -->
         <Button Text="Tire 2"
+                Command="{Binding TireFrontRightPressedCommand}"
                 BackgroundColor="Transparent"
                 TextColor="White"
                 BorderColor="White"
                 BorderWidth="1"
                 AbsoluteLayout.LayoutBounds="0.75,0.25,100,100"
                 AbsoluteLayout.LayoutFlags="PositionProportional" />
+        <Label  Text="Tire 2 pressure"
+                TextColor="White"
+                AbsoluteLayout.LayoutBounds="0.90, 0.24, 100,30" 
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
+                HorizontalTextAlignment="Center"/>
+        <Label  Text="Tire 2 temp"
+                TextColor="White"
+                AbsoluteLayout.LayoutBounds="0.90, 0.38, 100,30" 
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
+                HorizontalTextAlignment="Center"/>
+
+        <!-- Tire Back Left -->
         <Button Text="Tire 3"
+                Command="{Binding TireBackLeftPressedCommand}"
                 BackgroundColor="Transparent"
                 TextColor="White"
                 BorderColor="White"
                 BorderWidth="1"
                 AbsoluteLayout.LayoutBounds="0.25,0.75,100,100"
                 AbsoluteLayout.LayoutFlags="PositionProportional" />
+        <Label  Text="Tire 3 pressure"
+                TextColor="White"
+                AbsoluteLayout.LayoutBounds="0.10, 0.65, 100,30" 
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
+                HorizontalTextAlignment="Center"/>
+        <Label  Text="Tire 3 temp"
+                TextColor="White"
+                AbsoluteLayout.LayoutBounds="0.10, 0.80, 100,30" 
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
+                HorizontalTextAlignment="Center"/>
+
+        <!-- Tire Back Right -->
         <Button Text="Tire 4"
+                Command="{Binding TireBackRightPressedCommand}"
                 BackgroundColor="Transparent"
                 TextColor="White"
                 BorderColor="White"
                 BorderWidth="1"
                 AbsoluteLayout.LayoutBounds="0.75,0.75,100,100"
                 AbsoluteLayout.LayoutFlags="PositionProportional" />
-
-        <!-- Tire 1 Labels -->
-            <Label  Text="Tire1 pressure"
-                TextColor="White"
-                AbsoluteLayout.LayoutBounds="0.10, 0.24, 100,30" 
-                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
-                HorizontalTextAlignment="Center"/>
-        <Label  Text="Tire1 temp"
-                TextColor="White"
-                AbsoluteLayout.LayoutBounds="0.10, 0.38,100,30" 
-                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
-                HorizontalTextAlignment="Center"/>
-
-        <!-- Tire 2 Labels -->
-        <Label  Text="Tire2 pressure"
-                TextColor="White"
-                AbsoluteLayout.LayoutBounds="0.90, 0.24, 100,30" 
-                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
-                HorizontalTextAlignment="Center"/>
-        <Label  Text="Tire2 temp"
-                TextColor="White"
-                AbsoluteLayout.LayoutBounds="0.90, 0.38, 100,30" 
-                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
-                HorizontalTextAlignment="Center"/>
-
-        <!-- Tire 3 Labels -->
-        <Label  Text="Tire3 pressure"
-                TextColor="White"
-                AbsoluteLayout.LayoutBounds="0.10, 0.65, 100,30" 
-                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
-                HorizontalTextAlignment="Center"/>
-        <Label  Text="Tire3 temp"
-                TextColor="White"
-                AbsoluteLayout.LayoutBounds="0.10, 0.80, 100,30" 
-                AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
-                HorizontalTextAlignment="Center"/>
-        
-        <!-- Tire 4 Labels -->
-        <Label  Text="Tire4 pressure"
+        <Label  Text="Tire 4 pressure"
                 TextColor="White"
                 AbsoluteLayout.LayoutBounds="0.90, 0.65, 100,30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-        <Label  Text="Tire4 temp"
+        <Label  Text="Tire 4 temp"
                 TextColor="White"
                 AbsoluteLayout.LayoutBounds="0.90, 0.80, 100,30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
+
 
 
     </AbsoluteLayout>

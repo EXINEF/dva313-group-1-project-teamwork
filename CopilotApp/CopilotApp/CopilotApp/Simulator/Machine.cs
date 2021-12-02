@@ -25,17 +25,8 @@ namespace CopilotApp
 
         void LoadMachineData()
         {
-            //Load from file or whatnot
 
-            //Temp solution perhaps we just want it as a choice in the app for the user to select what type of machine it is rather than base it on nr of tires.
-            if (tires.Count > 4)
-            {
-                machineType = MACHINE_TYPE.ARTICULATED_HAULER;
-            }
-            else
-            {
-                machineType = MACHINE_TYPE.WHEELOADER;
-            }
         }
+
     }
 }
