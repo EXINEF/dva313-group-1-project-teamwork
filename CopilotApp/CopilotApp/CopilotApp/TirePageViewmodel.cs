@@ -29,13 +29,15 @@ namespace CopilotApp
 
         public TirePageViewmodel()
         {
-            //Binds "SendDataCommand" which is called by the button in XAML to the "SendData" function in this class.
-            SendDataCommand = new Command(SendData);
+            //Binds "OKCommand" which is called by a button in XAML to the "OKButtonPressed" function in this class.
+            OKCommand = new Command(OKButtonPressed);
+            CancelCommand = new Command(CancelButtonPressed);
         }
 
 
         //New command. The thing we call from the xaml code.
-        public ICommand SendDataCommand { get; }
+        public ICommand OKCommand { get; }
+        public ICommand CancelCommand { get; }
 
         void OnPropertyChanged(string name)
         {
@@ -44,9 +46,22 @@ namespace CopilotApp
         }
 
         //Calls the Database.cs class with the data as arguments.
-        void SendData()
+        void OKButtonPressed()
         {
             //Database.SendData(tireID, tirePressure, tireTemperature);
+            ReturnToMainPage();
+        }
+
+        void CancelButtonPressed()
+        {
+            ReturnToMainPage();
+        }
+
+        async void ReturnToMainPage()
+        {
+            //The pages work as a stack, when we press a tire button on the MainPage a TirePage is pushed on the stack
+            //This pops the tire page from the stack making MainPage the top page again.
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }

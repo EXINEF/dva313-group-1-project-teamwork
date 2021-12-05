@@ -25,7 +25,7 @@ namespace CopilotApp
 
         void LoadMachineData()
         {
-
+            //Perhaps load from a file or just put in some values here.
         }
 
     }

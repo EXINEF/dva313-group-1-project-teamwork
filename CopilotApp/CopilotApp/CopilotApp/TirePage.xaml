@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CopilotApp"
+             BackgroundColor="black"
+             NavigationPage.HasNavigationBar="False"
              x:Class="CopilotApp.TirePage">
 
     <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function in this case TirePageViewmodel.cs -->
@@ -10,8 +12,9 @@
     </ContentPage.BindingContext>
 
     
-    <StackLayout>
-        <Frame BackgroundColor="Black" Padding="10" CornerRadius="0">
+    <AbsoluteLayout>
+        <Frame BackgroundColor="Black" Padding="10" CornerRadius="0" WidthRequest="300" AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1" 
+               AbsoluteLayout.LayoutFlags="XProportional,YProportional" >
             <StackLayout>
                 <Label Text="Tire ID" TextColor="White" FontSize="10"/>
                 <Entry x:Name="entryTireID" Text="{Binding tireID}" Placeholder="TireID" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
@@ -21,19 +24,20 @@
                 <Entry x:Name="entryFillMaterial" Text="{Binding fillMaterial}" Placeholder="Tire Fill Material" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
                 <Label Text="Tire Tread Depth" TextColor="White" FontSize="10"/>
                 <Entry x:Name="entryTreadDepth" Text="{Binding treadDepth}" Placeholder="Tire Tread Depth" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray" />
-            </StackLayout>
-        </Frame>
 
-        <Button Command="{Binding SendDataCommand}"
+
+                <Button Command="{Binding OKCommand}"
                 Text="OK"
                 IsEnabled="True"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"/>
-        <Button Command="{Binding SendDataCommand}"
-                Text="Back"
+                <Button Command="{Binding CancelCommand}"
+                Text="Cancel"
                 IsEnabled="True"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="Center"/>
-    </StackLayout>
+            </StackLayout>
+        </Frame>
+    </AbsoluteLayout>
 
 </ContentPage>

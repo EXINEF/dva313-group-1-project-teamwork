@@ -57,21 +57,25 @@ namespace CopilotApp
         }
 
         //Tire button actions, code to execute when a tire button is pressed.
-        void TireFrontLeftPressed()
+        async void TireFrontLeftPressed()
         {
             Console.WriteLine("Tire Front Left Button Pressed");
+            await Application.Current.MainPage.Navigation.PushAsync(new TirePage());
         }
-        void TireFrontRightPressed()
+        async void TireFrontRightPressed()
         {
             Console.WriteLine("Tire Front Right Button Pressed");
+            await Application.Current.MainPage.Navigation.PushAsync(new TirePage());
         }
-        void TireBackLeftPressed()
+        async void TireBackLeftPressed()
         {
             Console.WriteLine("Tire Back Left Button Pressed");
+            await Application.Current.MainPage.Navigation.PushAsync(new TirePage());
         }
-        void TireBackRightPressed()
+        async void TireBackRightPressed()
         {
             Console.WriteLine("Tire Back Right Button Pressed");
+            await Application.Current.MainPage.Navigation.PushAsync(new TirePage());
         }
         
     }
