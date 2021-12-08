@@ -63,11 +63,11 @@
               // the settings for the map, its the second argument
               var options = {
                   zoom:16,
-                  center:{lat:59.37,lng:16.5098}
+                  center:{lat:{{vehicle.weight}},lng:{{vehicle.payload}}}
               }
               var map = new google.maps.Map(document.getElementById('map'),options);
 
-              addMarker(59.37,16.5098);
+              addMarker({{vehicle.weight}},{{vehicle.payload}});
               
 
               function addMarker(lat,long) {
