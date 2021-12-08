@@ -4,10 +4,20 @@
 
 
 <div class="container">
+    <style>
+        #map{
+            height: 400px;
+            width: 50%;
+            float: right;
+            margin-bottom: 2em;
+            margin-left: 2em;
+        }
+    </style>
 
     <h1>VEHICLE Home Page</h1>
 
     <h2>ID: {{vehicle.id}}</h2>
+    <div id="map"></div>
 
     <h4>company: {{vehicle.company}}</h4>
     <h4>model: {{vehicle.model}}</h4>
@@ -47,6 +57,38 @@
         
     </tbody>
     </table>
+
+    <script>
+            function initMap(){
+              // the settings for the map, its the second argument
+              var options = {
+                  zoom:16,
+                  center:{lat:{{vehicle.weight}},lng:{{vehicle.payload}}}
+              }
+              var map = new google.maps.Map(document.getElementById('map'),options);
+
+              addMarker({{vehicle.weight}},{{vehicle.payload}});
+              
+
+              function addMarker(lat,long) {
+              var lat = lat;
+              var long = long;
+              var latlong = new google.maps.LatLng(lat,long);
+
+            
+            var marker = new google.maps.Marker({
+              position: latlong,
+              map:map
+            });
+        }
+
+            }
+            
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBV2H0qKkBVZNpOeoVnmmn8h-vC3pOY1Wk&callback=initMap">
+    </script>
 
 </div>
 

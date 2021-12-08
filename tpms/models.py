@@ -9,52 +9,55 @@ ALL_SENSOR_STATUS = (
     ('BROKEN', 'BROKEN'),
 )
 
-# Create your models here.
 class Sensor(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    temperature = models.FloatField(blank=True, null=True, default=0)
-    pressure = models.FloatField(blank=True, null=True, default=0)
-    remaning_battery = models.IntegerField(blank=True, null=True, default=0)
-    status = models.CharField(max_length=30, null=True, default="ACTIVE", choices=ALL_SENSOR_STATUS)
+    temperature = models.FloatField(blank=True, null=True)
+    pressure = models.FloatField(blank=True, null=True)
+    remaning_battery = models.FloatField(blank=True, null=True)
+    status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
-        return 'Sensor: '+self.id
+        return 'Sensor: ' + self.id
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING, blank=True, null=True)
-    
-    remaining_life = models.IntegerField(blank=True, null=True)
-    baseline_pressure = models.IntegerField(blank=True, null=True) 
+    remaining_life = models.FloatField(blank=True, null=True)
+    baseline_pressure = models.FloatField(blank=True, null=True) 
     fill_material = models.CharField(max_length=30, blank=True, null=True)
-    tread_depth = models.IntegerField(blank=True, null=True)
-    revolutions = models.IntegerField(blank=True, null=True)
+    tread_depth = models.FloatField(blank=True, null=True)
+    revolutions = models.FloatField(blank=True, null=True)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    
+    sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return 'Tire: '+self.id
 
-class Company(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-
-    fleet_managers = models.ManyToManyField(User, blank=True)
+class Location(models.Model):
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return 'Location: '+self.id
         
 class Vehicle(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    tires = models.ManyToManyField(Tire, blank=True)
-    company = models.ForeignKey(Company,on_delete=models.CASCADE,default=None)
 
-    model = models.CharField(max_length=50, blank=True)
-    ambient_temperature = models.IntegerField(blank=True, null=True)
-    distance_driven = models.IntegerField(blank=True, null=True)
-    machine_hours = models.IntegerField(blank=True, null=True)
-    payload = models.FloatField(blank=True, null=True)
+    model = models.CharField(max_length=50, blank=True) 
+    ambient_temperature = models.FloatField(blank=True, null=True)
     consumed_fuel = models.FloatField(blank=True, null=True)
-    weight = models.FloatField(blank=True, null=True)
-    machine_hours = models.IntegerField(blank=True, null=True)
+    distance_driven_empty = models.FloatField(blank=True, null=True)
+    distance_driven_loaded = models.FloatField(blank=True, null=True)
+    machine_hours_empty = models.IntegerField(blank=True, null=True)
+    machine_hours_loaded = models.IntegerField(blank=True, null=True)
+    payload_empty = models.FloatField(blank=True, null=True)
+    payload_loaded = models.FloatField(blank=True, null=True)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    tires = models.ManyToManyField(Tire, blank=True)
+    locations = models.ManyToManyField(Location, blank=True)
 
     def __str__(self):
         return 'Vehicle model: '+ self.model + ' ID: '+ self.id
@@ -65,6 +68,37 @@ class Vehicle(models.Model):
         for tire in tires:
             sensors.append(tire.sensor.temperature)
         return sensors
+
+class CompanyAdministrator(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return 'Company Administrator: ' + self.name       
+
+class FleetManager(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return 'Fleet Manager: ' + self.name
+
+class Company(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    administrator = models.ForeignKey(CompanyAdministrator, on_delete=models.DO_NOTHING, blank=True, null=True)
+    fleet_managers = models.ManyToManyField(FleetManager, blank=True)
+    vehicles = models.ManyToManyField(Vehicle, blank=True)
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    # change name in the admin panel
+    class Meta: verbose_name_plural = 'Companies'
+        
+
 
     
 
