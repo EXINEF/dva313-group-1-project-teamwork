@@ -1,6 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Company(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    # change name in the admin panel
+    class Meta: verbose_name_plural = 'Companies'
+
 ALL_SENSOR_STATUS = (
     ('WORKING', 'WORKING'),
     ('WARNING', 'WARNING'),
@@ -17,6 +29,8 @@ class Sensor(models.Model):
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
+
     def __str__(self):
         return 'Sensor: ' + self.id
 
@@ -30,6 +44,7 @@ class Tire(models.Model):
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING, blank=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return 'Tire: '+self.id
@@ -58,6 +73,7 @@ class Vehicle(models.Model):
 
     tires = models.ManyToManyField(Tire, blank=True)
     locations = models.ManyToManyField(Location, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return 'Vehicle model: '+ self.model + ' ID: '+ self.id
@@ -73,6 +89,7 @@ class CompanyAdministrator(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
         return 'Company Administrator: ' + self.name       
 
@@ -80,23 +97,11 @@ class FleetManager(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
         return 'Fleet Manager: ' + self.name
 
-class Company(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
 
-    administrator = models.ForeignKey(CompanyAdministrator, on_delete=models.DO_NOTHING, blank=True, null=True)
-    fleet_managers = models.ManyToManyField(FleetManager, blank=True)
-    vehicles = models.ManyToManyField(Vehicle, blank=True)
-    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-    # change name in the admin panel
-    class Meta: verbose_name_plural = 'Companies'
         
 
 

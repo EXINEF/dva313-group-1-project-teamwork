@@ -1,3 +1,7 @@
-from django.contrib.auth import forms
+from django.forms.models import ModelForm
+from .models import Vehicle
 
-from django.contrib.auth.forms import UserCreationForm
+class VehicleForm(ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = '__all__'

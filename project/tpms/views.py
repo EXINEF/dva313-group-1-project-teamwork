@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Vehicle, Tire, Sensor
+from .forms import VehicleForm
 
 # Create your views here.
 def indexPage(request):
@@ -24,6 +25,17 @@ def vehiclePage(request, pk):
 
     context = {'vehicle':vehicle, 'tires':tires}
     return render(request, 'user/vehicle.html', context)
+
+def addVehiclePage(request):
+    form = VehicleForm()
+    if request.method == 'POST':
+        form = VehicleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    context = {'form':form}
+    return render(request, 'user/add-vehicle.html', context)
 
 def tirePage(request, pk):
     tire = get_object_or_404(Tire, id=pk)
