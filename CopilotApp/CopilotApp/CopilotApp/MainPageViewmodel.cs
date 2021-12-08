@@ -26,9 +26,6 @@ namespace CopilotApp
 
         public MainPageViewmodel()
         {
-            //Binds "SendDataCommand" which is called by the button in XAML to the "SendData" function in this class.
-            SendDataCommand = new Command(SendData);
-
             //Binds the "TireFrontLeftPressedCommand" called in MainPage.xaml to the TireFrontLeftPressed() C# in this class
             TireFrontLeftPressedCommand = new Command(TireFrontLeftPressed);
             TireFrontRightPressedCommand = new Command(TireFrontRightPressed);
@@ -38,7 +35,6 @@ namespace CopilotApp
 
 
         //New command. The command we call from the xaml code (Command="{Binding TireFrontLeftPressedCommand}).
-        public ICommand SendDataCommand { get; }
         public ICommand TireFrontLeftPressedCommand { get; }
         public ICommand TireFrontRightPressedCommand { get; }
         public ICommand TireBackLeftPressedCommand { get; }
@@ -48,12 +44,6 @@ namespace CopilotApp
         {
             //Some property changed send the event hanlder the name of the property.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        //Calls the Database.cs class with the data as arguments.
-        void SendData()
-        {
-            Database.SendData(tireID, tirePressure, tireTemperature);
         }
 
         //Tire button actions, code to execute when a tire button is pressed.

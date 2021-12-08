@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using MySqlConnector;
 
 namespace CopilotApp
 {
@@ -17,11 +18,10 @@ namespace CopilotApp
         string _fillMaterial;
         string _treadDepth;
 
-        string _tot = string.Empty;
-        public string tireID { get => _tireID; set { _tireID = value; } }
-        public string baselinePressure{ get => _baselinePressure; set { _baselinePressure = value; } }
-        public string fillMaterial { get => _fillMaterial; set { _fillMaterial = value; } }
-        public string treadDepth { get => _treadDepth; set { _treadDepth = value; } }
+        public string tireID { get => _tireID; set { _tireID = value; OnPropertyChanged("tireID"); } }
+        public string tireBaselinePressure{ get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressure"); } }
+        public string tireFillMaterial { get => _fillMaterial; set { _fillMaterial = value; OnPropertyChanged("tireFillMaterial"); } }
+        public string tireTreadDepth { get => _treadDepth; set { _treadDepth = value; OnPropertyChanged("tireTreadDepth"); } }
 
 
         //Event handler
@@ -32,12 +32,14 @@ namespace CopilotApp
             //Binds "OKCommand" which is called by a button in XAML to the "OKButtonPressed" function in this class.
             OKCommand = new Command(OKButtonPressed);
             CancelCommand = new Command(CancelButtonPressed);
+            FetchTestCommand = new Command(FetchTireData);
         }
 
 
         //New command. The thing we call from the xaml code.
         public ICommand OKCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand FetchTestCommand { get; }
 
         void OnPropertyChanged(string name)
         {
@@ -48,13 +50,31 @@ namespace CopilotApp
         //Calls the Database.cs class with the data as arguments.
         void OKButtonPressed()
         {
-            //Database.SendData(tireID, tirePressure, tireTemperature);
+            Database.SendTireData(tireID, tireBaselinePressure, tireFillMaterial, tireTreadDepth);
             ReturnToMainPage();
         }
 
         void CancelButtonPressed()
         {
             ReturnToMainPage();
+        }
+
+        void FetchTireData()
+        {
+            string query = "SELECT baseline_pressure, fill_material, tread_depth FROM tpms_tire WHERE id = '1'";
+            MySqlDataReader reader = Database.SendQuery(query);
+
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    Console.WriteLine("ID: 1, " + reader["baseline_pressure"] + ", " + reader["fill_material"] + ", " + reader["tread_depth"]);
+                    tireID = "1";
+                    tireBaselinePressure = reader["baseline_pressure"].ToString();
+                    tireFillMaterial = reader["fill_material"].ToString();
+                    tireTreadDepth = reader["tread_depth"].ToString();
+                }
+            }
         }
 
         async void ReturnToMainPage()

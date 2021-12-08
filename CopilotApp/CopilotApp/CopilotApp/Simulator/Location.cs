@@ -4,13 +4,13 @@ using System.Text;
 
 namespace CopilotApp
 {
-    class Location
+    public class Location
     {
         long _longitude;
         long _latitude;
 
-        long longitude { get => _longitude; set { _longitude = value; } }
-        long latitude { get => _latitude; set { _latitude = value; } }
+        public long longitude { get => _longitude; set { _longitude = value; } }
+        public long latitude { get => _latitude; set { _latitude = value; } }
         public Location()
         {
 

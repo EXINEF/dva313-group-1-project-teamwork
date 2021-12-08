@@ -19,13 +19,18 @@
                 <Label Text="Tire ID" TextColor="White" FontSize="10"/>
                 <Entry x:Name="entryTireID" Text="{Binding tireID}" Placeholder="TireID" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
                 <Label Text="Tire Baseline Pressure" TextColor="White" FontSize="10" />
-                <Entry x:Name="entryBaselinePressure" Text="{Binding baselinePressure}" Placeholder="Baseline Pressure kPa"  PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
+                <Entry x:Name="entryBaselinePressure" Text="{Binding tireBaselinePressure}" Placeholder="Baseline Pressure kPa"  PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
                 <Label Text="Tire Fill Material" TextColor="White" FontSize="10"/>
-                <Entry x:Name="entryFillMaterial" Text="{Binding fillMaterial}" Placeholder="Tire Fill Material" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
+                <Entry x:Name="entryFillMaterial" Text="{Binding tireFillMaterial}" Placeholder="Tire Fill Material" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray"/>
                 <Label Text="Tire Tread Depth" TextColor="White" FontSize="10"/>
-                <Entry x:Name="entryTreadDepth" Text="{Binding treadDepth}" Placeholder="Tire Tread Depth" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray" />
+                <Entry x:Name="entryTreadDepth" Text="{Binding tireTreadDepth}" Placeholder="Tire Tread Depth" PlaceholderColor="White" TextColor="White" FontSize="10" BackgroundColor="DimGray" />
 
 
+                <Button Command="{Binding FetchTestCommand}"
+                Text="FetchTireData"
+                IsEnabled="True"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"/>
                 <Button Command="{Binding OKCommand}"
                 Text="OK"
                 IsEnabled="True"
