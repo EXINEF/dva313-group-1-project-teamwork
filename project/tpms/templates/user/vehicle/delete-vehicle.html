@@ -1,0 +1,17 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <h1>Delete VEHICLE{{vehicle.id}}</h1>
+    <h2>Are you sure to delete it?</h2>
+    <a href="">YES</a>
+    <a href="{% url 'vehicle' vehicle.id %}">NO</a>
+
+</div>
+
+{% endblock content %}
+
+
+

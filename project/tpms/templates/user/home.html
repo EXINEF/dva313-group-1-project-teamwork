@@ -17,6 +17,8 @@
         <th scope="col">Sensor Left Back</th>
         <th scope="col">Sensor Right Front</th>
         <th scope="col">Sensor Right Back</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +36,8 @@
                     <td>{{tire.sensor.status}}</td>
                 {% endif %}                
             {% endfor %}
+            <td><a href="{% url 'update-vehicle' vehicle.id %}">Update</a></td>
+            <td><a href="{% url 'delete-vehicle' vehicle.id %}">Delete</a></td>
             
             </tr>
         {% endfor %}

@@ -44,9 +44,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for tire in tires %}
+        {% for tire in tires %}       
             <tr>
             <th scope="row"><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></th>
+            {% if tire.sensor is None %}
+                <td>MISSING SENSOR</td>
+            {% else %}  
             <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
             <td>{{tire.sensor.temperature}}</td>
             <td>{{tire.sensor.pressure}}</td>
@@ -54,6 +57,7 @@
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>
             </tr>
+            {% endif %}
         {% endfor %}
         
     </tbody>
