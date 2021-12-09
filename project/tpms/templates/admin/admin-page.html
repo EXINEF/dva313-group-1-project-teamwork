@@ -1,0 +1,18 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1>ADMIN Home Page</h1>
+    <h4><a href="{% url 'add-fleet-manager' %}">Add a new Fleet Manager</a></h4>
+
+    <h3>My Fleet Managers</h3>
+    {% for fleet_manager in fleet_managers %}
+           {{fleet_manager}} 
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+
+

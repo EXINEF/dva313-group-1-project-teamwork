@@ -1,18 +1,57 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Vehicle, Tire, Sensor
-from .forms import VehicleForm
+from django.contrib.auth import authenticate, login, logout
+from .models import FleetManager, Vehicle, Tire, Sensor
+from .forms import VehicleForm, CreateUserForm
+from .decorators import unauthenticated_user, admin_only, allowed_users
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-# Create your views here.
+
+@unauthenticated_user
 def indexPage(request):
-    form = AuthenticationForm()
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-    if request.method == "POST":
-        return redirect('home')
+        user = authenticate(request, username=username, password=password)
 
-    context = {'form':form}
+        if user is not None:
+            login(request, user)
+            return redirect('admin-page')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
+
+    context = {}
     return render(request,'index/index.html', context)
 
+def addFleetManager(request):
+
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, 'Fleet Manager Account was created for ' + username)
+            return redirect('admin-page')
+    context = {'form':form}
+    return render(request, 'admin/add-fleet-manager.html', context)
+
+@login_required(login_url='login')
+#@admin_only
+def adminPage(request):
+    fleet_managers = FleetManager.objects.all()
+
+    context = {'fleet_managers':fleet_managers}
+    return render(request, 'admin/admin-page.html', context)
+
+def logoutPage(request):
+    logout(request)
+    return redirect('index')
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['fleet-manager'])
 def homePage(request):
     vehicles = Vehicle.objects.all()
 
@@ -22,8 +61,9 @@ def homePage(request):
 def vehiclePage(request, pk):
     vehicle = get_object_or_404(Vehicle, id=pk)
     tires = vehicle.tires.all()
+    location = vehicle.locations.all().order_by('-creation_datetime').first()
 
-    context = {'vehicle':vehicle, 'tires':tires}
+    context = {'vehicle':vehicle, 'tires':tires, 'location':location}
     return render(request, 'user/vehicle.html', context)
 
 def addVehiclePage(request):

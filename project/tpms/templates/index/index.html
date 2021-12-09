@@ -6,11 +6,12 @@
 <div class="container">
     <h1>Volvo TPMS</h1>
 
-    <form action="" method="POST">
+    <form method="POST" action="">
         {% csrf_token %}
-        {{form}}
+        <input type="text" name="username" placeholder="Username..." >
+        <input type="password" name="password" placeholder="Password...">
         <input type="submit" value="Login">
-    </form> 
+    </form>
     
 </div>
 

@@ -1,0 +1,17 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1>ADMIN Register Fleet Manager</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Add Fleet Manager">
+    </form>
+</div>
+
+{% endblock content %}
+
+
+
