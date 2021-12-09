@@ -38,7 +38,7 @@ def addFleetManager(request):
     context = {'form':form}
     return render(request, 'admin/add-fleet-manager.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='index')
 #@admin_only
 def adminPage(request):
     fleet_managers = FleetManager.objects.all()
@@ -50,7 +50,7 @@ def logoutPage(request):
     logout(request)
     return redirect('index')
 
-@login_required(login_url='login')
+@login_required(login_url='index')
 @allowed_users(allowed_roles=['fleet-manager'])
 def homePage(request):
     vehicles = Vehicle.objects.all()
