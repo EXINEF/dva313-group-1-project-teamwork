@@ -1,5 +1,5 @@
 from django.forms.models import ModelForm
-from .models import Vehicle
+from .models import Vehicle, Tire, Sensor
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -8,6 +8,16 @@ class VehicleForm(ModelForm):
         model = Vehicle
         fields = '__all__'
         # exclude = ('locations','company')
+
+class TireForm(ModelForm):
+    class Meta:
+        model = Tire
+        fields = '__all__'
+
+class SensorForm(ModelForm):
+    class Meta:
+        model = Sensor
+        fields = '__all__'
 
 class CreateUserForm(UserCreationForm):
 	class Meta:

@@ -39,5 +39,8 @@ def company_administrator_only(view_func):
 
 		if group == 'company-administrator':
 			return view_func(request, *args, **kwargs)
+		
+		else:
+			return HttpResponse('You are not authorized to view this page')
 
 	return wrapper_function
