@@ -4,10 +4,20 @@
 
 
 <div class="container">
+
     <h1>Delete VEHICLE{{vehicle.id}}</h1>
     <h2>Are you sure to delete it?</h2>
-    <a href="">YES</a>
-    <a href="{% url 'vehicle' vehicle.id %}">NO</a>
+    <div class="row">
+        <div class="col-6">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Yes, delete it</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'vehicle' vehicle.id %}">No, keep it</a>
+        </div>
+    </div>
 
 </div>
 

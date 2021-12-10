@@ -7,7 +7,6 @@ from .decorators import unauthenticated_user, company_administrator_only, allowe
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-
 @unauthenticated_user
 def indexPage(request):
     if request.method == 'POST':
@@ -20,7 +19,7 @@ def indexPage(request):
             login(request, user)
             return redirect('admin-page')
         else:
-            messages.info(request, 'Username OR password is incorrect')
+            messages.error(request, 'Username OR password is incorrect')
 
     context = {}
     return render(request,'index/index.html', context)
@@ -54,20 +53,40 @@ def addVehiclePage(request):
         form = VehicleForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,'The new vehicle was addedd successfuly')
             return redirect('home')
 
     context = {'form':form}
     return render(request, 'user/vehicle/add-vehicle.html', context)
 
 def updateVehiclePage(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
+    form = VehicleForm(instance=vehicle)
+    
+    if request.method == 'POST':
+        form = VehicleForm(request.POST, instance=vehicle)
 
-    context = {}
+        if form.is_valid():
+            form.save()
+            messages.success(request,'The vehicle %s is been update successfuly' % vehicle)
+            return redirect('home')
+        else:
+            messages.error(request,'Error while updating task: '+str(form.errors))
+
+    
+    context = {'vehicle':vehicle, 'form':form}
     return render(request, 'user/vehicle/update-vehicle.html', context)
 
 def deleteVehiclePage(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     
+    if request.method == 'POST':
+        messages.success(request,'The vehicle %s was deleted successfuly' % vehicle)
+        Vehicle.delete(vehicle)
+        return redirect('/')
+
     context = {'vehicle':vehicle}
     return render(request, 'user/vehicle/delete-vehicle.html', context)
 
