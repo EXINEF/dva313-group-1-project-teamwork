@@ -58,7 +58,6 @@ class Location(models.Model):
         
 class Vehicle(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-
     model = models.CharField(max_length=50, blank=True) 
     ambient_temperature = models.FloatField(blank=True, null=True, default=0)
     consumed_fuel = models.FloatField(blank=True, null=True, default=0)

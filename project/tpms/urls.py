@@ -9,6 +9,7 @@ urlpatterns = [
 
     # fleet manager
     path('home', homePage, name='home'),
+    path('home-extended', homePageExtended, name='home-extended'),
     
     path('vehicle/<str:pk>', vehiclePage, name='vehicle'),
     path('add-vehicle/', addVehiclePage, name='add-vehicle'),

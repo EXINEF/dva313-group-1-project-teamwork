@@ -36,7 +36,16 @@ def homePage(request):
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
 
     context = {'vehicles':vehicles}
-    return render(request, 'user/home.html', context)
+    return render(request, 'user/home-simple.html', context)
+
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
+def homePageExtended(request):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+
+    context = {'vehicles':vehicles}
+    return render(request, 'user/home-extended.html', context)
 
 def vehiclePage(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)

@@ -6,16 +6,15 @@
 <div class="container">
     <h1>Fleet Manager Home Page</h1>
     <h4><a href="{% url 'add-vehicle' %}">Add a new Vehicle</a></h4>
-    <h3>My Vehicles</h3>
+    <h3>My Vehicles (SIMPLE View)</h3>
+    <h6><a href="{% url 'home-extended' %}">Go to the Extended View</a></h6>
     <!--For now this doesn't work with for loops this is troubling for the onclick... or maybe just the script code-->
     <table class="table table-dark table-striped" id="sortTable">
     <thead>
         <tr>
         <th onclick="sortTable(0)"scope="col">Vehicle (ID)</th> <!--The data should show the vehicle ID, static, non pressable button?-->
-        <th onclick="sortTable(1)"scope="col">Model</th> <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
-        <th onclick="sortTable(2)"scope="col">Biggest / most active</th> <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
-        <th onclick="sortTable(3)"scope="col">Sensor battery</th> <!-- Sensor Battery, the data should show every sensor and which is most likely to run out of battery when pressed the lowest battery number should show highest-->
-        <th onclick="sortTable(4)"scope="col">Lifespan of tire</th> <!-- Lifespan of tire, the data should show the tire that is going to break fastest, when pressed the tire date to end closest to todays date should show highest in list-->
+        <th onclick="sortTable(1)"scope="col">Type</th> <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
+        <th onclick="sortTable(2)"scope="col">Attention Value</th> <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
         </tr>
@@ -24,38 +23,10 @@
         {% for vehicle in vehicles %}
             <tr>
             <th scope="row"><a href="{% url 'vehicle' vehicle.id%}">{{vehicle.id}}</a></th>
-
-            {% if vehicle.model is "" %}
-                <td>NULL</td>
-            {% else %}
-                <td>{{vehicle.model}} </td>
-            {% endif %}
-
-            <td>{{vehicle.machine_hours}}</td>
-            <!--These I want to get vertically than horisontally.. and then its vehicle ID should be duplicated... Get another way of thinking -->
-            {% for tire in vehicle.tires.all%}
-
-            <td>{{tire.sensor.remaining_battery}}</td>
-
-            <td>{{tire.remaining_life}}</td>
-            {%endfor%}
-            
+            <td>Type</td>
+            <td>Attention Value</td>
             <td><a href="{% url 'update-vehicle' vehicle.id %}">Update</a></td>
             <td><a href="{% url 'delete-vehicle' vehicle.id %}">Delete</a></td>
-<!--
-            {% for tire in vehicle.tires.all %}
-                {% if tire is None %}
-                    <td>MISSING TIRE</td>
-                {% elif tire.sensor is None %}
-                    <td>MISSING SENSOR</td>
-                {% elif tire.sensor is NULL %}
-                    <td>BROKEN</td>
-                {% else %}
-                    <td>{{tire.sensor.status}}</td>
-                {% endif %}                
-            {% endfor %}
-            
--->
             </tr>
         {% endfor %}
         
