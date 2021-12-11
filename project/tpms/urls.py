@@ -25,7 +25,9 @@ urlpatterns = [
     # admin
     path('admin-page', adminPage, name='admin-page'),
     path('add-fleet-manager', addFleetManager, name='add-fleet-manager'),
-
+    path('edit-fleet-manager/<str:pk>', editFleetManager, name='edit-fleet-manager'),
+    path('delete-fleet-manager/<str:pk>', deleteFleetManager, name='delete-fleet-manager'),
+    
     #others
     path('savedata/<str:query>', saveData, name='savedata'),
 ]

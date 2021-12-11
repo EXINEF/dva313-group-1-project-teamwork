@@ -81,7 +81,7 @@ def updateVehiclePage(request, pk):
             messages.success(request,'The vehicle %s is been update successfuly' % vehicle)
             return redirect('home')
         else:
-            messages.error(request,'Error while updating task: '+str(form.errors))
+            messages.error(request,'Error while updating vehicle: '+str(form.errors))
 
     
     context = {'vehicle':vehicle, 'form':form}
@@ -94,7 +94,7 @@ def deleteVehiclePage(request, pk):
     if request.method == 'POST':
         messages.success(request,'The vehicle %s was deleted successfuly' % vehicle)
         Vehicle.delete(vehicle)
-        return redirect('/')
+        return redirect('home')
 
     context = {'vehicle':vehicle}
     return render(request, 'user/vehicle/delete-vehicle.html', context)
