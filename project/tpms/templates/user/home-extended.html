@@ -17,7 +17,7 @@
         <th onclick="sortTable(2)"scope="col">Biggest / most active</th> <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
         <th onclick="sortTable(3)"scope="col">Sensor battery</th> <!-- Sensor Battery, the data should show every sensor and which is most likely to run out of battery when pressed the lowest battery number should show highest-->
         <th onclick="sortTable(4)"scope="col">Lifespan of tire</th> <!-- Lifespan of tire, the data should show the tire that is going to break fastest, when pressed the tire date to end closest to todays date should show highest in list-->
-        <th scope="col">Update</th>
+        <th scope="col">Edit</th>
         <th scope="col">Delete</th>
         </tr>
     </thead>
@@ -41,7 +41,7 @@
             <td>{{tire.remaining_life}}</td>
             {%endfor%}
             
-            <td><a href="{% url 'update-vehicle' vehicle.id %}">Update</a></td>
+            <td><a href="{% url 'edit-vehicle' vehicle.id %}">Edit</a></td>
             <td><a href="{% url 'delete-vehicle' vehicle.id %}">Delete</a></td>
 <!--
             {% for tire in vehicle.tires.all %}

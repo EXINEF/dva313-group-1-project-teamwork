@@ -5,6 +5,7 @@
 
 <div class="container">
     <h1>Fleet Manager Home Page</h1>
+    <h3>Company: {{fleet_manager.company}}</h3>
     <h4><a href="{% url 'add-vehicle' %}">Add a new Vehicle</a></h4>
     <h3>My Vehicles (SIMPLE View)</h3>
     <h6><a href="{% url 'home-extended' %}">Go to the Extended View</a></h6>
@@ -15,7 +16,7 @@
         <th onclick="sortTable(0)"scope="col">Vehicle (ID)</th> <!--The data should show the vehicle ID, static, non pressable button?-->
         <th onclick="sortTable(1)"scope="col">Type</th> <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
         <th onclick="sortTable(2)"scope="col">Attention Value</th> <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
-        <th scope="col">Update</th>
+        <th scope="col">Edit</th>
         <th scope="col">Delete</th>
         </tr>
     </thead>
@@ -25,7 +26,7 @@
             <th scope="row"><a href="{% url 'vehicle' vehicle.id%}">{{vehicle.id}}</a></th>
             <td>Type</td>
             <td>Attention Value</td>
-            <td><a href="{% url 'update-vehicle' vehicle.id %}">Update</a></td>
+            <td><a href="{% url 'edit-vehicle' vehicle.id %}">Edit</a></td>
             <td><a href="{% url 'delete-vehicle' vehicle.id %}">Delete</a></td>
             </tr>
         {% endfor %}

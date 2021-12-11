@@ -11,16 +11,20 @@ urlpatterns = [
     path('home', homePage, name='home'),
     path('home-extended', homePageExtended, name='home-extended'),
     
-    path('vehicle/<str:pk>', vehiclePage, name='vehicle'),
-    path('add-vehicle/', addVehiclePage, name='add-vehicle'),
-    path('update-vehicle/<str:pk>', updateVehiclePage, name='update-vehicle'),
-    path('delete-vehicle/<str:pk>', deleteVehiclePage, name='delete-vehicle'),
+    path('vehicle/<str:pk>', vehicle, name='vehicle'),
+    path('add-vehicle/', addVehicle, name='add-vehicle'),
+    path('edit-vehicle/<str:pk>', editVehicle, name='edit-vehicle'),
+    path('delete-vehicle/<str:pk>', deleteVehicle, name='delete-vehicle'),
 
-    path('tire/<str:pk>', tirePage, name='tire'),
-    path('add-tire/', addTirePage, name='add-tire'),
+    path('tire/<str:pk>', tire, name='tire'),
+    path('add-tire/', addTire, name='add-tire'),
+    path('edit-tire/<str:pk>', editTire, name='edit-tire'),
+    path('delete-tire/<str:pk>', deleteTire, name='delete-tire'),
 
-    path('sensor/<str:pk>', sensorPage, name='sensor'),
-    path('add-sensor/', addSensorPage, name='add-sensor'),
+    path('sensor/<str:pk>', sensor, name='sensor'),
+    path('add-sensor/', addSensor, name='add-sensor'),
+    path('edit-sensor/<str:pk>', editSensor, name='edit-sensor'),
+    path('delete-sensor/<str:pk>', deleteSensor, name='delete-sensor'),
 
     # admin
     path('admin-page', adminPage, name='admin-page'),

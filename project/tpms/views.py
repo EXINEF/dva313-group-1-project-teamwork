@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import FleetManager, Vehicle, Tire, Sensor
-from .forms import VehicleForm, CreateUserForm
+from .forms import VehicleForm, TireForm, SensorForm
 from .decorators import unauthenticated_user, company_administrator_only, allowed_users
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -35,7 +35,7 @@ def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
 
-    context = {'vehicles':vehicles}
+    context = {'vehicles':vehicles,'fleet_manager':fleet_manager}
     return render(request, 'user/home-simple.html', context)
 
 @login_required(login_url='index')
@@ -47,7 +47,7 @@ def homePageExtended(request):
     context = {'vehicles':vehicles}
     return render(request, 'user/home-extended.html', context)
 
-def vehiclePage(request, pk):
+def vehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     tires = vehicle.tires.all()
@@ -56,7 +56,7 @@ def vehiclePage(request, pk):
     context = {'vehicle':vehicle, 'tires':tires, 'location':location}
     return render(request, 'user/vehicle/vehicle.html', context)
 
-def addVehiclePage(request):
+def addVehicle(request):
     form = VehicleForm()
     if request.method == 'POST':
         form = VehicleForm(request.POST)
@@ -68,7 +68,7 @@ def addVehiclePage(request):
     context = {'form':form}
     return render(request, 'user/vehicle/add-vehicle.html', context)
 
-def updateVehiclePage(request, pk):
+def editVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     form = VehicleForm(instance=vehicle)
@@ -85,9 +85,9 @@ def updateVehiclePage(request, pk):
 
     
     context = {'vehicle':vehicle, 'form':form}
-    return render(request, 'user/vehicle/update-vehicle.html', context)
+    return render(request, 'user/vehicle/edit-vehicle.html', context)
 
-def deleteVehiclePage(request, pk):
+def deleteVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     
@@ -99,27 +99,106 @@ def deleteVehiclePage(request, pk):
     context = {'vehicle':vehicle}
     return render(request, 'user/vehicle/delete-vehicle.html', context)
 
-def tirePage(request, pk):
-    tire = get_object_or_404(Tire, id=pk)
+def tire(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
 
     context = {'tire':tire}
     return render(request, 'user/tire/tire.html', context)
 
-def addTirePage(request):
+def addTire(request):
+    form = TireForm()
+    if request.method == 'POST':
+        form = TireForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'The new tire was addedd successfuly')
+            return redirect('home')
 
-    context = {}
+    context = {'form':form}
     return render(request, 'user/tire/add-tire.html', context)
+
+def editTire(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
+    form = TireForm(instance=tire)
     
-def sensorPage(request, pk):
-    sensor = get_object_or_404(Sensor, id=pk)
+    if request.method == 'POST':
+        form = TireForm(request.POST, instance=tire)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request,'The tire %s is been update successfuly' % tire)
+            return redirect('home')
+        else:
+            messages.error(request,'Error while updating tire: '+str(form.errors))
+
+    
+    context = {'tire':tire}
+    return render(request, 'user/tire/edit-tire.html', context)
+
+def deleteTire(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
+    
+    if request.method == 'POST':
+        messages.success(request,'The tire %s was deleted successfuly' % tire)
+        Tire.delete(tire)
+        return redirect('home')
+
+    context = {'tire':tire}
+    return render(request, 'user/tire/delete-tire.html', context)
+
+def sensor(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
 
     context = {'sensor':sensor}
     return render(request, 'user/sensor/sensor.html', context)
 
-def addSensorPage(request):
-    
-    context = {}
+def addSensor(request):
+    form = SensorForm()
+    if request.method == 'POST':
+        form = SensorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'The new sensor was addedd successfuly')
+            return redirect('home')
+
+    context = {'form':form}
     return render(request, 'user/sensor/add-sensor.html', context)
+
+def editSensor(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
+    form = SensorForm(instance=sensor)
+    
+    if request.method == 'POST':
+        form = SensorForm(request.POST, instance=sensor)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request,'The sensor %s is been update successfuly' % sensor)
+            return redirect('home')
+        else:
+            messages.error(request,'Error while updating sensor: '+str(form.errors))
+
+    
+    context = {'sensor':sensor, 'form':form}
+    return render(request, 'user/sensor/edit-sensor.html', context)
+
+def deleteSensor(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
+    
+    if request.method == 'POST':
+        messages.success(request,'The sensor %s was deleted successfuly' % sensor)
+        Sensor.delete(sensor)
+        return redirect('home')
+
+    context = {'sensor':sensor}
+    return render(request, 'user/sensor/delete-sensor.html', context)
+
 # http://127.0.0.1:8000/savedata/AUTHSYSTEM-TEST111-SENSORTEST1-3234-223-BROKEN-SENSORTEST2-40234-222-WORKING-SENSORTEST3-2237-32345-DANGER-SENSORTEST4-5453-1354-WARNING
 def saveData(request, query):
     chunks = query.split('-')
