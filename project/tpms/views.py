@@ -134,7 +134,7 @@ def editTire(request, pk):
             messages.error(request,'Error while updating tire: '+str(form.errors))
 
     
-    context = {'tire':tire}
+    context = {'tire':tire, 'form':form}
     return render(request, 'user/tire/edit-tire.html', context)
 
 def deleteTire(request, pk):
@@ -165,7 +165,7 @@ def addSensor(request):
             messages.success(request,'The new sensor was addedd successfuly')
             return redirect('home')
 
-    context = {'form':form}
+    context = {'form':form, 'form':form}
     return render(request, 'user/sensor/add-sensor.html', context)
 
 def editSensor(request, pk):

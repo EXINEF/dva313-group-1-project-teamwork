@@ -22,6 +22,10 @@ class LocationAdmin(admin.ModelAdmin):
 class VehicleAdmin(admin.ModelAdmin):
     model = Vehicle
 
+    ordering = ('id', 'model', 'ambient_temperature', 'company')
+    list_display = ('id', 'model', 'ambient_temperature', 'company')
+    search_fields = ['id']
+
 class CompanyAdministratorAdmin(admin.ModelAdmin):
     model = CompanyAdministrator
 
