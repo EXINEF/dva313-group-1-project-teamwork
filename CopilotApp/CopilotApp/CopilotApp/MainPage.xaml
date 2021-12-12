@@ -15,94 +15,158 @@
 
     <!-- The Design/Layout (images, buttons, text) -->
     <AbsoluteLayout>
+        
+        <!-- Top notification bar -->
+        <Frame BackgroundColor="SkyBlue" CornerRadius="20" HorizontalOptions="Center"
+               AbsoluteLayout.LayoutBounds="60, 5, 900, 80" IsVisible="false">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="780" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+
+                <Label  Text="This is a notification"
+                        TextColor="BLACK"
+                        FontSize="15"
+                        LineBreakMode="WordWrap"
+                        MaxLines="2"
+                        Grid.Row="0" Grid.Column="0"
+                />
+
+                <Button Command="{Binding DismissNotificationCommand}"
+                        Text="X"
+                        FontSize="20"
+                        BackgroundColor="SteelBlue"
+                        IsEnabled="True"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Center"
+                        CornerRadius="30"
+                        WidthRequest="50"
+                        Grid.Row="0" Grid.Column="1"
+                        TranslationY="-5"
+                />
+
+            </Grid>
+        </Frame>
 
         <!-- Draws the picture of the wheel loader -->
         <!-- AbsoluteLayout.LayoutBounds="x (0-1), y(0-1),  width, height"-->
-        <Image  Source="WheelLoaderWireFrameNoWheels.png"
+        <Image  Source="WheelLoader.png"
                 VerticalOptions="Center"
-                AbsoluteLayout.LayoutBounds="0.5, 0.8, 200, 450"
+                AbsoluteLayout.LayoutBounds="0.5, 0.8, 200, 380"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                ></Image>
-
 
         <!-- Draw lines going from tires to pressure and temperature values -->
         <!-- Draw Left Front tire lines -->
-        <Image  Source="GreenFront.png"
+        <Image  Source="GreenUpperTireLine.png"
                 VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.15, 0.23, 250, 175"
+                AbsoluteLayout.LayoutBounds="0.10, 0.30, 300, 200"
                 ScaleX="-1"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                ></Image>
+        <!-- Draw Left Front tire line upper branch -->
+        <Image  Source="GreenUpperBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.10, 0.30, 300, 200"
+                ScaleX="-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Left Front tire line lower branch -->
+        <Image  Source="GreenLowerBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.10, 0.30, 300, 200"
+                ScaleX="-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+
 
         <!-- Draw Right Front tire lines -->
-        <Image  Source="RedFront.png"
+        <Image  Source="GreenUpperTireLine.png"
                 VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.849, 0.23, 250, 175"
+                AbsoluteLayout.LayoutBounds="0.90, 0.30, 300, 200"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Right Front tire line upper branch -->
+        <Image  Source="GreenUpperBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.90, 0.30, 300, 200"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Right Front tire line lower branch -->
+        <Image  Source="GreenLowerBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.90, 0.30, 300, 200"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                ></Image>
 
+
         <!-- Draw Left Back tire lines -->
-        <Image  Source="GreenBack.png"
+        <Image  Source="GreenLowerTireLine.png"
                 VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.15, 0.93, 250, 175"
+                AbsoluteLayout.LayoutBounds="0.10, 1.0, 300, 200"
+                ScaleX="-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Left Back tire line upper branch -->
+        <Image  Source="GreenUpperBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.10, 1.0, 300, 200"
+                ScaleX="-1"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Left Back tire line lower branch -->
+        <Image  Source="GreenLowerBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.10, 1.0, 300, 200"
                 ScaleX="-1"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                ></Image>
 
-        <!-- Draw Left Back tire lines -->
-        <Image  Source="GreenBack.png"
+        <!-- Draw Right Back tire lines -->
+        <Image  Source="GreenLowerTireLine.png"
                 VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.849, 0.93, 250, 175"
+                AbsoluteLayout.LayoutBounds="0.90, 1.0, 300, 200"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Right Back tire line upper branch -->
+        <Image  Source="GreenUpperBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.90, 1.0, 300, 200"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+        <!-- Draw Right Back tire line lower branch -->
+        <Image  Source="GreenLowerBranch.png"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0.90, 1.0, 300, 200"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                ></Image>
 
-
-        <!-- Draw colored circles indicating the tire status -->
-        <!-- Front Left Circle -->
-        <Image  Source="GreenCircle"
-                VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.2525, 0.2375, 50, 50"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-               ></Image>
-        <!-- Front Right Circle -->
-        <Image  Source="RedCircle"
-                VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.746, 0.2375, 50, 50"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-               ></Image>
-        <!-- Back Left Circle -->
-        <Image  Source="YellowCircle"
-                VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.2525, 0.754, 50, 50"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-               ></Image>
-        <!-- Back Right Circle -->
-        <Image  Source="GreenCircle"
-                VerticalOptions="CenterAndExpand"
-                AbsoluteLayout.LayoutBounds="0.746, 0.754, 50, 50"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-               ></Image>
-
-
+        
         <!-- Tire Front Left(with tire image) and labels for pressure and temperature -->
         <!--Command="{Binding TireFrontLeftPressedCommand}" Binds the button to the command(function) "TireFrontLeftPressedCommand" in the MainPageViewmodel.cs-->
         <ImageButton    Command="{Binding TireFrontLeftPressedCommand}"
                         VerticalOptions="CenterAndExpand"
                         Aspect="AspectFit"
-                        Source="TireGrey"
+                        Source="TireDefault"
                         BackgroundColor="Transparent"
-                        AbsoluteLayout.LayoutBounds="0.38,0.43,100,100"
+                        AbsoluteLayout.LayoutBounds="0.38, 0.52, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
         <Label  Text="350 kPa"
                 TextColor="White"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.137, 0.14, 100,30" 
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.13, 0.20, 100, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
         <Label  Text="55 °C"
                 TextColor="White"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.13, 0.29,120,30" 
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.13, 0.422, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
 
@@ -110,21 +174,21 @@
         <ImageButton    Command="{Binding TireFrontRightPressedCommand}"
                         VerticalOptions="CenterAndExpand"
                         Aspect="AspectFit"
-                        Source="TireRed"
+                        Source="TireDefault"
                         BackgroundColor="Transparent"
                         BorderWidth="1"
-                        AbsoluteLayout.LayoutBounds="0.619,0.43,100,100"
+                        AbsoluteLayout.LayoutBounds="0.619, 0.52, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
         <Label  Text="350 kPa"
                 TextColor="White"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.863, 0.14, 120,30" 
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.863, 0.20, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-        <Label  Text="110 °C"
-                TextColor="Red"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.86, 0.29, 120,30" 
+        <Label  Text="61 °C"
+                TextColor="White"
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.86, 0.422, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
 
@@ -132,20 +196,20 @@
         <ImageButton    Command="{Binding TireBackLeftPressedCommand}"
                         VerticalOptions="CenterAndExpand"
                         Aspect="AspectFit"
-                        Source="TireYellow"
+                        Source="TireDefault"
                         BackgroundColor="Transparent"
-                        AbsoluteLayout.LayoutBounds="0.38,0.77,100,100"
+                        AbsoluteLayout.LayoutBounds="0.38, 0.85, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
-        <Label  Text="370 kPa"
-                TextColor="Yellow"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.13, 0.636, 120,30" 
+        <Label  Text="348 kPa"
+                TextColor="White"
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.13, 0.662, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
         <Label  Text="59 °C"
                 TextColor="White"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.13, 0.785, 120,30" 
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.13, 0.885, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
 
@@ -153,25 +217,36 @@
         <ImageButton    Command="{Binding TireBackRightPressedCommand}"
                         VerticalOptions="CenterAndExpand"
                         Aspect="AspectFit"
-                        Source="TireGrey"
+                        Source="TireDefault"
                         BackgroundColor="Transparent"
-                        AbsoluteLayout.LayoutBounds="0.619,0.77,100,100"
+                        AbsoluteLayout.LayoutBounds="0.619 ,0.85, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
         <Label  Text="350 kPa"
                 TextColor="White"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.87, 0.636, 120,30" 
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.87, 0.662, 120,30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
         <Label  Text="56 °C"
                 TextColor="White"
-                FontSize="22"
-                AbsoluteLayout.LayoutBounds="0.87, 0.785, 120,30" 
+                FontSize="27"
+                AbsoluteLayout.LayoutBounds="0.87, 0.885, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
 
 
-
+        <!-- Simulator Button  -->
+        <Button Command="{Binding SimulatorButtonCommand}"
+                        Text="Simulator"
+                        FontSize="15"
+                        BackgroundColor="Black"
+                        BorderColor="RoyalBlue"
+                        BorderWidth="2"
+                        TextColor="RoyalBlue"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="1.0, 0, 110, 50" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+                />
     </AbsoluteLayout>
 
 </ContentPage>

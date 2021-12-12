@@ -64,7 +64,7 @@ namespace CopilotApp
             int nrOfRowsAffected = SendNonQuery(sqlStatement);
         }
 
-        public static void SendMachineData(int machineID, Location location)
+        public static void SendMachineData(int machineID, GPSCoordinates location)
         {
             string sqlStatement = "INSERT INTO machine(ID, latitude, longitude) VALUES(" + machineID + "," + location.latitude + "," + location.longitude + ")";
             int nrOfRowsAffected = SendNonQuery(sqlStatement);

@@ -84,19 +84,37 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TireGreen.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CopilotApp\CopilotApp.csproj">
       <Project>{3613E428-ED6A-4F7C-B00D-67953B2297EA}</Project>
       <Name>CopilotApp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\WheelLoaderWireFrame.png" />
+    <AndroidResource Include="Resources\drawable\GreenLowerBranch.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\TireGrey.png" />
+    <AndroidResource Include="Resources\drawable\GreenLowerTireLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\GreenUpperBranch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\GreenUpperTireLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\RedLowerBranch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\RedLowerTireLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\RedUpperBranch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\RedUpperTireLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\TireDefault.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\TireRed.png" />
@@ -105,34 +123,19 @@
     <AndroidResource Include="Resources\drawable\TireYellow.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\WheelLoaderWireFrameNoWheels.png" />
+    <AndroidResource Include="Resources\drawable\WheelLoader.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\GreenBack.png" />
+    <AndroidResource Include="Resources\drawable\YellowLowerBranch.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\GreenFront.png" />
+    <AndroidResource Include="Resources\drawable\YellowLowerTireLine.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\RedBack.png" />
+    <AndroidResource Include="Resources\drawable\YellowUpperBranch.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\RedFront.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\YellowBack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\YellowFront.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\GreenCircle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\RedCircle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\YellowCircle.png" />
+    <AndroidResource Include="Resources\drawable\YellowUpperTireLine.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

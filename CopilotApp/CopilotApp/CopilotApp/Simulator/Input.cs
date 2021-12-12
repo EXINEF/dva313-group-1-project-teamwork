@@ -16,7 +16,7 @@ namespace CopilotApp
 
         }
 
-        public static void ReceiveMachineInput(Location location, int ambientTemp, float dinstanceDrivenLoaded, float distanceDrivenEmpty, 
+        public static void ReceiveMachineInput(GPSCoordinates location, int ambientTemp, float dinstanceDrivenLoaded, float distanceDrivenEmpty, 
             int machineHoursLoaded, int machineHoursEmpty, Payload payload, float consumedFuel)
         {
 
