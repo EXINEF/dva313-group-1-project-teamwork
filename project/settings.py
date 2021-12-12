@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import whitenoise
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -160,3 +161,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static/"),
 )
+
+# for display messages with different colors 
+# https://getbootstrap.com/docs/5.1/components/alerts/
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',  #grey
+        messages.INFO: 'alert-info',        #blue
+        messages.SUCCESS: 'alert-success',  #green
+        messages.WARNING: 'alert-warning',  #yellow
+        messages.ERROR: 'alert-danger',     #red
+ }

@@ -6,7 +6,9 @@
 <div class="container">
 
     <h1>TIRE Home Page</h1>
-
+    <a href="{% url 'edit-tire' tire.id %}">Edit</a>
+    <a href="{% url 'delete-tire' tire.id %}">Delete</a>
+    
     <h2>ID: {{tire.id}}</h2>
 
     <h4>remaining life: {{tire.remaining_life}}</h4>
@@ -28,12 +30,17 @@
     </thead>
     <tbody>
         <tr>
+        {% if tire.sensor is None %}
+        <th>MISSING SENSOR</th>
+        {% else %}  
         <th scope="row"><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></th>
         <td>{{tire.sensor.temperature}}</td>
         <td>{{tire.sensor.pressure}}</td>
         <td>{{tire.sensor.remaning_battery}}</td>
         <td>{{tire.sensor.status}}</td>
-        </tr>        
+        </tr>  
+        {% endif %}    
+              
     </tbody>
     </table>
 

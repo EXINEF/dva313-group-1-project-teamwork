@@ -1,0 +1,22 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <h1>Add a new sensor</h1>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Add Sensor">
+    </form> 
+    
+    
+</div>
+
+{% endblock content %}
+
+
+

@@ -14,7 +14,9 @@
         }
     </style>
 
-    <h1>VEHICLE Home Page</h1>
+    <h1>VEHICLE Information Page</h1>
+    <a href="{% url 'edit-vehicle' vehicle.id %}">Edit</a>
+    <a href="{% url 'delete-vehicle' vehicle.id %}">Delete</a>
 
     <h2>ID: {{vehicle.id}}</h2>
     <div id="map"></div>
@@ -22,12 +24,13 @@
     <h4>company: {{vehicle.company}}</h4>
     <h4>model: {{vehicle.model}}</h4>
     <h4>ambient temperature: {{vehicle.ambient_temperature}}</h4>
-    <h4>distance driven: {{vehicle.distance_driven}}</h4>
-    <h4>machine hours: {{vehicle.machine_hours}}</h4>
-    <h4>payload: {{vehicle.payload}}</h4>
     <h4>consumed fuel: {{vehicle.consumed_fuel}}</h4>
-    <h4>weight: {{vehicle.weight}}</h4>
-    <h4>machine hours: {{vehicle.machine_hours}}</h4>
+    <h4>distance driven empty: {{vehicle.distance_driven_empty}}</h4>
+    <h4>distance driven loaded: {{vehicle.distance_driven_loaded}}</h4>
+    <h4>machine hours empty: {{vehicle.machine_hours_empty}}</h4>
+    <h4>machine hours loaded: {{vehicle.machine_hours_loaded}}</h4>
+    <h4>payload empty: {{vehicle.payload_empty}}</h4>
+    <h4>payload loaded: {{vehicle.payload_loaded}}</h4>
     
     <h3>Vehicle Tires</h3>
     <table class="table table-dark table-striped">
@@ -43,9 +46,12 @@
         </tr>
     </thead>
     <tbody>
-        {% for tire in tires %}
+        {% for tire in tires %}       
             <tr>
             <th scope="row"><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></th>
+            {% if tire.sensor is None %}
+                <td>MISSING SENSOR</td>
+            {% else %}  
             <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
             <td>{{tire.sensor.temperature}}</td>
             <td>{{tire.sensor.pressure}}</td>
@@ -53,6 +59,7 @@
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>
             </tr>
+            {% endif %}
         {% endfor %}
         
     </tbody>
@@ -63,11 +70,11 @@
               // the settings for the map, its the second argument
               var options = {
                   zoom:16,
-                  center:{lat:{{vehicle.weight}},lng:{{vehicle.payload}}}
+                  center:{lat:{{location.latitude}},lng:{{location.longitude}}}
               }
               var map = new google.maps.Map(document.getElementById('map'),options);
 
-              addMarker({{vehicle.weight}},{{vehicle.payload}});
+              addMarker({{location.latitude}},{{location.longitude}});
               
 
               function addMarker(lat,long) {

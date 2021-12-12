@@ -5,8 +5,16 @@ from .models import Sensor, Tire, Location, Vehicle, CompanyAdministrator, Fleet
 class SensorAdmin(admin.ModelAdmin):
     model = Sensor
 
+    ordering = ('id', 'status', 'temperature', 'pressure', 'remaning_battery')
+    list_display = ('id', 'status', 'temperature', 'pressure', 'remaning_battery')
+    search_fields = ['id']
+
 class TireAdmin(admin.ModelAdmin):
     model = Tire
+
+    ordering = ('id', 'remaining_life', 'tread_depth', 'revolutions')
+    list_display = ('id', 'remaining_life', 'tread_depth', 'revolutions')
+    search_fields = ['id']
 
 class LocationAdmin(admin.ModelAdmin):
     model = Location
@@ -14,11 +22,19 @@ class LocationAdmin(admin.ModelAdmin):
 class VehicleAdmin(admin.ModelAdmin):
     model = Vehicle
 
+    ordering = ('id', 'model', 'ambient_temperature', 'company')
+    list_display = ('id', 'model', 'ambient_temperature', 'company')
+    search_fields = ['id']
+
 class CompanyAdministratorAdmin(admin.ModelAdmin):
     model = CompanyAdministrator
 
 class FleetManagerAdmin(admin.ModelAdmin):
     model = FleetManager
+
+    ordering = ('user', 'company', 'first_name', 'last_name')
+    list_display = ('user', 'company', 'first_name', 'last_name')
+    search_fields = ['user__username']
 
 class CompanyAdmin(admin.ModelAdmin):
     model = Company

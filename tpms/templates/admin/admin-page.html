@@ -1,0 +1,41 @@
+{% extends 'core/base-template.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1>ADMIN Home Page</h1>
+    <h4><a href="{% url 'add-fleet-manager' %}">Add a new Fleet Manager</a></h4>
+    <h3>My Fleet Managers</h3>
+    
+    <table class="table table-dark table-striped" id="sortTable">
+    <thead>
+        <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fleet_manager in fleet_managers %}
+            <tr>
+            <th scope="row">{{fleet_manager.user.username}}</th>
+            <td>{{fleet_manager.first_name}} {{fleet_manager.last_name}}</td>
+            <td>{{fleet_manager.email}}</td>
+            <td>{{fleet_manager.phone}}</td>
+            <td><a href="{% url 'edit-fleet-manager' fleet_manager.user.username %}">Edit</a></td>
+            <td><a href="{% url 'delete-fleet-manager' fleet_manager.user.username %}">Delete</a></td>
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+    </table>
+    
+</div>
+
+{% endblock content %}
+
+
+
