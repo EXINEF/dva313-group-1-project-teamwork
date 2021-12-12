@@ -34,8 +34,11 @@ def logoutPage(request):
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    tires_num = Tire.objects.count()
+    sensor_num = Sensor.objects.count()
 
-    context = {'vehicles':vehicles,'fleet_manager':fleet_manager}
+
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
     return render(request, 'user/home-simple.html', context)
 
 @login_required(login_url='index')
