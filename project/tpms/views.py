@@ -57,7 +57,9 @@ def vehicle(request, pk):
     return render(request, 'user/vehicle/vehicle.html', context)
 
 def addVehicle(request):
-    form = VehicleForm()
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    form = VehicleForm(initial={'company':fleet_manager.company})
+    
     if request.method == 'POST':
         form = VehicleForm(request.POST)
         if form.is_valid():
@@ -107,7 +109,9 @@ def tire(request, pk):
     return render(request, 'user/tire/tire.html', context)
 
 def addTire(request):
-    form = TireForm()
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    form = TireForm(initial={'company':fleet_manager.company})
+
     if request.method == 'POST':
         form = TireForm(request.POST)
         if form.is_valid():
@@ -157,7 +161,9 @@ def sensor(request, pk):
     return render(request, 'user/sensor/sensor.html', context)
 
 def addSensor(request):
-    form = SensorForm()
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    form = SensorForm(initial={'company':fleet_manager.company})
+
     if request.method == 'POST':
         form = SensorForm(request.POST)
         if form.is_valid():
