@@ -14,24 +14,30 @@
         }
     </style>
 
-    <h1>VEHICLE Information Page</h1>
-    <a href="{% url 'edit-vehicle' vehicle.id %}">Edit</a>
-    <a href="{% url 'delete-vehicle' vehicle.id %}">Delete</a>
+    <h1>{{vehicle.id}} Information Page</h1>
 
-    <h2>ID: {{vehicle.id}}</h2>
-    <div id="map"></div>
+    <div style="text-align: right;" class="">
+        <a class ="btn btn-dark" href="{% url 'edit-vehicle' vehicle.id %}">Edit</a>
+        <a class="btn btn-dark" href="{% url 'delete-vehicle' vehicle.id %}">Delete</a>
+    </div>
+    <br>
+    <div id="map" style="text-align: right;width: 50%;"></div>
 
-    <h4>company: {{vehicle.company}}</h4>
-    <h4>model: {{vehicle.model}}</h4>
-    <h4>ambient temperature: {{vehicle.ambient_temperature}}</h4>
-    <h4>consumed fuel: {{vehicle.consumed_fuel}}</h4>
-    <h4>distance driven empty: {{vehicle.distance_driven_empty}}</h4>
-    <h4>distance driven loaded: {{vehicle.distance_driven_loaded}}</h4>
-    <h4>machine hours empty: {{vehicle.machine_hours_empty}}</h4>
-    <h4>machine hours loaded: {{vehicle.machine_hours_loaded}}</h4>
-    <h4>payload empty: {{vehicle.payload_empty}}</h4>
-    <h4>payload loaded: {{vehicle.payload_loaded}}</h4>
-    
+    <div>
+            <h4>Company: {{vehicle.company}}</h4>
+            <h4>Model: {{vehicle.model}}</h4>
+            <h4>Consumed Fuel: {{vehicle.consumed_fuel}}</h4>
+            <h4>Ambient Temperature: {{vehicle.ambient_temperature}}</h4>
+            <h4>Machine Hours Empty: {{vehicle.machine_hours_empty}}</h4>
+            <h4>Machine Hours Loaded: {{vehicle.machine_hours_loaded}}</h4>
+            <h4>Distance Driven Empty: {{vehicle.distance_driven_empty}}</h4>
+            <h4>Distance Driven Loaded: {{vehicle.distance_driven_loaded}}</h4>
+            <h4>Payload Empty: {{vehicle.payload_empty}}</h4>
+            <h4>Payload Loaded: {{vehicle.payload_loaded}}</h4>
+    </div>
+
+<div class="container">
+    <br>
     <h3>Vehicle Tires</h3>
     
     <table class="table table-dark table-striped">
@@ -65,7 +71,7 @@
         
     </tbody>
     </table>
-
+</div>
     <script>
             function initMap(){
               // the settings for the map, its the second argument

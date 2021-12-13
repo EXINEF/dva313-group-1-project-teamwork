@@ -6,13 +6,18 @@
 <div class="container">
 
     <h1>Add a new vehicle</h1>
-
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Add Vehicle">
-    </form> 
-    
+    <div class="row">
+        <div class="col-6">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input class="btn btn-primary"type="submit" value="Add Vehicle">
+            </form> 
+        </div>
+        <div class="col-6"> <!--This should be, If you were in simple view and pressed add -> go back to simple view. If pressed add in extended view then go back to extended view.. -->
+            <a class = "btn btn-dark" href="{% url 'home' %}">Go Back</a>
+        </div>
+    </div>
     
 </div>
 
