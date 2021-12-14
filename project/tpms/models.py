@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from .algorithms import attentionValueCalculator
+
 
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
@@ -108,6 +110,12 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return 'Vehicle model: ' + self.model + ' ID: ' + self.id
+    
+    def getAttentionValue(self):
+        return attentionValueCalculator()
+
+    def getType(self):
+        return 'Wheel Loader'
 
 class CompanyAdministrator(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)

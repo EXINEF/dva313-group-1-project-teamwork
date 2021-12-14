@@ -44,8 +44,8 @@
         {% for vehicle in vehicles %}
             <tr>
             <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: white;">{{vehicle.id}}</a></th>
-            <td>Type</td>
-            <td>Attention Value</td>
+            <td>{{vehicle.getType}}</td>
+            <td>{{vehicle.getAttentionValue}}</td>
             <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: white;"></i></a></td>
             <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt" style="color:white"></i></a></td>
             </tr>

@@ -1,0 +1,3 @@
+
+CHANGES TO DO THAT ARE NOT IMPORTANT NOW
+1) change the inside folder in core (cause is the core of the django web app)
