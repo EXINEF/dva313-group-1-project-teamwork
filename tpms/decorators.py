@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
+# TODO throw a 404 error if someone try to enter a page when is not authorize, for security reason 
+
 # use in a NOT AUTH page ex: index page
+# TODO redirect the admin to admin-page
 def unauthenticated_user(view_func):
 	def wrapper_func(request, *args, **kwargs):
 		if request.user.is_authenticated:

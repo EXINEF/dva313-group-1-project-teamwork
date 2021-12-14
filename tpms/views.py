@@ -34,8 +34,11 @@ def logoutPage(request):
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    tires_num = Tire.objects.count()
+    sensor_num = Sensor.objects.count()
 
-    context = {'vehicles':vehicles,'fleet_manager':fleet_manager}
+
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
     return render(request, 'user/home-simple.html', context)
 
 @login_required(login_url='index')
@@ -47,6 +50,8 @@ def homePageExtended(request):
     context = {'vehicles':vehicles}
     return render(request, 'user/home-extended.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def vehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
@@ -56,8 +61,12 @@ def vehicle(request, pk):
     context = {'vehicle':vehicle, 'tires':tires, 'location':location}
     return render(request, 'user/vehicle/vehicle.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def addVehicle(request):
-    form = VehicleForm()
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    form = VehicleForm(initial={'company':fleet_manager.company})
+    
     if request.method == 'POST':
         form = VehicleForm(request.POST)
         if form.is_valid():
@@ -68,6 +77,8 @@ def addVehicle(request):
     context = {'form':form}
     return render(request, 'user/vehicle/add-vehicle.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def editVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
@@ -87,6 +98,8 @@ def editVehicle(request, pk):
     context = {'vehicle':vehicle, 'form':form}
     return render(request, 'user/vehicle/edit-vehicle.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def deleteVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
@@ -99,6 +112,8 @@ def deleteVehicle(request, pk):
     context = {'vehicle':vehicle}
     return render(request, 'user/vehicle/delete-vehicle.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def tire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -106,8 +121,12 @@ def tire(request, pk):
     context = {'tire':tire}
     return render(request, 'user/tire/tire.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def addTire(request):
-    form = TireForm()
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    form = TireForm(initial={'company':fleet_manager.company})
+
     if request.method == 'POST':
         form = TireForm(request.POST)
         if form.is_valid():
@@ -118,6 +137,8 @@ def addTire(request):
     context = {'form':form}
     return render(request, 'user/tire/add-tire.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def editTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -137,6 +158,8 @@ def editTire(request, pk):
     context = {'tire':tire, 'form':form}
     return render(request, 'user/tire/edit-tire.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def deleteTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -149,6 +172,8 @@ def deleteTire(request, pk):
     context = {'tire':tire}
     return render(request, 'user/tire/delete-tire.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def sensor(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
@@ -156,8 +181,12 @@ def sensor(request, pk):
     context = {'sensor':sensor}
     return render(request, 'user/sensor/sensor.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def addSensor(request):
-    form = SensorForm()
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    form = SensorForm(initial={'company':fleet_manager.company})
+
     if request.method == 'POST':
         form = SensorForm(request.POST)
         if form.is_valid():
@@ -165,9 +194,11 @@ def addSensor(request):
             messages.success(request,'The new sensor was addedd successfuly')
             return redirect('home')
 
-    context = {'form':form, 'form':form}
+    context = {'form':form}
     return render(request, 'user/sensor/add-sensor.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def editSensor(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
@@ -187,6 +218,8 @@ def editSensor(request, pk):
     context = {'sensor':sensor, 'form':form}
     return render(request, 'user/sensor/edit-sensor.html', context)
 
+@login_required(login_url='index')
+@allowed_users(allowed_roles=['fleet-manager'])
 def deleteSensor(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
@@ -199,6 +232,7 @@ def deleteSensor(request, pk):
     context = {'sensor':sensor}
     return render(request, 'user/sensor/delete-sensor.html', context)
 
+# TODO we have to remove this cause we will send data directly to the database and not by the server
 # http://127.0.0.1:8000/savedata/AUTHSYSTEM-TEST111-SENSORTEST1-3234-223-BROKEN-SENSORTEST2-40234-222-WORKING-SENSORTEST3-2237-32345-DANGER-SENSORTEST4-5453-1354-WARNING
 def saveData(request, query):
     chunks = query.split('-')
@@ -215,3 +249,6 @@ def saveData(request, query):
             counter+=1
             
     return redirect('/')
+
+def page_404(request, exception):
+    return render(request, 'error/404.html')

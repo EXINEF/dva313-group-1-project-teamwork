@@ -7,17 +7,19 @@ class VehicleForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = '__all__'
-        # exclude = ('locations','company')
+        exclude = ('locations','company',)
 
 class TireForm(ModelForm):
     class Meta:
         model = Tire
         fields = '__all__'
+        exclude = ('company',)
 
 class SensorForm(ModelForm):
     class Meta:
         model = Sensor
         fields = '__all__'
+        exclude = ('company',)
 
 class CreateUserForm(UserCreationForm):
 	class Meta:
