@@ -20,3 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tpms.urls')),
 ]
+
+handler404 = 'tpms.views.page_404'

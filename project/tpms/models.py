@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -21,6 +22,7 @@ class Sensor(models.Model):
         ('LOST', 'LOST'),
         ('BROKEN', 'BROKEN'),
     )
+
     id = models.CharField(max_length=50, primary_key=True)
     temperature = models.FloatField(blank=True, null=True)
     pressure = models.FloatField(blank=True, null=True)
@@ -42,11 +44,31 @@ class Tire(models.Model):
     revolutions = models.FloatField(blank=True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
+    # TODO OneToOne Rel (One sensor can only be on one Tire)
     sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING, blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
+    """
+        # TODO we need something to save the history of the previous vehicle that used this tire
+    
+        we need Tire ID, VehicleID, STATUS(USED, NOT_USED), (same parameter that describe how muche the wheel was used, maybe remaining life or else)
+        
+        EXAMPLE: history = models.ManyToManyField(TireVehicleHistory, ect...)
+        
+        class TireVehicleHistory(models.Model):
+            tire = models.ForeignKey(Tire, etc...)
+            status = (USED, NOT_USED)
+            vehicle = models.ForeignKey(Vehicle, etc...)
+            1-parameters to save for see the deterioration of the wheel
+            ...
+            ...
+            n-parameters   
+
+    """
+    
+    
     def __str__(self):
-        return 'Tire: '+self.id
+        return 'Tire: ' + self.id
 
 class Location(models.Model):
     latitude = models.FloatField(blank=True, null=True)
@@ -55,7 +77,8 @@ class Location(models.Model):
 
     def __str__(self):
         return 'Location:%d LAT:%f LONG:%f' % (self.id, self.latitude, self.longitude)
-        
+
+# rapresents a Wheel Loader (cause have 4 wheels)       
 class Vehicle(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     model = models.CharField(max_length=50, blank=True) 
@@ -69,12 +92,22 @@ class Vehicle(models.Model):
     payload_loaded = models.FloatField(blank=True, null=True, default=0)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    # TODO maybe it could be better to have the 4 tires OneToOne Rel instead a ManyToMany
     tires = models.ManyToManyField(Tire, blank=True)
+
+    # TODO so like this
+    """
+    tire_left_up = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_left_down = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_right_up = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_right_down = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    """
+
     locations = models.ManyToManyField(Location, blank=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return 'Vehicle model: '+ self.model + ' ID: '+ self.id
+        return 'Vehicle model: ' + self.model + ' ID: ' + self.id
 
 class CompanyAdministrator(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
@@ -85,8 +118,9 @@ class CompanyAdministrator(models.Model):
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
+    
     def __str__(self):
-        return 'Company Administrator: %s (%s %s) COMPANY: %s' % (self.user.username, self.first_name, self.last_name,self.company)       
+        return 'Company Administrator: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.first_name, self.last_name,self.company)       
 
 class FleetManager(models.Model):
     HOME_VIEW = (
@@ -98,17 +132,16 @@ class FleetManager(models.Model):
     last_name = models.CharField(max_length=50, blank=True)
     email = models.CharField(max_length=50, blank=True) 
     phone = models.CharField(max_length=50, blank=True) 
-    # to add now give problems
-    #home_view = models.CharField(max_length=30, null=True, default="SIMPLE", choices=HOME_VIEW)
+
+    # TODO for save the favourite view of the fleet manager
+    # home_view = models.CharField(max_length=30, null=True, default="SIMPLE", choices=HOME_VIEW)
 
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
-    
-
 
     def __str__(self):
-        return 'Fleet Manager: %s (%s %s) COMPANY: %s' % (self.user.username, self.first_name, self.last_name,self.company)      
+        return 'Fleet Manager: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.first_name, self.last_name,self.company)      
 
 
         
