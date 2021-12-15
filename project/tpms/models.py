@@ -99,10 +99,10 @@ class Vehicle(models.Model):
 
     # TODO so like this
     """
-    tire_left_up = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    tire_left_down = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    tire_right_up = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    tire_right_down = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_left_front = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_left_rear = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_right_front = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
+    tire_right_rear = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
     """
 
     locations = models.ManyToManyField(Location, blank=True)
