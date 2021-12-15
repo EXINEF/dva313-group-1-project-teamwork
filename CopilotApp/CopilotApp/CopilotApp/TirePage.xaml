@@ -39,12 +39,14 @@
 
                 <Label Text="Tread Depth:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
                 <Entry BackgroundColor="Gray" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"/>
-                <Label Text="cm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
 
                 <Label Text="Tire Life:" Grid.Row="4" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
                 <Label Text="71%" Grid.Row="4" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                
                 <Label Text="Revolusions:" Grid.Row="5" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
                 <Label Text="8063" Grid.Row="5" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                
                 <Label Text="Battery Life:" Grid.Row="6" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
                 <Label Text="82%" Grid.Row="6" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
             </Grid>

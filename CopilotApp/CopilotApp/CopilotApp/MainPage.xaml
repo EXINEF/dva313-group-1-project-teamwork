@@ -236,7 +236,7 @@
 
 
         <!-- Simulator Button  -->
-        <Button Command="{Binding SimulatorButtonCommand}"
+        <Button Command="{Binding SimulatorButtonPressedCommand}"
                         Text="Simulator"
                         FontSize="15"
                         BackgroundColor="Black"
@@ -246,7 +246,7 @@
                         IsEnabled="True"
                         AbsoluteLayout.LayoutBounds="1.0, 0, 110, 50" 
                         AbsoluteLayout.LayoutFlags="XProportional,YProportional"
-                />
+         />
     </AbsoluteLayout>
 
 </ContentPage>

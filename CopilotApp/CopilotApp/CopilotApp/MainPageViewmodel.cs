@@ -31,7 +31,8 @@ namespace CopilotApp
             TireFrontRightPressedCommand = new Command(TireFrontRightPressed);
             TireBackLeftPressedCommand = new Command(TireBackLeftPressed);
             TireBackRightPressedCommand = new Command(TireBackRightPressed);
-        }
+            SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
+    }
 
 
         //New command. The command we call from the xaml code (Command="{Binding TireFrontLeftPressedCommand}).
@@ -39,6 +40,7 @@ namespace CopilotApp
         public ICommand TireFrontRightPressedCommand { get; }
         public ICommand TireBackLeftPressedCommand { get; }
         public ICommand TireBackRightPressedCommand { get; }
+        public ICommand SimulatorButtonPressedCommand { get; }
 
         void OnPropertyChanged(string name)
         {
@@ -67,6 +69,11 @@ namespace CopilotApp
             Console.WriteLine("Tire Back Right Button Pressed");
             await Application.Current.MainPage.Navigation.PushAsync(new TirePage());
         }
-        
+        async void SimulatorButtonPressed()
+        {
+            Console.WriteLine("Simulator Button Pressed");
+            await Application.Current.MainPage.Navigation.PushAsync(new SimulatorPage());
+        }
+
     }
 }

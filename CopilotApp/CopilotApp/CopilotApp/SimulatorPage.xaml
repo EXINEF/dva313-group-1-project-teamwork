@@ -3,12 +3,536 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:CopilotApp"
              BackgroundColor="black"
+             NavigationPage.HasNavigationBar="False"
              x:Class="CopilotApp.SimulatorPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# functions in SimulatorPageViewmodel.cs 
+         Basically tells this xaml page where to look for C# functionality -->
+    <ContentPage.BindingContext>
+        <local:SimulatorPageViewmodel/>
+    </ContentPage.BindingContext>
+
+
+    <!-- The Design/Layout (images, buttons, text) -->
+    <AbsoluteLayout>
+
+        <!-- Draws the picture of the wheel loader -->
+        <!-- AbsoluteLayout.LayoutBounds="x(0-1), y(0-1),  width, height"-->
+        <Image  Source="WheelLoader.png"
+                VerticalOptions="Center"
+                AbsoluteLayout.LayoutBounds="0.5, 0.8, 200, 380"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+               ></Image>
+
+        <!-- Draw Tire Front Left Image -->
+        <Image  VerticalOptions="CenterAndExpand"
+                Aspect="AspectFit"
+                Source="TireDefault"
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutBounds="0.38, 0.52, 100, 100"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- Draw  Tire Front Right Image -->
+        <Image  VerticalOptions="CenterAndExpand"
+                Aspect="AspectFit"
+                Source="TireDefault"
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutBounds="0.619, 0.52, 100, 100"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- Draw  Tire Back Left Image  -->
+        <Image  VerticalOptions="CenterAndExpand"
+                Aspect="AspectFit"
+                Source="TireDefault"
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutBounds="0.38, 0.85, 100, 100"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- Draw Tire Back Right Image  -->
+        <Image  VerticalOptions="CenterAndExpand"
+                Aspect="AspectFit"
+                Source="TireDefault"
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutBounds="0.619 ,0.85, 100, 100"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- Inputs For Machine  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="ForestGreen"
+               Opacity="0.9"
+               CornerRadius="30"
+               AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="45" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Machine ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" Opacity="1.0"/>
+                <Entry BackgroundColor="#474747" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10" Opacity="1.0"/>
+
+                <Label Text="Ambient Temp:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="°C" Grid.Row="1" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Distance Driven (empty):" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="km" Grid.Row="2" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Distance Driven (loaded):" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="km" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Machine Hours (empty):" Grid.Row="4" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="4" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="Hours" Grid.Row="4" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Machine Hours (loaded):" Grid.Row="5" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="5" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="Hours" Grid.Row="5" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Payload:" Grid.Row="6" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="6" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="Tonnes" Grid.Row="6" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Payload:" Grid.Row="7" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="7" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="Buckets" Grid.Row="7" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Consumed Fuel:" Grid.Row="8" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#474747" Grid.Row="8" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="Liters" Grid.Row="8" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+
+                <Label Text="Longitude:" Grid.Row="9" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="9" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10" />
+
+                <Slider x:Name="LongitudeSlider" Minimum="-180" Maximum="180" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3"/>
+
+                <Label Text="Latitude:" Grid.Row="11" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="11" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10" />
+
+                <Slider x:Name="LatitudeSlider" Minimum="-90" Maximum="90" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3"/>
+
+
+                <Grid BackgroundColor="White" Grid.Row="13" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="3" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="3" />
+                        <ColumnDefinition Width="20" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry BackgroundColor="White" Grid.Row="0" Grid.Column="0" Text="" TextColor="Black" Keyboard="Numeric" FontSize="10" Placeholder="YY" PlaceholderColor="Gray"/>
+                    <Label BackgroundColor="Black" Grid.Row="0" Grid.Column="1" Text="-" TextColor="White" FontSize="10" />
+                    <Entry BackgroundColor="White" Grid.Row="0" Grid.Column="2" Text="" TextColor="Black" Keyboard="Numeric" FontSize="10" Placeholder="MM" PlaceholderColor="Gray"/>
+                    <Label BackgroundColor="Black" Grid.Row="0" Grid.Column="3" Text="-" TextColor="White" FontSize="10" />
+                    <Entry BackgroundColor="White" Grid.Row="0" Grid.Column="4" Text="" TextColor="Black" Keyboard="Numeric" FontSize="10" Placeholder="DD" PlaceholderColor="Gray" />
+                </Grid>
+
+                <Grid BackgroundColor="White" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="3" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="3" />
+                        <ColumnDefinition Width="30" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry BackgroundColor="White" Grid.Row="0" Grid.Column="0" Text="" TextColor="Black" Keyboard="Numeric" FontSize="10" Placeholder="HH" PlaceholderColor="Gray"/>
+                    <Label BackgroundColor="Black" Grid.Row="0" Grid.Column="1" Text=":" TextColor="White" FontSize="10" />
+                    <Entry BackgroundColor="White" Grid.Row="0" Grid.Column="2" Text="" TextColor="Black" Keyboard="Numeric" FontSize="10" Placeholder="mm" PlaceholderColor="Gray"/>
+                    <Label BackgroundColor="Black" Grid.Row="0" Grid.Column="3" Text=":" TextColor="White" FontSize="10" />
+                    <Entry BackgroundColor="White" Grid.Row="0" Grid.Column="4" Text="" TextColor="Black" Keyboard="Numeric" FontSize="10" Placeholder="ss" PlaceholderColor="Gray"/>
+                </Grid>
+
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Front Left Tire  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="Yellow"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.05, 0.16, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Tire ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Baseline Pressure:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="kPa" Grid.Row="1" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Fill Material:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10" />
+
+                <Label Text="Tread Depth:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Front Left Sensor  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="RoyalBlue"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.05, 0.39, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Sensor ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Sensor Status:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10"/>
+
+                <Label Text="Temperature:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="°C" Grid.Row="2" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Pressure:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"  FontSize="10"/>
+                <Label Text="kPa" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Front Right Tire  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="Yellow"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.95, 0.16, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Tire ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Baseline Pressure:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="kPa" Grid.Row="1" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Fill Material:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10" />
+
+                <Label Text="Tread Depth:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Front Right Sensor  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="RoyalBlue"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.95, 0.39, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Sensor ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Sensor Status:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10"/>
+
+                <Label Text="Temperature:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="°C" Grid.Row="2" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Pressure:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"  FontSize="10"/>
+                <Label Text="kPa" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Back Left Tire  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="Yellow"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.05, 0.77, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Tire ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Baseline Pressure:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="kPa" Grid.Row="1" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Fill Material:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10" />
+
+                <Label Text="Tread Depth:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Back Left Sensor  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="RoyalBlue"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.05, 1.0, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Sensor ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Sensor Status:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10"/>
+
+                <Label Text="Temperature:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="°C" Grid.Row="2" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Pressure:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"  FontSize="10"/>
+                <Label Text="kPa" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Back Right Tire  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="Yellow"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.95, 0.77, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Tire ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center"/>
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Baseline Pressure:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="kPa" Grid.Row="1" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Fill Material:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10" />
+
+                <Label Text="Tread Depth:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+            </Grid>
+        </Frame>
+
+        <!-- Inputs For Back Right Sensor  -->
+        <Frame BackgroundColor="Black" 
+               BorderColor="RoyalBlue"
+               CornerRadius="20"
+               AbsoluteLayout.LayoutBounds="0.95, 1.0, -1, -1"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Padding="20,10,20,10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Sensor ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+
+                <Label Text="Sensor Status:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Plain" FontSize="10"/>
+
+                <Label Text="Temperature:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="2" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10"/>
+                <Label Text="°C" Grid.Row="2" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+
+                <Label Text="Pressure:" Grid.Row="3" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry BackgroundColor="#5e5e5e" Grid.Row="3" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"  FontSize="10"/>
+                <Label Text="kPa" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+            </Grid>
+        </Frame>
+
+        <!-- Send Machine Data Button  -->
+        <Button Command="{Binding SendMachineDataButtonPressedCommand}"
+                        Text="Send Machine Data"
+                        FontSize="10"
+                        BorderColor="ForestGreen"
+                        BorderWidth="4"
+                        CornerRadius="10"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="0.4, 1.0, 70, 70" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+         />
+
+        <!-- Send Sensor Data Button  -->
+        <Button Command="{Binding SendSensorDataButtonPressedCommand}"
+                        Text="Send Sensor Data"
+                        FontSize="10"
+                        BorderColor="RoyalBlue"
+                        BorderWidth="4"
+                        CornerRadius="10"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="0.5, 1.0, 70, 70" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+         />
+
+
+        <!-- Send Tire Data Button  -->
+        <Button Command="{Binding SendTireDataButtonPressedCommand}"
+                        Text="Send Tire Data"
+                        FontSize="10"
+                        BorderColor="Yellow"
+                        BorderWidth="4"
+                        CornerRadius="10"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="0.6, 1.0, 70, 70" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+         />
+
+        <!-- Return To MainPage(Overview) Button  -->
+        <Button Command="{Binding BackToMainPageButtonPressedCommand}"
+                        Text="Back"
+                        FontSize="15"
+                        BackgroundColor="Black"
+                        BorderColor="RoyalBlue"
+                        BorderWidth="2"
+                        TextColor="RoyalBlue"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="1.0, 0, 80, 40" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+         />
+    </AbsoluteLayout>
 </ContentPage>
