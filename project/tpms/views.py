@@ -56,9 +56,9 @@ def vehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     tires = vehicle.tires.all()
-    location = vehicle.locations.all().order_by('-creation_datetime').first()
-
-    context = {'vehicle':vehicle, 'tires':tires, 'location':location}
+    locations = vehicle.locations.all().order_by('-creation_datetime')
+    lastLoaction = locations.first()
+    context = {'vehicle':vehicle, 'tires':tires, 'locations':locations , 'lastLocation':lastLoaction}
     return render(request, 'user/vehicle/vehicle.html', context)
 
 @login_required(login_url='index')

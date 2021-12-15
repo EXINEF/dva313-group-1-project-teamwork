@@ -75,13 +75,17 @@
     <script>
             function initMap(){
               // the settings for the map, its the second argument
+              
               var options = {
                   zoom:16,
-                  center:{lat:{{location.latitude}},lng:{{location.longitude}}}
+                  center:{lat:{{lastLocation.latitude}},lng:{{lastLocation.longitude}}}
               }
               var map = new google.maps.Map(document.getElementById('map'),options);
 
+              {% for location in locations  %}
+
               addMarker({{location.latitude}},{{location.longitude}});
+              {% endfor %}
               
 
               function addMarker(lat,long) {
