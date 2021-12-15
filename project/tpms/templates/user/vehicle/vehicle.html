@@ -38,11 +38,13 @@
 
 <div class="container">
     <br>
-    <h3>Vehicle Tires</h3>
+    <h3>Vehicle's Tires</h3>
     
     <table class="table table-dark table-striped">
     <thead>
+        
         <tr>
+        <th scope="col">POSITION</th>
         <th scope="col">Tire ID</th>
         <th scope="col">Sensor ID</th>
         <th scope="col">TEMPERATURE</th>
@@ -51,23 +53,14 @@
         <th scope="col">baseline pressure</th>
         <th scope="col">fill material</th>
         </tr>
+
     </thead>
     <tbody>
-        {% for tire in tires %}       
-            <tr>
-            <th scope="row"><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></th>
-            {% if tire.sensor is None %}
-                <td>MISSING SENSOR</td>
-            {% else %}  
-            <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
-            <td>{{tire.sensor.temperature}}</td>
-            <td>{{tire.sensor.pressure}}</td>
-            <td>{{tire.remaining_life}}</td>
-            <td>{{tire.baseline_pressure}}</td>
-            <td>{{tire.fill_material}}</td>
-            </tr>
-            {% endif %}
-        {% endfor %}
+        
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_front pos='Left Front' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Left Rear' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Right Front' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Right Rear' %}
         
     </tbody>
     </table>

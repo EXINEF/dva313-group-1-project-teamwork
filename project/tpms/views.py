@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import FleetManager, Vehicle, Tire, Sensor
 from .forms import VehicleForm, TireForm, SensorForm
-from .decorators import unauthenticated_user, company_administrator_only, allowed_users
+from .decorators import unauthenticated_user, fleet_manager_only
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -30,7 +30,7 @@ def logoutPage(request):
     return redirect('index')
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
@@ -42,7 +42,7 @@ def homePage(request):
     return render(request, 'user/home-simple.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def homePageExtended(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
@@ -51,18 +51,19 @@ def homePageExtended(request):
     return render(request, 'user/home-extended.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def vehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
-    tires = vehicle.tires.all()
     locations = vehicle.locations.all().order_by('-creation_datetime')
     lastLoaction = locations.first()
-    context = {'vehicle':vehicle, 'tires':tires, 'locations':locations , 'lastLocation':lastLoaction}
+    print(vehicle.tire_left_front.id)
+
+    context = {'vehicle':vehicle, 'locations':locations , 'lastLocation':lastLoaction}
     return render(request, 'user/vehicle/vehicle.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def addVehicle(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     form = VehicleForm(initial={'company':fleet_manager.company})
@@ -78,7 +79,7 @@ def addVehicle(request):
     return render(request, 'user/vehicle/add-vehicle.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def editVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
@@ -99,7 +100,7 @@ def editVehicle(request, pk):
     return render(request, 'user/vehicle/edit-vehicle.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def deleteVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
@@ -113,7 +114,7 @@ def deleteVehicle(request, pk):
     return render(request, 'user/vehicle/delete-vehicle.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def tire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -122,7 +123,7 @@ def tire(request, pk):
     return render(request, 'user/tire/tire.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def addTire(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     form = TireForm(initial={'company':fleet_manager.company})
@@ -138,7 +139,7 @@ def addTire(request):
     return render(request, 'user/tire/add-tire.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def editTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -159,7 +160,7 @@ def editTire(request, pk):
     return render(request, 'user/tire/edit-tire.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def deleteTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -173,7 +174,7 @@ def deleteTire(request, pk):
     return render(request, 'user/tire/delete-tire.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def sensor(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
@@ -182,7 +183,7 @@ def sensor(request, pk):
     return render(request, 'user/sensor/sensor.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def addSensor(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     form = SensorForm(initial={'company':fleet_manager.company})
@@ -198,7 +199,7 @@ def addSensor(request):
     return render(request, 'user/sensor/add-sensor.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def editSensor(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
@@ -219,7 +220,7 @@ def editSensor(request, pk):
     return render(request, 'user/sensor/edit-sensor.html', context)
 
 @login_required(login_url='index')
-@allowed_users(allowed_roles=['fleet-manager'])
+@fleet_manager_only
 def deleteSensor(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     sensor = get_object_or_404(Sensor, id=pk, company=fleet_manager.company)
