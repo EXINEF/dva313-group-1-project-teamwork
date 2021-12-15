@@ -32,10 +32,6 @@ class CompanyAdministratorAdmin(admin.ModelAdmin):
 class FleetManagerAdmin(admin.ModelAdmin):
     model = FleetManager
 
-    ordering = ('user', 'company', 'first_name', 'last_name')
-    list_display = ('user', 'company', 'first_name', 'last_name')
-    search_fields = ['user__username']
-
 class CompanyAdmin(admin.ModelAdmin):
     model = Company
 
