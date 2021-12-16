@@ -64,31 +64,8 @@
         {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Rear Left' %}
         {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Front Right' %}
         {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Rear Right' %}
-        
-        <table class="table table-dark table-striped">
-        <thead>
-            
-            <tr>
-            <th scope="col">POSITION</th>
-            <th scope="col">Tire ID</th>
-            <th scope="col">Sensor ID</th>
-            <th scope="col">TEMPERATURE</th>
-            <th scope="col">PRESSURE</th>
-            <th scope="col">remaining life</th>
-            <th scope="col">baseline pressure</th>
-            <th scope="col">fill material</th>
-            </tr>
-    
-        </thead>
-        <tbody>
-            
-            {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_front pos='Left Front' %}
-            {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Left Rear' %}
-            {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Right Front' %}
-            {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Right Rear' %}
-            
-        </tbody>
-        </table>
+    </tbody>    
+    </table>
     </div>
 </div>
 
