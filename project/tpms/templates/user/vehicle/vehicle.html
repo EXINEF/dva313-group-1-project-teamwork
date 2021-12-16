@@ -81,10 +81,12 @@
 
               {% for location in locations  %}
 
-              addMarker({{location.latitude}},{{location.longitude}});
               snailTrailCoords.push({lat:{{location.latitude}}, lng:{{location.longitude}} })
               {% endfor %}
               
+
+              addMarker(snailTrailCoords[snailTrailCoords.length-1].lat,snailTrailCoords[snailTrailCoords.length-1].lng);
+
               var snailTrail = new google.maps.Polyline({
                 path: snailTrailCoords,
                 geodesic: true,
