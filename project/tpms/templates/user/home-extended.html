@@ -35,6 +35,7 @@
     <table class="table table-dark table-striped" id="sortTable">
     <thead>
         <tr>
+          <th onclick="sortTable(1)"scope="col">Tire (ID)</th>
         <th onclick="sortTable(0)"scope="col">Vehicle (ID)</th> <!--The data should show the vehicle ID, static, non pressable button?-->
         <th onclick="sortTable(1)"scope="col">Model</th> <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
         <th onclick="sortTable(2)"scope="col">Biggest / most active</th> <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
@@ -46,9 +47,17 @@
     </thead>
     <tbody>
       <!--This must be done for each tire or something. that way we get all the tires. then the data should show for each tire, that tire vehicle ID and that tire sensor data and so on-->
-        {% for vehicle in vehicles %}
+     
+     
+      {% for vehicle in vehicles %}
             <tr>
             <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: white;">{{vehicle.id}}</a></th>
+
+            {% for tire in tires%} <!--Something like this but this is wrong...-->
+      
+            <td scope="row"><a href="{% url 'tire' tire.id%}" style="color: white;"></a> {{tire.id}}</td>
+          
+          {%endfor%}
 
             {% if vehicle.model is "" %}
                 <td>NULL</td>
