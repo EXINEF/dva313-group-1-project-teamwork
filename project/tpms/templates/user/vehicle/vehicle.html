@@ -69,22 +69,25 @@
             function initMap(){
               // the settings for the map, its the second argument
               
+              var snailTrailCoords = [];
+              {% for location in locations  %}
+
+              snailTrailCoords.push({lat:{{location.latitude}}, lng:{{location.longitude}} })
+              
+              {% endfor %}
+              var cent = new google.maps.LatLng(snailTrailCoords[snailTrailCoords.length-1]);
               var options = {
                   zoom:16,
-                  center:{lat:{{lastLocation.latitude}},lng:{{lastLocation.longitude}}}
+                  center:cent
               }
-              var snailTrailCoords = [];
+              
               //{lat:59.6186, lng: 16.5404},
               //{lat:59.60, lng: 16.53}
               
               var map = new google.maps.Map(document.getElementById('map'),options);
 
-              {% for location in locations  %}
-
-              snailTrailCoords.push({lat:{{location.latitude}}, lng:{{location.longitude}} })
-              {% endfor %}
               
-
+              //add marker for the last SnailTrailCoordinate
               addMarker(snailTrailCoords[snailTrailCoords.length-1].lat,snailTrailCoords[snailTrailCoords.length-1].lng);
 
               var snailTrail = new google.maps.Polyline({
