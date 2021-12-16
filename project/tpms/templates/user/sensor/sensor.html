@@ -6,9 +6,10 @@
 <div class="container">
 
     <h1>SENSOR Page</h1>
-    <a href="{% url 'edit-sensor' sensor.id %}">Edit</a>
-    <a href="{% url 'delete-sensor' sensor.id %}">Delete</a>
-
+    <div style="text-align: right;">
+        <a  class="btn btn-dark"href="{% url 'edit-sensor' sensor.id %}">Edit</a>
+        <a class="btn btn-dark"href="{% url 'delete-sensor' sensor.id %}">Delete</a>
+    </div>
     <h2>ID: {{sensor.id}}</h2>
 
     <h4>temperature: {{sensor.temperature}}</h4>

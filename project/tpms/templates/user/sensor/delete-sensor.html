@@ -11,11 +11,11 @@
         <div class="col-6">
             <form action="" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Yes, delete it</button>
+                <button type="submit" class="btn btn-success">Yes, delete it</button>
             </form>
         </div>
         <div class="col-6">
-            <a href="{% url 'sensor' sensor.id %}">No, keep it</a>
+            <a href="{% url 'sensor' sensor.id %}" class="btn btn-dark">No, keep it</a>
         </div>
     </div>
 
