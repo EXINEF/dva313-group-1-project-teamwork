@@ -12,6 +12,9 @@
             margin-bottom: 2em;
             margin-left: 2em;
         }
+        a{
+            color: white;
+        }
     </style>
 
     <h1>{{vehicle.id}} Information Page</h1>
@@ -57,10 +60,10 @@
     </thead>
     <tbody>
         
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_front pos='Left Front' %}
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Left Rear' %}
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Right Front' %}
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Right Rear' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_front pos='Front Left' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Rear Left' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Front Right' %}
+        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Rear Right' %}
         
     </tbody>
     </table>

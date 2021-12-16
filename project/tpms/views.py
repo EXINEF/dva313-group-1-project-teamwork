@@ -17,7 +17,7 @@ def indexPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('admin-page')
+            return redirect('home')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
@@ -37,11 +37,12 @@ def homePage(request):
     tires_num = Tire.objects.count()
     sensor_num = Sensor.objects.count()
 
+#Here would add, get the home val from fleet_manager.home_view. and then also set the homeview to the database from the input 
 
     context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
-    return render(request, 'user/home-simple.html', context)
+    return render(request, 'user/home-simple.html', context) #Then only render /home
 
-@login_required(login_url='index')
+@login_required(login_url='index') #This one would be removed 
 @fleet_manager_only
 def homePageExtended(request):
     fleet_manager = FleetManager.objects.get(user=request.user)

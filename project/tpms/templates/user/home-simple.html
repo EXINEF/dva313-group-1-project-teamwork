@@ -1,6 +1,6 @@
 {% extends 'core/base-template.html' %}
 {% block content %}
-<div class="container-fluid px-4" 
+<div class="container-fluid px-4" >
 <head>
    <meta charset="utf-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,6 +12,7 @@
    <link href="css/styles.css" rel="stylesheet" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
       crossorigin="anonymous"></script>
+      <!--
          <h1 class="text-white">Fleet Manager Overview</h1>
          <h3 class="text-white">Company: {{fleet_manager.company}}</h3>
       </div>
@@ -28,8 +29,37 @@
       <div class="col-sm">
          <h4 class="text-white">Sensors: {{sensor_num}}</h4>
       </div>
+   </div>-->
+   
+   <div class="card-sm">
+      <div class="card-body">
+        <div style="text-align: right;">
+          <button class="btn btn-light" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add new
+          Vehicle</button>
+          <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add new
+          Tire</button>
+          <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add new
+          Sensor</button>
+          <button class="btn btn-light" onclick="location.href='home-extended'">Extended View</button>
+        </div>
+        
+         <h1 class="text-white">Fleet Manager Overview</h1>
+         <h3 class="text-white">Company: {{fleet_manager.company}}</h3>
+         <div class="row">
+          <div class="col-sm">
+             <h4 class="text-white">Vehicles: {{vehicles.count}}</h4>
+          </div>
+          <div class="col-sm">
+             <h4 class="text-white">Tires: {{tires_num}}</h4>
+          </div>
+          <div class="col-sm">
+             <h4 class="text-white">Sensors: {{sensor_num}}</h4>
+          </div>
+       </div>
+      </div>
    </div>
- 
+  
+  
   
   
 </head>
@@ -76,41 +106,46 @@
 </div>
    <!--Warning Cards Ends-->
 
-<div class="row">
-   <!--Area Chart-->
-   <div class="col-xl-6">
-      <div class="card mb-4">
-         <div class="card-header">
-            <i class="fas fa-chart-area me-1"></i>
-            Area Chart Example
-         </div>
-         <div class="card-body">
-            <canvas id="myAreaChart" width="100%" height="40"></canvas>
-         </div>
-      </div>
-   </div>
-   <!--Area Chart Ends-->
 
-   <!--Bar Chart-->
-   <div class="col-xl-6">
-      <div class="card mb-4">
-         <div class="card-header">
-            <i class="fas fa-chart-bar me-1"></i>
-            Bar Chart Example
-         </div>
-         <div class="card-body">
-            <canvas id="myBarChart" width="100%" height="40"></canvas>
-         </div>
-      </div>
-   </div>
-   <!--Bar Chart Ends-->
-</div>
+
+ <!-- <div class="row"> -->
+    <!--Area Chart-->
+    <!--
+    <div class="col-xl-6">
+        <div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-chart-area me-1"></i>
+              Area Chart Example
+          </div>
+          <div class="card-body">
+              <canvas id="myAreaChart" width="100%" height="40"></canvas>
+          </div>
+        </div>
+    </div>
+  -->
+    <!--Area Chart Ends-->
+
+    <!--Bar Chart-->
+   <!-- <div class="col-xl-6">
+        <div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-chart-bar me-1"></i>
+              Bar Chart Example
+          </div>
+          <div class="card-body">
+              <canvas id="myBarChart" width="100%" height="40"></canvas>
+          </div>
+        </div>
+    </div>-->
+    <!--Bar Chart Ends-->
+  <!--</div>-->
 
 
 <!--Table-->   
 <div class="card mb-4">
    <div class="card-header">
       <h2>My Vehicles (SIMPLE View)</h2>
+      <!--
       <div style="text-align: right;">
          <button class="btn btn-dark" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add new
          Vehicle</button>
@@ -120,6 +155,7 @@
          Sensor</button>
          <button class="btn btn-dark" onclick="location.href='home-extended'">Extended View</button>
       </div>
+    -->
    </div>
       <table class="table table table" id="sortTable">
          <thread>
@@ -159,23 +195,13 @@
       </table>
       
    </div>
-     
-   
-
-
-
 
 </div>
-
-
 <!--Table Ends-->
 </body>
 
 
-
-
-
-   <!--For now this doesn't work with for loops this is troubling for the onclick... or maybe just the script code-->
+<!--For now this doesn't work with for loops this is troubling for the onclick... or maybe just the script code-->
   
 <script>
    function sortTable(n) {

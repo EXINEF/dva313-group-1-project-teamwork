@@ -70,6 +70,30 @@
             </tr>
         {% endfor %}
         
+
+
+        <!--
+
+          <tr> 
+    <th scope="row">{{pos}}</a></th>
+    {% if tire is None %}
+        <td>MISSING TIRE</td>
+    {% else %}
+        <td><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></td>    
+        {% if tire.sensor is None %}
+            <td>MISSING SENSOR</td>
+        {% else %}  
+            <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
+            <td>{{tire.sensor.temperature}}</td>
+            <td>{{tire.sensor.pressure}}</td>
+            <td>{{tire.remaining_life}}</td>
+            <td>{{tire.baseline_pressure}}</td>
+            <td>{{tire.fill_material}}</td>
+        {% endif %}
+    {% endif %}
+</tr>
+
+        -->
     </tbody>
     </table>
     
