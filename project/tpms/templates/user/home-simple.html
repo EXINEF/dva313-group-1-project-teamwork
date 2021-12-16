@@ -1,6 +1,6 @@
 {% extends 'core/base-template.html' %}
 {% block content %}
-<div class="container-fluid" 
+<div class="container-fluid px-4" 
 <head>
    <meta charset="utf-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,8 +12,6 @@
    <link href="css/styles.css" rel="stylesheet" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
       crossorigin="anonymous"></script>
-   <div class="card ">
-      <div class="card-body">
          <h1>Fleet Manager Overview</h1>
          <h3>Company: {{fleet_manager.company}}</h3>
       </div>
@@ -31,12 +29,13 @@
          <h4>Sensors: {{sensor_num}}</h4>
       </div>
    </div>
-   </div>
-   </div>
+ 
   
   
 </head>
-<!--Warning Cards-->
+
+<body>
+   <!--Warning Cards-->
 <div class="row">
    <div class="col-xl-3 col-md-6">
        <div class="card bg-primary text-white mb-4">
@@ -170,6 +169,8 @@
 
 
 <!--Table Ends-->
+</body>
+
 
 
 
