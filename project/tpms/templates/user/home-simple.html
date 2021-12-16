@@ -7,18 +7,18 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>Dashboard - SB Admin</title>
+   <title>Volvo TPMS</title>
    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
    <link href="css/styles.css" rel="stylesheet" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
       crossorigin="anonymous"></script>
-   <div class="card">
+   <div class="card ">
       <div class="card-body">
          <h1>Fleet Manager Overview</h1>
          <h3>Company: {{fleet_manager.company}}</h3>
       </div>
    </div>
-   <div class="card">
+   <div class="card-sm">
     <div class= "card-body">
    <div class="row">
       <div class="col-sm">
@@ -37,30 +37,48 @@
   
 </head>
 <!--Warning Cards-->
-<div class="container-p:20px">
-   <div class="row">
-      <div class="col-xl-3 col-md-6">
-         <div class="card bg-warning text-white mb-4">
-            <div class="card-body">Warning Card</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-               <a class="small text-white stretched-link" href="#">View Details</a>
-               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-            </div>
-         </div>
-      </div>
-      <div class="col-xl-3 col-md-6">
-         <div class="card bg-danger text-white mb-4">
-            <div class="card-body">Danger Card</div>
-            <div class="card-footer d-flex align-items-center justify-content-between">
-               <a class="small text-white stretched-link" href="#">View Details</a>
-               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!--Warning Cards Ends-->
-</div>
 <div class="row">
+   <div class="col-xl-3 col-md-6">
+       <div class="card bg-primary text-white mb-4">
+           <div class="card-body">Primary Card</div>
+           <div class="card-footer d-flex align-items-center justify-content-between">
+               <a class="small text-white stretched-link" href="#">View Details</a>
+               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+           </div>
+       </div>
+   </div>
+   <div class="col-xl-3 col-md-6">
+       <div class="card bg-warning text-white mb-4">
+           <div class="card-body">Warning Card</div>
+           <div class="card-footer d-flex align-items-center justify-content-between">
+               <a class="small text-white stretched-link" href="#">View Details</a>
+               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+           </div>
+       </div>
+   </div>
+   <div class="col-xl-3 col-md-6">
+       <div class="card bg-success text-white mb-4">
+           <div class="card-body">Success Card</div>
+           <div class="card-footer d-flex align-items-center justify-content-between">
+               <a class="small text-white stretched-link" href="#">View Details</a>
+               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+           </div>
+       </div>
+   </div>
+   <div class="col-xl-3 col-md-6">
+       <div class="card bg-danger text-white mb-4">
+           <div class="card-body">Danger Card</div>
+           <div class="card-footer d-flex align-items-center justify-content-between">
+               <a class="small text-white stretched-link" href="#">View Details</a>
+               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+           </div>
+       </div>
+   </div>
+</div>
+   <!--Warning Cards Ends-->
+
+<div class="row">
+   <!--Area Chart-->
    <div class="col-xl-6">
       <div class="card mb-4">
          <div class="card-header">
@@ -72,6 +90,9 @@
          </div>
       </div>
    </div>
+   <!--Area Chart Ends-->
+
+   <!--Bar Chart-->
    <div class="col-xl-6">
       <div class="card mb-4">
          <div class="card-header">
@@ -83,53 +104,78 @@
          </div>
       </div>
    </div>
+   <!--Bar Chart Ends-->
 </div>
+
+
+<!--Table-->   
 <div class="card mb-4">
-<div class="card-header">
-   <i class="fas fa-table me-1"></i>
-   DataTable Example
-   <h2>My Vehicles (SIMPLE View)</h2>
-   <div style="text-align: right;">
-      <button class="btn btn-dark" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add new
-      Vehicle</button>
-      <button class="btn btn-dark" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add new
-      Tire</button>
-      <button class="btn btn-dark" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add new
-      Sensor</button>
-      <button class="btn btn-dark" onclick="location.href='home-extended'">Extended View</button>
+   <div class="card-header">
+      <h2>My Vehicles (SIMPLE View)</h2>
+      <div style="text-align: right;">
+         <button class="btn btn-dark" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add new
+         Vehicle</button>
+         <button class="btn btn-dark" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add new
+         Tire</button>
+         <button class="btn btn-dark" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add new
+         Sensor</button>
+         <button class="btn btn-dark" onclick="location.href='home-extended'">Extended View</button>
+      </div>
    </div>
+      <table class="table table table" id="sortTable">
+         <thread>
+            <tr>
+               <th onclick="sortTable(0)" scope="col">Vehicle (ID)</th>
+               <th onclick="sortTable(1)" scope="col">Type</th>
+               <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
+               <th onclick="sortTable(2)" scope="col">Attention Value</th>
+               <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
+               <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
+               <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
+            </tr>
+         </thread>
+         <tbody>
+            <tr>
+               {% for vehicle in vehicles %}
+            <tr>
+               <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
+               <td>{{vehicle.getType}}</td>
+               <td>{{vehicle.getAttentionValue}}</td>
+               <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a>
+               </td>
+               <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"
+                  style="color:black"></i></a></td>
+            </tr>
+            {% endfor %}
+            </tr>
+         </tbody>
+
+      </table>
+
+        
+   
+   <div class = "card-body">
+      <table id="datatablesSimple"></table>
+      
+      </table>
+      
+   </div>
+     
+   
+
+
+
+
 </div>
-<div class="card-body">
-   <table id="datatablesSimple">
+
+
+<!--Table Ends-->
+
+
+
+
    <!--For now this doesn't work with for loops this is troubling for the onclick... or maybe just the script code-->
-   <table class="table table-dark table-striped" id="sortTable">
-      <thead>
-         <tr>
-            <th onclick="sortTable(0)" scope="col">Vehicle (ID)</th>
-            <!--The data should show the vehicle ID, static, non pressable button?-->
-            <th onclick="sortTable(1)" scope="col">Type</th>
-            <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
-            <th onclick="sortTable(2)" scope="col">Attention Value</th>
-            <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
-            <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
-            <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
-         </tr>
-      </thead>
-      <tbody>
-         {% for vehicle in vehicles %}
-         <tr>
-            <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: white;">{{vehicle.id}}</a></th>
-            <td>{{vehicle.getType}}</td>
-            <td>{{vehicle.getAttentionValue}}</td>
-            <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: white;"></i></a>
-            </td>
-            <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"
-               style="color:white"></i></a></td>
-         </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-</div>
+  
 <script>
    function sortTable(n) {
      // Set the sorting direction to ascending:
