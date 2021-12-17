@@ -128,7 +128,9 @@
 
                 <Slider x:Name="LongitudeSlider" Minimum="-180" Maximum="180" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3"/>
 
-                <Label Text="Latitude:" Grid.Row="11" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Label Grid.Row="11" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" 
+                       BindingContext="{x:Reference Name=LatitudeSlider}"
+                       Rotation="{Binding Path=Value}"/>
                 <Entry BackgroundColor="#5e5e5e" Grid.Row="11" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric" FontSize="10" />
 
                 <Slider x:Name="LatitudeSlider" Minimum="-90" Maximum="90" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3"/>
@@ -508,7 +510,6 @@
                         AbsoluteLayout.LayoutBounds="0.5, 1.0, 70, 70" 
                         AbsoluteLayout.LayoutFlags="XProportional,YProportional"
          />
-
 
         <!-- Send Tire Data Button  -->
         <Button Command="{Binding SendTireDataButtonPressedCommand}"

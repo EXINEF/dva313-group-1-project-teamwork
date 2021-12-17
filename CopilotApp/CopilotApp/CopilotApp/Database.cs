@@ -64,7 +64,7 @@ namespace CopilotApp
             int nrOfRowsAffected = SendNonQuery(sqlStatement);
         }
 
-        public static void SendMachineData(int machineID, GPSCoordinates location)
+        public static void SendMachineData(int machineID, GPS location)
         {
             string sqlStatement = "INSERT INTO machine(ID, latitude, longitude) VALUES(" + machineID + "," + location.latitude + "," + location.longitude + ")";
             int nrOfRowsAffected = SendNonQuery(sqlStatement);
@@ -85,7 +85,7 @@ namespace CopilotApp
         }
 
         //Used for SQL statements that only inserts or updates values and only returns an int showing the number of rows affected
-        public static int SendNonQuery(string sqlStatement)
+        public static async int SendNonQuery(string sqlStatement)
         {
             Console.WriteLine("Sending SQL statement: " + sqlStatement);
 
@@ -117,7 +117,7 @@ namespace CopilotApp
         }
 
         //Used for SQL queries that grabs data from the database.
-        public static MySqlDataReader SendQuery(string query)
+        public static async MySqlDataReader SendQuery(string query)
         {
             Console.WriteLine("Sending Query: " + query);
 
