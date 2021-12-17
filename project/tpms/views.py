@@ -47,8 +47,11 @@ def homePage(request):
 def homePageExtended(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    tires_num = Tire.objects.count()
+    sensor_num = Sensor.objects.count()
+    tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
 
-    context = {'vehicles':vehicles}
+    context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
     return render(request, 'user/home-extended.html', context)
 
 @login_required(login_url='index')
