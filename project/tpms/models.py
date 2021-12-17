@@ -80,6 +80,11 @@ class Location(models.Model):
 
 # rapresents a Wheel Loader (cause have 4 wheels)       
 class Vehicle(models.Model):
+    SPECC_TYPE = (
+        ('NEUTRAL', 'NEUTRAL'),
+        ('OVER', 'OVER'),
+        ('UNDER', 'UNDER'),
+    )
     id = models.CharField(max_length=50, primary_key=True)
     model = models.CharField(max_length=50, blank=True) 
     ambient_temperature = models.FloatField(blank=True, null=True, default=0)
@@ -97,6 +102,7 @@ class Vehicle(models.Model):
     tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.DO_NOTHING)
     tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.DO_NOTHING)
 
+    tire_specc = models.CharField(max_length=30, blank=True, null=True, choices=SPECC_TYPE)
     locations = models.ManyToManyField(Location, blank=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
@@ -134,7 +140,9 @@ class FleetManager(models.Model):
     def __str__(self):
         return 'Fleet Manager: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.user.first_name, self.user.last_name,self.company)      
 
-
+class K1(models.Model):
+    distance = models.IntegerField(primary_key=True)
+    value = models.FloatField(blank=True, null=True)
         
 
 

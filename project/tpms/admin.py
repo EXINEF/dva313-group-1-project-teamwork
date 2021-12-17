@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sensor, Tire, Location, Vehicle, CompanyAdministrator, FleetManager, Company
+from .models import Sensor, Tire, Location, Vehicle, CompanyAdministrator, FleetManager, Company, K1
 
 # Register your models here.
 class SensorAdmin(admin.ModelAdmin):
@@ -35,6 +35,9 @@ class FleetManagerAdmin(admin.ModelAdmin):
 class CompanyAdmin(admin.ModelAdmin):
     model = Company
 
+class K1Admin(admin.ModelAdmin):
+    model = K1
+
 admin.site.register(Sensor, SensorAdmin)
 admin.site.register(Tire, TireAdmin)
 admin.site.register(Location, LocationAdmin)
@@ -42,3 +45,4 @@ admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(CompanyAdministrator, CompanyAdministratorAdmin)
 admin.site.register(FleetManager, FleetManagerAdmin)
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(K1, K1Admin)
