@@ -163,3 +163,27 @@ double TKPHcalc(double t_a, double l, double h, double qc, double qv, double[] k
 
 
 ****************************************************************************************************************************************************
+
+
+            double f(double x)
+            {
+                //Polynomial function that returns the approximated precentage of life reduction based on loss/gained pressure in precentage.
+                double y;
+                return y = Math.Pow(x, 4) + 3.743 * Math.Pow(x, 3) - 3.882 * Math.Pow(x, 2) - 0.2472 * x + (4.436 * Math.Pow(10, -5));
+            }
+
+            double lifeSpanCalc(double ls,double t1,double t2,double p_b, double p_a)
+            {
+                /*input:
+                 *  ls = is the current lifespan 
+                 *  t1 = start time in time unit
+                 *  t2 = end time in time unit
+                 *  p_b = base pressure (constant)
+                 *  p_a = actual pressure
+                 */
+                    //return the new Lifespan by substracting (the function will return negative value) the previous lifespan with delta time multiplied with 
+                    //the amount of reduced procentage in lifespan.  It will also be reduced with a "passive" lifespan reduction. Even if the pressure is at 
+                    //perfect level, lifespan is still reduced just not as much.
+                    return ls + ((t2-t1)*f(p_a/p_b))- ((t2-t1)/ls);  
+                    /*Note: Maybe use a query to store this directly to each corresponding tire on DB?*/
+            }
