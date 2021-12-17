@@ -2,72 +2,100 @@
 
 {% block content %}
 
+<div class="bg-dark">
+    <head>
 
-<div class="container">
-    <style>
-        #map{
-            height: 400px;
-            width: 50%;
-            float: right;
-            margin-bottom: 2em;
-            margin-left: 2em;
-        }
-        a{
-            color: white;
-        }
-    </style>
+        <div class="container-fluid px-4">
 
-    <h1>{{vehicle.id}} Information Page</h1>
+            <h1 class="text-white">{{vehicle.id}} Information Page</h1>
+            <div style="text-align: right;" class="">
+                <div style="text-align: right;">
+                    <button class="btn btn-light" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Edit
+                    </button>
+                    <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Delete
+                    </button>
+            </div>
 
-    <div style="text-align: right;" class="">
-        <a class ="btn btn-dark" href="{% url 'edit-vehicle' vehicle.id %}">Edit</a>
-        <a class="btn btn-dark" href="{% url 'delete-vehicle' vehicle.id %}">Delete</a>
-    </div>
-    <br>
-    <div id="map" style="text-align: right;width: 50%;"></div>
+        </div>
 
-    <div>
-            <h4>Company: {{vehicle.company}}</h4>
-            <h4>Model: {{vehicle.model}}</h4>
-            <h4>Consumed Fuel: {{vehicle.consumed_fuel}}</h4>
-            <h4>Ambient Temperature: {{vehicle.ambient_temperature}}</h4>
-            <h4>Machine Hours Empty: {{vehicle.machine_hours_empty}}</h4>
-            <h4>Machine Hours Loaded: {{vehicle.machine_hours_loaded}}</h4>
-            <h4>Distance Driven Empty: {{vehicle.distance_driven_empty}}</h4>
-            <h4>Distance Driven Loaded: {{vehicle.distance_driven_loaded}}</h4>
-            <h4>Payload Empty: {{vehicle.payload_empty}}</h4>
-            <h4>Payload Loaded: {{vehicle.payload_loaded}}</h4>
-    </div>
+        
 
-<div class="container">
-    <br>
-    <h3>Vehicle's Tires</h3>
+
+    </head>
+
+    <body>
+        <div class="container-fluid px-4">
+            <style>
+                #map{
+                    height: 400px;
+                    width: 50%;
+                    float: right;
+                    margin-bottom: 2em;
+                    margin-left: 2em;
+                }
+                a{
+                    color: white;
+                }
+            </style>
+        
+           
+            <br>
+            <div id="map" style="text-align: right;width: 50%;"></div>
+        
+            <div>
+                    <h4 class="text-white">Company: {{vehicle.company}}</h4>
+                    <h4 class="text-white">Model: {{vehicle.model}}</h4>
+                    <h4 class="text-white">Consumed Fuel: {{vehicle.consumed_fuel}}</h4>
+                    <h4 class="text-white">Ambient Temperature: {{vehicle.ambient_temperature}}</h4>
+                    <h4 class="text-white">Machine Hours Empty: {{vehicle.machine_hours_empty}}</h4>
+                    <h4 class="text-white">Machine Hours Loaded: {{vehicle.machine_hours_loaded}}</h4>
+                    <h4 class="text-white">Distance Driven Empty: {{vehicle.distance_driven_empty}}</h4>
+                    <h4 class="text-white">Distance Driven Loaded: {{vehicle.distance_driven_loaded}}</h4>
+                    <h4 class="text-white">Payload Empty: {{vehicle.payload_empty}}</h4>
+                    <h4 class="text-white">Payload Loaded: {{vehicle.payload_loaded}}</h4>
+            </div>
     
-    <table class="table table-dark table-striped">
-    <thead>
+            </div>
         
-        <tr>
-        <th scope="col">POSITION</th>
-        <th scope="col">Tire ID</th>
-        <th scope="col">Sensor ID</th>
-        <th scope="col">TEMPERATURE</th>
-        <th scope="col">PRESSURE</th>
-        <th scope="col">remaining life</th>
-        <th scope="col">baseline pressure</th>
-        <th scope="col">fill material</th>
-        </tr>
-
-    </thead>
-    <tbody>
+        <div class="container">
+            <br>
+            <h3>Vehicle's Tires</h3>
+            
+            <table class="table table-dark table-striped">
+            <thead>
+                
+                <tr>
+                <th scope="col">POSITION</th>
+                <th scope="col">Tire ID</th>
+                <th scope="col">Sensor ID</th>
+                <th scope="col">TEMPERATURE</th>
+                <th scope="col">PRESSURE</th>
+                <th scope="col">remaining life</th>
+                <th scope="col">baseline pressure</th>
+                <th scope="col">fill material</th>
+                </tr>
         
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_front pos='Front Left' %}
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Rear Left' %}
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Front Right' %}
-        {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Rear Right' %}
-    </tbody>    
-    </table>
+            </thead>
+            <tbody>
+                
+                {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_front pos='Front Left' %}
+                {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_left_rear pos='Rear Left' %}
+                {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_front pos='Front Right' %}
+                {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Rear Right' %}
+            </tbody>    
+            </table>
+            </div>
+        </div>
+        
+    
+    
     </div>
+        
+    </body>
+
 </div>
+
+
 
     <script>
             function initMap(){
