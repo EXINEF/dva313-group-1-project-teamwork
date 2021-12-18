@@ -32,6 +32,7 @@ namespace CopilotApp
             TireBackLeftPressedCommand = new Command(TireBackLeftPressed);
             TireBackRightPressedCommand = new Command(TireBackRightPressed);
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
+            TKPHCalculations.LoadK1Data();
     }
 
 
