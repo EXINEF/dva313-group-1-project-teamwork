@@ -2,13 +2,18 @@
 
 {% block content %}
 
-
+<style>
+    a{
+        color: white; 
+    }
+</style>
 <div class="container">
 
     <h1>TIRE Home Page</h1>
-    <a href="{% url 'edit-tire' tire.id %}">Edit</a>
-    <a href="{% url 'delete-tire' tire.id %}">Delete</a>
-    
+    <div style="text-align: right;">
+        <a class="btn btn-dark" href="{% url 'edit-tire' tire.id %}">Edit</a>
+        <a class="btn btn-dark" href="{% url 'delete-tire' tire.id %}">Delete</a>
+    </div>
     <h2>ID: {{tire.id}}</h2>
 
     <h4>remaining life: {{tire.remaining_life}}</h4>

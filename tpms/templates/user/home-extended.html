@@ -13,7 +13,6 @@
     <button class="btn btn-dark" onclick = "location.href='home'">Simple View</button> 
   </div>
 
-  <!--I do not quite know why this is not writing out the same as in simple view, it is the same code... just copied. -->
   <h3>Company: {{fleet_manager.company}}</h3>
   <div class="row">
       <div class="col-sm">
@@ -38,6 +37,8 @@
         <th onclick="sortTable(0)"scope="col">Vehicle (ID)</th> <!--The data should show the vehicle ID, static, non pressable button?-->
         <th onclick="sortTable(1)"scope="col">Model</th> <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
         <th onclick="sortTable(2)"scope="col">Biggest / most active</th> <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
+        <th onclick="sortTable(1)"scope="col">Tire (ID)</th>
+        <!--<th onclick="sortTable(1)"scope="col">Sensor (ID)</th>-->
         <th onclick="sortTable(3)"scope="col">Sensor battery</th> <!-- Sensor Battery, the data should show every sensor and which is most likely to run out of battery when pressed the lowest battery number should show highest-->
         <th onclick="sortTable(4)"scope="col">Lifespan of tire</th> <!-- Lifespan of tire, the data should show the tire that is going to break fastest, when pressed the tire date to end closest to todays date should show highest in list-->
         <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
@@ -46,30 +47,49 @@
     </thead>
     <tbody>
       <!--This must be done for each tire or something. that way we get all the tires. then the data should show for each tire, that tire vehicle ID and that tire sensor data and so on-->
-        {% for vehicle in vehicles %}
-            <tr>
-            <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: white;">{{vehicle.id}}</a></th>
+     
+     
+      {% for vehicle in vehicles %}
+        <tr>
+        <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: white;">{{vehicle.id}}</a></th>
+        <td>{{vehicle.model}} </td>
 
-            {% if vehicle.model is "" %}
-                <td>NULL</td>
-            {% else %}
-                <td>{{vehicle.model}} </td>
-            {% endif %}
+        <td>{{vehicle.machine_hours_loaded }}</td> <!--+ vehicle.machine_hours_loaded-->
 
-            <td>{{vehicle.machine_hours}}</td>
-            <!--These I want to get vertically than horisontally.. and then its vehicle ID should be duplicated... Get another way of thinking -->
-            {% for tire in vehicle.tires.all%}
-
-            <td>{{tire.sensor.remaining_battery}}</td>
-
-            <td>{{tire.remaining_life}}</td>
-            {%endfor%}
-            
-            <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: white"></i></a></td>
-            <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt" style="color:white"></i></a></td>
-            </tr>
-        {% endfor %}
+        {% include "user/extended-row.html" with tire=vehicle.tire_left_front %}
+        {% include "user/extended-row.html" with tire=vehicle.tire_left_rear  %}
+        {% include "user/extended-row.html" with tire=vehicle.tire_right_front  %}
+        {% include "user/extended-row.html" with tire=vehicle.tire_right_rear  %}
         
+        <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: white"></i></a></td>
+        <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt" style="color:white"></i></a></td>
+        </tr>
+      {% endfor %}
+        
+
+
+        <!--
+
+          <tr> 
+    <th scope="row">{{pos}}</a></th>
+    {% if tire is None %}
+        <td>MISSING TIRE</td>
+    {% else %}
+        <td><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></td>    
+        {% if tire.sensor is None %}
+            <td>MISSING SENSOR</td>
+        {% else %}  
+            <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
+            <td>{{tire.sensor.temperature}}</td>
+            <td>{{tire.sensor.pressure}}</td>
+            <td>{{tire.remaining_life}}</td>
+            <td>{{tire.baseline_pressure}}</td>
+            <td>{{tire.fill_material}}</td>
+        {% endif %}
+    {% endif %}
+</tr>
+
+        -->
     </tbody>
     </table>
     

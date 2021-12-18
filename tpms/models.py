@@ -46,8 +46,7 @@ class Tire(models.Model):
     revolutions = models.FloatField(blank=True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
-    # TODO OneToOne Rel (One sensor can only be on one Tire)
-    sensor = models.ForeignKey(Sensor, on_delete=models.DO_NOTHING, blank=True, null=True)
+    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.DO_NOTHING)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     """
@@ -68,13 +67,12 @@ class Tire(models.Model):
 
     """
     
-    
     def __str__(self):
         return 'Tire: ' + self.id
 
 class Location(models.Model):
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
@@ -82,6 +80,11 @@ class Location(models.Model):
 
 # rapresents a Wheel Loader (cause have 4 wheels)       
 class Vehicle(models.Model):
+    SPECC_TYPE = (
+        ('NEUTRAL', 'NEUTRAL'),
+        ('OVER', 'OVER'),
+        ('UNDER', 'UNDER'),
+    )
     id = models.CharField(max_length=50, primary_key=True)
     model = models.CharField(max_length=50, blank=True) 
     ambient_temperature = models.FloatField(blank=True, null=True, default=0)
@@ -94,17 +97,12 @@ class Vehicle(models.Model):
     payload_loaded = models.FloatField(blank=True, null=True, default=0)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
-    # TODO maybe it could be better to have the 4 tires OneToOne Rel instead a ManyToMany
-    tires = models.ManyToManyField(Tire, blank=True)
+    tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.DO_NOTHING)
+    tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.DO_NOTHING)
+    tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.DO_NOTHING)
+    tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.DO_NOTHING)
 
-    # TODO so like this
-    """
-    tire_left_up = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    tire_left_down = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    tire_right_up = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    tire_right_down = models.OneToOneField(Tire, null=True, on_delete=models.DO_NOTHING)
-    """
-
+    tire_specc = models.CharField(max_length=30, blank=True, null=True, choices=SPECC_TYPE)
     locations = models.ManyToManyField(Location, blank=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
@@ -118,40 +116,33 @@ class Vehicle(models.Model):
         return 'Wheel Loader'
 
 class CompanyAdministrator(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50, blank=True) 
-    last_name = models.CharField(max_length=50, blank=True) 
-    email = models.CharField(max_length=50, blank=True)
-    phone = models.CharField(max_length=50, blank=True) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=50, blank=True, null=True) 
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
     
     def __str__(self):
-        return 'Company Administrator: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.first_name, self.last_name,self.company)       
+        return 'Company Administrator: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.user.first_name, self.user.last_name, self.company)       
 
 class FleetManager(models.Model):
     HOME_VIEW = (
         ('SIMPLE', 'SIMPLE'),
         ('EXTENDED', 'EXTENDED'),
     )
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50, blank=True) 
-    last_name = models.CharField(max_length=50, blank=True)
-    email = models.CharField(max_length=50, blank=True) 
-    phone = models.CharField(max_length=50, blank=True) 
-
-    # TODO for save the favourite view of the fleet manager
-    # home_view = models.CharField(max_length=30, null=True, default="SIMPLE", choices=HOME_VIEW)
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=50, blank=True, null=True) 
+    home_view = models.CharField(max_length=30, choices=HOME_VIEW)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return 'Fleet Manager: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.first_name, self.last_name,self.company)      
+        return 'Fleet Manager: %s ( %s %s ) COMPANY: %s' % (self.user.username, self.user.first_name, self.user.last_name,self.company)      
 
-
+class K1(models.Model):
+    distance = models.IntegerField(primary_key=True)
+    value = models.FloatField(blank=True, null=True)
         
 
 
