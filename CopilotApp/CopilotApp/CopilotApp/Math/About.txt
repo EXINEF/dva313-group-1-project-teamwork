@@ -1,1 +1,189 @@
 ﻿Math functions for the TPMS system
+
+
+Added two functions where TKPH is what is called to calculate the TKPH PER DAY and when array is 7 or above, it will update DB. 
+The array tkph1 (excuse the name :P) is where we store tkph for each day. 
+When function TKPH detects that the tkph1 has 7 elemets after the last element is inserted, it will add/update table in our DB
+and clear the current array tkph (set it to null). 
+
+Regarding the parameters, we can be flexible by only having velocity instead of l and h. 
+
+
+NOTE:  This is per tyre.
+
+
+*****************************************************************************************************************************************
+
+
+double[] TKPH(double t_a, double l, double h, double qc, double qv, double[] k1, double[] tkph1, bool used)
+{
+    /*Can change the input parameters if we rather have velocity V rather than l and h.
+     *
+     *input: 
+     *  t_a = ambient temperature
+     *  l = cycle lenght (or total lenght during that day)
+     *  h = cycle hours (or total hours during that day)
+     *  qc = is the load per tyre in ton (TKPH) on a laden vehicle.
+     *  qv = is the load per tyre in ton (TKPH) on an unladen vehicle
+     *  k1 = array of k1 values
+     *  tkph1 = array with stores TKPH for each day
+     *  used = indicated if the machines has been used that day. 
+     */
+
+     //new array to store the current TKPH and then add the new one to the last index
+     //This part could probably be handeled outside of the function.
+     double[] updTkph;
+
+     if (tkph1 != null)
+     {
+         updTkph = new double[tkph1.Length + 1];
+     }
+     else
+     {
+         updTkph = new double[1];
+     }
+
+
+    //if machines has not been used during that day, then we just set TKPH as 0.
+    if (used == false)
+    {
+     
+        for(int i = 0; i<tkph1.Length;i++)
+        {
+            updTkph[i] = tkph1[i];
+        }
+        updTkph[tkph1.Length] = 0;
+    }
+    else
+    { 
+
+        for (int i = 0; i < tkph1.Length; i++)
+        {
+            updTkph[i] = tkph1[i];
+        }
+
+        updTkph[tkph1.Length] = TKPHcalc(t_a, l, h, qc, qv, k1);
+    }
+
+    if (tkph1.Length+1 >= 7)
+    {
+        //checks how many days the machine has not been used.
+        int nOfzero = 0;
+        for (int i = 0; i>=updTkph.Length; i++)
+        {
+            if (updTkph[i] == 0)
+            {
+                nOfzero++;
+            }
+           
+        }
+        double rsTKPH;
+        //calculates the average TKPH that week. The days are reduced thanks to nOfZero.
+        rsTKPH = updTkph.Sum() / (updTkph.Length-nOfzero);
+
+        //Insert query here to ADD the rsTKPH to DB table with all of the rest tkph.  
+
+        //Now clear this arr
+        updTkph = null;
+    }
+
+    return updTkph;
+}
+
+
+
+*************************************************************************************************************************************
+double TKPHcalc(double t_a, double l, double h, double qc, double qv, double[] k1)
+{
+    /*
+    TKPHcalc -
+    Here we calculate the real cite TKPH for one cycle. This will be multiplied by the coefficient k1 if the cycle lenght exceeds 5km 
+    and k2 if the ambient temperature is below or above the referenced temperature of 38C. 
+
+   Input:
+    t = Ambient temperature. Should be gathered from the vehicle
+    l = The lenght of a cycle
+    h = The duration of a cycle
+
+    qc = is the load per tyre in ton (TKPH) on a laden vehicle.
+    qv = is the load per tyre in ton (TKPH) on an unladen vehicle
+    Note: Assume Qv and Qc is given and the TKPH will be the same on each tire.
+
+   k1 = the coeffecient give by the michelin document. This should be an array taken from a database where such values exists.
+
+   Output:
+    The calculated TKPH value for the current cycle.
+
+   Note when calculating Qm for the future:
+   "The Qm calculation should theoretically be made for
+    each tyre. However, in practice, specifi c tyre loads are not
+    normally available; therefore, this leads to the assumption
+    that each tyre on the same axle carries an equal load.
+    When calculating the average load per tyre on the front
+    and the rear axles, the greatest value of Qm shall be used
+    in TKPH (TMPH) calculation."
+    */
+
+
+
+    if (k1 == null)
+    {
+        throw new ArgumentException("Parameter cannot be null");
+    }
+
+
+    //Assume reference temperature is 38
+    int t_ref = 38;
+    double k2;
+
+    //average load per tyre
+    double qm = (qc + qv) / 2;
+    //The number of km covered in one cycle
+    double vm = l / h;
+
+    //Calculate k2 where if t_a is higher than t_ref then we use formula (1). If t_a is below t_ref then use formula 2.
+    //Good to know if t_a = t_ref then k2 will be = 1.
+    if (t_a > 38)
+    {
+        k2 = 1 / (1 - ((0.4 * (t_a - t_ref)) / vm));
+    }
+    else
+    {
+        k2 = 1 / (1 - ((0.25 * (t_a - t_ref)) / vm));
+    }
+
+
+    //Calculating the basic TKPH where k1 is a array where each index is a km-1 meaning that from index 0 to 3 will have the value 1.
+    double TKPH1 = qm * vm * k1[Convert.ToInt32(l - 1)] * k2;
+
+    return TKPH1;
+
+}
+
+
+
+****************************************************************************************************************************************************
+
+
+            double f(double x)
+            {
+                //Polynomial function that returns the approximated precentage of life reduction based on loss/gained pressure in precentage.
+                double y;
+                return y = Math.Pow(x, 4) + 3.743 * Math.Pow(x, 3) - 3.882 * Math.Pow(x, 2) - 0.2472 * x + (4.436 * Math.Pow(10, -5));
+            }
+
+            double lifeSpanCalc(double ls,double t1,double t2,double p_b, double p_a)
+            {
+                /*input:
+                 *  ls = is the current lifespan 
+                 *  t1 = start time in time unit
+                 *  t2 = end time in time unit
+                 *  p_b = base pressure (constant)
+                 *  p_a = actual pressure
+                 */
+                    //return the new Lifespan by substracting (the function will return negative value) the previous lifespan with delta time multiplied with 
+                    //the amount of reduced procentage in lifespan.  It will also be reduced with a "passive" lifespan reduction. Even if the pressure is at 
+                    //perfect level, lifespan is still reduced just not as much.
+                    return ls + ((t2-t1)*f(p_a/p_b))- ((t2-t1)/ls);  
+                    /*Note: Maybe use a query to store this directly to each corresponding tire on DB?*/
+            }
