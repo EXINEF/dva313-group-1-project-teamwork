@@ -9,7 +9,7 @@ using MySqlConnector;
 
 namespace CopilotApp
 {
-    public partial class TirePageViewmodel : INotifyPropertyChanged
+    public class TirePageViewmodel : INotifyPropertyChanged
     {
         //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
         //So we'll just keep automatically updated copies here for now.
@@ -62,7 +62,7 @@ namespace CopilotApp
         void FetchTireData()
         {
             string query = "SELECT baseline_pressure, fill_material, tread_depth FROM tpms_tire WHERE id = '1'";
-            MySqlDataReader reader = Database.SendQuery(query);
+            MySqlDataReader reader = (Database.SendQuery(query)).Result;
 
             if (reader != null)
             {

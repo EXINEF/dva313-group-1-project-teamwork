@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MySqlConnector;
+using Xamarin.Essentials;
 
 namespace CopilotApp
 {
@@ -55,19 +57,19 @@ namespace CopilotApp
             //Combine into a single statement
             string sqlStatement = sqlStatementPart1 + " " + sqlStatementPart2;
             
-            int nrOfRowsAffected = SendNonQuery(sqlStatement);
+            int nrOfRowsAffected = SendNonQuery(sqlStatement).Result;
         }
 
         public static void SendSensorData(string tireID, string pressure, string temperature)
         {
             string sqlStatement = "INSERT INTO sensors(ID, pressure, temperature) VALUES(" + tireID + "," + pressure + "," + temperature + "," + ")";
-            int nrOfRowsAffected = SendNonQuery(sqlStatement);
+            int nrOfRowsAffected = SendNonQuery(sqlStatement).Result;
         }
 
-        public static void SendMachineData(int machineID, GPS location)
+        public static void SendMachineData(int machineID, Location location)
         {
-            string sqlStatement = "INSERT INTO machine(ID, latitude, longitude) VALUES(" + machineID + "," + location.latitude + "," + location.longitude + ")";
-            int nrOfRowsAffected = SendNonQuery(sqlStatement);
+            string sqlStatement = "INSERT INTO machine(ID, latitude, longitude) VALUES(" + machineID + "," + location.Latitude + "," + location.Longitude + ")";
+            int nrOfRowsAffected = SendNonQuery(sqlStatement).Result;
         }
 
         //Takes neccessary credentials and return a string in the correct format needed to initialize a SQL connection.
@@ -78,14 +80,14 @@ namespace CopilotApp
         }
 
         //SQL DATETIME requires a particular format
-        private string GetSQLDateTime()
+        public static string GetSQLDateTime()
         {
             DateTime myDateTime = DateTime.Now;
             return myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
 
         //Used for SQL statements that only inserts or updates values and only returns an int showing the number of rows affected
-        public static async int SendNonQuery(string sqlStatement)
+        public static async Task<int> SendNonQuery(string sqlStatement)
         {
             Console.WriteLine("Sending SQL statement: " + sqlStatement);
 
@@ -106,7 +108,7 @@ namespace CopilotApp
                 mySQLConnection.Open();
 
                 //Executue SQL command(Send statement to database)
-                nrOfRowsAffected = sqlCmd.ExecuteNonQuery();
+                nrOfRowsAffected = await sqlCmd.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -117,7 +119,7 @@ namespace CopilotApp
         }
 
         //Used for SQL queries that grabs data from the database.
-        public static async MySqlDataReader SendQuery(string query)
+        public static async Task<MySqlDataReader> SendQuery(string query)
         {
             Console.WriteLine("Sending Query: " + query);
 
@@ -139,7 +141,7 @@ namespace CopilotApp
                 mySQLConnection.Open();
 
                 //Executue SQL command(Send query to database). Returns a MySqlDataReader object containing the query data.
-                sqlDataReader = sqlCmd.ExecuteReader();
+                sqlDataReader = await sqlCmd.ExecuteReaderAsync();
             }
             catch (Exception ex)
             {

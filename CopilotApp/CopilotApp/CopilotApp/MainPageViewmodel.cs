@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace CopilotApp
 {
-    public partial class MainPageViewmodel : INotifyPropertyChanged
+    public class MainPageViewmodel : INotifyPropertyChanged
     {
         
         //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
