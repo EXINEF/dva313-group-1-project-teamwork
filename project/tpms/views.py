@@ -37,22 +37,20 @@ def homePage(request):
     tires_num = Tire.objects.count()
     sensor_num = Sensor.objects.count()
 
-#Here would add, get the home val from fleet_manager.home_view. and then also set the homeview to the database from the input 
-
     context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
-    return render(request, 'user/home.html', context) #Then only render /home
+    return render(request, 'user/home.html', context) 
 
-@login_required(login_url='index') #This one would be removed 
-@fleet_manager_only
-def homePageExtended(request):
-    fleet_manager = FleetManager.objects.get(user=request.user)
-    vehicles = Vehicle.objects.filter(company=fleet_manager.company)
-    tires_num = Tire.objects.count()
-    sensor_num = Sensor.objects.count()
-    tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
+#@login_required(login_url='index') #This one would be removed 
+#@fleet_manager_only
+#def homePageExtended(request):
+ #  fleet_manager = FleetManager.objects.get(user=request.user)
+  #vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+   # tires_num = Tire.objects.count()
+    #sensor_num = Sensor.objects.count()
+    #tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
 
-    context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
-    return render(request, 'user/home-extended.html', context)
+    #context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
+    #return render(request, 'user/home-extended.html', context)
 
 @login_required(login_url='index')
 @fleet_manager_only
