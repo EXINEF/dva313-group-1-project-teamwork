@@ -40,7 +40,7 @@ def homePage(request):
 #Here would add, get the home val from fleet_manager.home_view. and then also set the homeview to the database from the input 
 
     context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
-    return render(request, 'user/home-simple.html', context) #Then only render /home
+    return render(request, 'user/home.html', context) #Then only render /home
 
 @login_required(login_url='index') #This one would be removed 
 @fleet_manager_only

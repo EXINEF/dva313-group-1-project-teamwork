@@ -1,223 +1,140 @@
 {% extends 'core/base-template.html' %}
-
 {% block content %}
-<!--
-<div class="container">
-    <h1>Fleet Manager Home Page</h1>
-    <h3>Company: {{fleet_manager.company}}</h3>
-    <div class="row">
-        <div class="col-sm">
-            <h4>Vehicles: {{vehicles.count}}</h4>
+<div class="container-fluid px-4" >
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   <meta name="description" content="" />
+   <meta name="author" content="" />
+   <title>Volvo TPMS</title>
+   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+   <link href="css/styles.css" rel="stylesheet" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+      crossorigin="anonymous"></script>
+      
+   
+   <div class="card-sm">
+      <div class="card-body">
+        <div style="text-align: right;">
+          <button class="btn btn-light" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add new
+          Vehicle</button>
+          <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add new
+          Tire</button>
+          <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add new
+          Sensor</button>
         </div>
-        <div class="col-sm">
-            <h4>Tires: {{tires_num}}</h4>
+        
+         <h1 class="text-white">Fleet Manager Overview</h1>
+         <h3 class="text-white">Company: {{fleet_manager.company}}</h3>
+         <div class="row">
+          <div class="col-sm">
+             <h4 class="text-white">Vehicles: {{vehicles.count}}</h4>
+          </div>
+          <div class="col-sm">
+             <h4 class="text-white">Tires: {{tires_num}}</h4>
+          </div>
+          <div class="col-sm">
+             <h4 class="text-white">Sensors: {{sensor_num}}</h4>
+          </div>
+       </div>
+      </div>
+   </div>
+  
+</head>
+
+<body class="bg-dark">
+   <!--Warning Cards-->
+<div class="row">
+   <div class="col-xl-4 col-md-4">
+       <div class="card bg-warning text-white mb-4">
+           <div class="card-body">Warning Card</div>
+           <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">View Details</a>
+               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+           </div>
+           <div class="collapse" id="collapse1" style>
+            <div class="card card-body bg-warning">
+               {% for vehicle in vehicles%}
+               <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+               {% endfor %}
+            </div>
         </div>
-        <div class="col-sm">
-            <h4>Sensors: {{sensor_num}}</h4>
+       </div>
+   </div>
+  
+   <div class="col-xl-4 col-md-4">
+       <div class="card bg-danger text-white mb-4">
+           <div class="card-body">Danger Card</div>
+           <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">View Details</a>
+               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+           </div>
+           <div class="collapse" id="collapse2" style>
+            <div class="card card-body bg-danger">
+               {% for vehicle in vehicles%}
+               <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+               {% endfor %}
+            </div>
+        </div>
+       </div>
+   </div>
+   <div class="col-xl-4 col-md-4">
+    <div class="card bg-info text-white mb-4">
+        <div class="card-body">Inventory</div>
+        <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapse3">View Details</a>
+            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        </div>
+        <div class="collapse" id="collapse3" style>
+            <div class="card card-body bg-info">
+               {% for vehicle in vehicles%}
+               <a class="collapse-item" href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+               {% endfor %}
+            </div>
         </div>
     </div>
-    <h4><a href="{% url 'add-vehicle' %}">Add a new Vehicle</a></h4>
-    <h4><a href="{% url 'add-tire' %}">Add a new Tire</a></h4>
-    <h4><a href="{% url 'add-sensor' %}">Add a new Sensor</a></h4>
+</div>
+</div>
+   <!--Warning Cards Ends-->
 
-     HAVE TO IMPLEMENT THE CHOICE BEETWEEN SIMPLE AND EXTENDED VIEW 
-    {% if True %}
-    {% endif %}
+<!--Table-->   
+<div class="card mb-4">
+  <div class="card-header">
+     <h2>My Vehicles</h2>
+   </div>
+      <table class="table table table" id="sortTable">
+         <thread>
+            <tr>
+               <th scope="col">Vehicle (ID)</th>
+               <th scope="col">Type</th>
+               <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
+               <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
+            </tr>
+         </thread>
+         <tbody>
+            <tr>
+               {% for vehicle in vehicles %}
+            <tr>
+               <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
+               <td>{{vehicle.getType}}</td>
+               <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a>
+               </td>
+               <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"
+                  style="color:black"></i></a></td>
+            </tr>
+            {% endfor %}
+            </tr>
+         </tbody>
+
+      </table>
+      
+   </div>
 
 </div>
--->
-
-<div class="container-fluid px-4" >
-    <head>
-       <meta charset="utf-8" />
-       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-       <meta name="description" content="" />
-       <meta name="author" content="" />
-
-       <title>Volvo TPMS</title>
-
-       <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-       <link href="css/styles.css" rel="stylesheet" />
-
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-
-       <div class="card-sm">
-            <div class="card-body">
-                <div style="text-align: right;">
-                    <button class="btn btn-light" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add newVehicle</button>
-                    <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add new Tire</button>
-                    <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add newSensor</button>
-                    <button class="btn btn-light" onclick="location.href='home-extended'">Extended View</button>
-                </div>
-            
-                <h1 class="text-white">Fleet Manager Overview</h1>
-                <h3 class="text-white">Company: {{fleet_manager.company}}</h3>
-                
-                <div class="row">
-                    <div class="col-sm">
-                        <h4 class="text-white">Vehicles: {{vehicles.count}}</h4>
-                    </div>
-                    <div class="col-sm">
-                        <h4 class="text-white">Tires: {{tires_num}}</h4>
-                    </div>
-                    <div class="col-sm">
-                        <h4 class="text-white">Sensors: {{sensor_num}}</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </head>
-
-    <body class="bg-dark">
-        <!--Warning Cards-->
-        <div class="row">
-            <!--
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-primary text-white mb-4">
-                    <div class="card-body">Primary Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            -->
-            <div class="col-xl-4 col-md-4">
-                <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">Warning Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-4">
-                <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Danger Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-4">
-                <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Success Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-       <!--Warning Cards Ends-->
-
-    <!--When the database says SIMPLE for the fleetmanager overview then show this table.-->
-    <!--{if fleet_manager.home_view == SIMPLE}-->
-    <!--Table-->   
-        <div class="card mb-4">
-            <div class="card-header">
-                <h2>My Vehicles (SIMPLE View)</h2>
-            </div>
-            <table class="table table table" id="sortTable">
-                <thread>
-                    <tr>
-                        <th onclick="sortTable(0)" scope="col">Vehicle (ID)</th>
-                        <th onclick="sortTable(1)" scope="col">Type</th>
-                        <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
-                        <th onclick="sortTable(2)" scope="col">Attention Value</th>
-                        <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
-                        <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
-                        <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
-                    </tr>
-                </thread>
-                <tbody>
-                    <tr>
-                        {% for vehicle in vehicles %}
-                        <tr>
-                            <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
-                            <td>{{vehicle.getType}}</td>
-                            <td>{{vehicle.getAttentionValue}}</td>
-                            <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a> </td>
-                            <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"style="color:black"></i></a></td>
-                        </tr>
-                        {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
-</div>
-
-<!-- This will be the spot for the Extended table: 
-    {if fleet_manager.home_view == EXTENDED}
-
-    enter table from home-extended.html
-
--->
-
-
-
-    <!--For now this doesn't work with for loops this is troubling for the onclick... or maybe just the script code-->
-  
-<script>
-    function sortTable(n) {
-      // Set the sorting direction to ascending:
-      var table = document.getElementById("sortTable"), rows, switching = true, i, x, y, shouldSwitch, dir = "asc", switchcount = 0;
-      /* Make a loop that will continue until
-      no switching has been done: */
-      while (switching) {
-        // Start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /* Loop through all table rows (except the
-        first, which contains table headers): */
-        for (i = 1; i < (rows.length - 1); i++) {
-          // Start by saying there should be no switching:
-          shouldSwitch = false;
-          /* Get the two elements you want to compare,
-          one from current row and one from the next: */
-          x = rows[i].getElementsByTagName("TD")[n];
-          y = rows[i + 1].getElementsByTagName("TD")[n];
-          /* Check if the two rows should switch place,
-          based on the direction, asc or desc: */
-          if (dir == "asc") {
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
-            }
-          } else if (dir == "desc") {
-            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
-            }
-          }
-        }
-        if (shouldSwitch) {
-          /* If a switch has been marked, make the switch
-          and mark that a switch has been done: */
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-          switching = true;
-          // Each time a switch is done, increase this count by 1:
-          switchcount++;
-        } else {
-          /* If no switching has been done AND the direction is "asc",
-          set the direction to "desc" and run the while loop again. */
-          if (switchcount == 0 && dir == "asc") {
-            dir = "desc";
-            switching = true;
-          }
-        }
-      }
-    }
- </script>
+<!--Table Ends-->
+</body>
 
 
 
 {% endblock content %}
-
-
-
