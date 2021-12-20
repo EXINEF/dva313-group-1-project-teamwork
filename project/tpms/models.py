@@ -37,6 +37,41 @@ class Sensor(models.Model):
     def __str__(self):
         return 'Sensor: ' + self.id
 
+
+class Used(models.Model):
+   
+    id = models.CharField(max_length=50, primary_key=True)
+    
+    
+
+    def __str__(self):
+        return 'Used(yes/no):%d' % (self.id)    
+
+
+class Yes(models.Model):
+   
+    remaining_life = models.FloatField(blank=True, null=True)
+    set_up_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    swap_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    
+    used = models.OneToOneField(Used, blank=True, null=True, on_delete=models.DO_NOTHING)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.DO_NOTHING, blank=True, null=True)
+
+    def __str__(self):
+        return 'Used(yes):%d Remaining_life:%f Set_up_datetime:%f Swap_datetime:%f' % (self.id, self.remaining_life, self.set_up_datetime, self.swap_datetime)     
+
+class No(models.Model):
+   
+    location = models.CharField(max_length=50, blank=True) 
+    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    
+    used = models.OneToOneField(Used, blank=True, null=True, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return 'Used(no):%d Location:%f creation_datetime:%f ' % (self.id, self.location, self.creation_datetime)    
+
+
+
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     remaining_life = models.FloatField(blank=True, null=True)
