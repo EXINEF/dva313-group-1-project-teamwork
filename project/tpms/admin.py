@@ -36,6 +36,8 @@ class CompanyAdmin(admin.ModelAdmin):
     model = Company
 
 class K1Admin(admin.ModelAdmin):
+    ordering = ('distance', 'value')
+    list_display = ('distance', 'value')
     model = K1
 
 admin.site.register(Sensor, SensorAdmin)
