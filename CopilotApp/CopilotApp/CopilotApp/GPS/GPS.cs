@@ -8,19 +8,22 @@ namespace CopilotApp
 {
     public class GPS
     {
-        public static double lastKnownLongitude = 0.0;
-        public static double lastKnownLatitude = 0.0;
-
         //Async request coordinates from the android device internal GPS system
         public async static Task<Location> GetCoordinates()
         {
             var result = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
-
-            lastKnownLongitude = result.Longitude;
-            lastKnownLatitude = result.Latitude;
-
             return result;
         }
 
+        public async static void UpdateCoordinates()
+        {
+            var result = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
+
+            if (result != null)
+            {
+                GPSData.latitude = result.Latitude.ToString();
+                GPSData.longitude = result.Longitude.ToString();
+            }
+        }
     }
 }
