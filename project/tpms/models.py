@@ -109,8 +109,9 @@ class Vehicle(models.Model):
     def __str__(self):
         return 'Vehicle model: ' + self.model + ' ID: ' + self.id
     
-    def getAttentionValue(self):
-        return attentionValueCalculator()
+    def getStatus(self, status):
+        # TODO calculate this Status with an algorithm
+        return status
 
     def getType(self):
         return 'Wheel Loader'
