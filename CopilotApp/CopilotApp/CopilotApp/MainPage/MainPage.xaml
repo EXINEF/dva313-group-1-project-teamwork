@@ -6,7 +6,7 @@
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="Black">
 
-    <!-- Used to bind the stuff like buttonpresses and auto updates of UI text etc to the a C# function in MainPageViewmodel.cs 
+    <!-- Used to bind stuff like buttonpresses and entries etc to the a C# function in MainPageViewmodel.cs 
          Basically tells this xaml page where to look for C# functionality -->
     <ContentPage.BindingContext>
         <local:MainPageViewmodel/>

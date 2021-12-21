@@ -8,7 +8,7 @@ namespace CopilotApp
 {
     public partial class TKPHCalculations
     {
-        //private static Dictionary<string, double> k1Values = new Dictionary<string, double>();
+        //private static Dictionary<string, double> k1Values = new Dictionary<string, double>(); <-- Exists in TKPHCalculations.cs
         private static string k1FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "k1values.csv");
         
         public static async void LoadK1Data()
@@ -28,7 +28,7 @@ namespace CopilotApp
                         continue;
                     }
 
-                    // split line, eg.: 1, 1.05  =>  values[0] = 1, values[1] = 1.05
+                    // split line, eg.: "1, 1.05"  =>  values[0] = 1, values[1] = 1.05
                     var values = line.Split(',');
 
                     string distance = values[0];
@@ -110,7 +110,7 @@ namespace CopilotApp
                 string distance = reader["distance"].ToString();
                 double value = double.Parse(reader["value"].ToString());
 
-                //If key (k1Values[distance]) is already in the dictionary, update the value for the key, otherwise .Add new entry (distance, value) 
+                //If key (k1Values[distance]) is already in the dictionary, update the value for the key, otherwise add new entry
                 if (k1Values.ContainsKey(distance))
                 {
                     k1Values[distance] = value;
@@ -121,7 +121,7 @@ namespace CopilotApp
                 }
             }
 
-            //Store the dictionary to a file, comma separeted:  | key, value  |
+            //Save the dictionary to a file, comma separeted:   | key, value  |
             //                                                  |_____________|
             //                                                  |   5, 1.0    |
             //                                                  |   6, 1.04   |
