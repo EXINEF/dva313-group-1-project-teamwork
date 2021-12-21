@@ -13,6 +13,8 @@ namespace CopilotApp
     {
         //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
         //So we'll just keep automatically updated copies here for now.
+
+        public static string SelectedTire;
         string _tireID = string.Empty;
         string _baselinePressure;
         string _fillMaterial;
