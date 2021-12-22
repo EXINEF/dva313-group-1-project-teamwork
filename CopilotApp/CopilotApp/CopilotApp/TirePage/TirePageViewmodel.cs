@@ -14,16 +14,17 @@ namespace CopilotApp
         //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
         //So we'll just keep automatically updated copies here for now.
 
-        public static string SelectedTire;
+        public enum TIRE_POSITION { FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT }
+        TIRE_POSITION _tirePosition;
         string _tireID = string.Empty;
         string _baselinePressure;
         string _fillMaterial;
         string _treadDepth;
 
-        public string tireID { get => _tireID; set { _tireID = value; OnPropertyChanged("tireID"); } }
-        public string tireBaselinePressure{ get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressure"); } }
-        public string tireFillMaterial { get => _fillMaterial; set { _fillMaterial = value; OnPropertyChanged("tireFillMaterial"); } }
-        public string tireTreadDepth { get => _treadDepth; set { _treadDepth = value; OnPropertyChanged("tireTreadDepth"); } }
+        public string tireIDDisplayValue { get => _tireID; set { _tireID = value; OnPropertyChanged("tireID"); } }
+        public string tireBaselinePressureDisplayValue { get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressure"); } }
+        public string tireFillMaterialDisplayValue { get => _fillMaterial; set { _fillMaterial = value; OnPropertyChanged("tireFillMaterial"); } }
+        public string tireTreadDepthDisplayValue { get => _treadDepth; set { _treadDepth = value; OnPropertyChanged("tireTreadDepth"); } }
 
 
         //Event handler
@@ -34,7 +35,18 @@ namespace CopilotApp
             //Binds "OKCommand" which is called by a button in XAML to the "OKButtonPressed" function in this class.
             OKCommand = new Command(OKButtonPressed);
             CancelCommand = new Command(CancelButtonPressed);
-            FetchTestCommand = new Command(FetchTireData);
+            //FetchTestCommand = new Command(FetchTireData);
+            //LoadTireDisplayValues(tirePosition);
+        }
+
+        public TirePageViewmodel(TIRE_POSITION tirePosition)
+        {
+            //Binds "OKCommand" which is called by a button in XAML to the "OKButtonPressed" function in this class.
+            OKCommand = new Command(OKButtonPressed);
+            CancelCommand = new Command(CancelButtonPressed);
+            //FetchTestCommand = new Command(FetchTireData);
+            _tirePosition = tirePosition;
+            LoadTireDisplayValues(tirePosition);
         }
 
 
@@ -52,7 +64,40 @@ namespace CopilotApp
         //Calls the Database.cs class with the data as arguments.
         void OKButtonPressed()
         {
-            Database.SendTireData(tireID, tireBaselinePressure, tireFillMaterial, tireTreadDepth);
+            //Update internal values of the CoPilot
+            switch (_tirePosition)
+            {
+                case TIRE_POSITION.FRONT_LEFT:
+                    TireData.frontLeftTireID = tireIDDisplayValue;
+                    TireData.frontLeftTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
+                    TireData.frontLeftTireFillMaterial = tireFillMaterialDisplayValue;
+                    TireData.frontLeftTireTreadDepth = int.Parse(tireTreadDepthDisplayValue);
+                    break;
+                case TIRE_POSITION.FRONT_RIGHT:
+                    TireData.frontRightTireID = tireIDDisplayValue;
+                    TireData.frontRightTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
+                    TireData.frontRightTireFillMaterial = tireFillMaterialDisplayValue;
+                    TireData.frontRightTireTreadDepth = int.Parse(tireTreadDepthDisplayValue);
+                    break;
+                case TIRE_POSITION.REAR_LEFT:
+                    TireData.rearLeftTireID = tireIDDisplayValue;
+                    TireData.rearLeftTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
+                    TireData.rearLeftTireFillMaterial = tireFillMaterialDisplayValue;
+                    TireData.rearLeftTireTreadDepth = int.Parse(tireTreadDepthDisplayValue);
+                    break;
+                case TIRE_POSITION.REAR_RIGHT:
+                    TireData.rearRightTireID = tireIDDisplayValue;
+                    TireData.rearRightTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
+                    TireData.rearRightTireFillMaterial = tireFillMaterialDisplayValue;
+                    TireData.rearRightTireTreadDepth = int.Parse(tireTreadDepthDisplayValue);
+                    break;
+                default:
+                    break;
+
+            }
+
+            //Update database values
+            DatabaseFunctions.SendTireData(tireIDDisplayValue, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue);
             ReturnToMainPage();
         }
 
@@ -61,6 +106,45 @@ namespace CopilotApp
             ReturnToMainPage();
         }
 
+        private void LoadTireDisplayValues(TIRE_POSITION tirePosition)
+        {
+            switch (tirePosition) {
+                case TIRE_POSITION.FRONT_LEFT:
+                    tireIDDisplayValue = TireData.frontLeftTireID;
+                    tireBaselinePressureDisplayValue = TireData.frontLeftTireBaselinePressure.ToString();
+                    tireFillMaterialDisplayValue = TireData.frontLeftTireFillMaterial;
+                    tireTreadDepthDisplayValue = TireData.frontLeftTireTreadDepth.ToString();
+                    break;
+                case TIRE_POSITION.FRONT_RIGHT:
+                    tireIDDisplayValue = TireData.frontRightTireID;
+                    tireBaselinePressureDisplayValue = TireData.frontRightTireBaselinePressure.ToString();
+                    tireFillMaterialDisplayValue = TireData.frontRightTireFillMaterial;
+                    tireTreadDepthDisplayValue = TireData.frontRightTireTreadDepth.ToString();
+                    break;
+                case TIRE_POSITION.REAR_LEFT:
+                    tireIDDisplayValue = TireData.rearLeftTireID;
+                    tireBaselinePressureDisplayValue = TireData.rearLeftTireBaselinePressure.ToString();
+                    tireFillMaterialDisplayValue = TireData.rearLeftTireFillMaterial;
+                    tireTreadDepthDisplayValue = TireData.rearLeftTireTreadDepth.ToString();
+                    break;
+                case TIRE_POSITION.REAR_RIGHT:
+                    tireIDDisplayValue = TireData.rearRightTireID;
+                    tireBaselinePressureDisplayValue = TireData.rearRightTireBaselinePressure.ToString();
+                    tireFillMaterialDisplayValue = TireData.rearRightTireFillMaterial;
+                    tireTreadDepthDisplayValue = TireData.rearRightTireTreadDepth.ToString();
+                    break;
+                default:
+                    tireIDDisplayValue = "Not found";
+                    tireBaselinePressureDisplayValue = "Not found";
+                    tireFillMaterialDisplayValue = "Not found";
+                    tireTreadDepthDisplayValue = "Not found";
+                    break;
+            }
+
+        }
+
+
+        /*
         void FetchTireData()
         {
             string query = "SELECT baseline_pressure, fill_material, tread_depth FROM tpms_tire WHERE id = '1'";
@@ -70,14 +154,13 @@ namespace CopilotApp
             {
                 while (reader.Read())
                 {
-                    Console.WriteLine("ID: 1, " + reader["baseline_pressure"] + ", " + reader["fill_material"] + ", " + reader["tread_depth"]);
-                    tireID = "1";
                     tireBaselinePressure = reader["baseline_pressure"].ToString();
                     tireFillMaterial = reader["fill_material"].ToString();
                     tireTreadDepth = reader["tread_depth"].ToString();
                 }
             }
         }
+        */
 
         async void ReturnToMainPage()
         {

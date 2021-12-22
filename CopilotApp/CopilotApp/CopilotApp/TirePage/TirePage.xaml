@@ -31,7 +31,7 @@
                 <Entry BackgroundColor="Gray" Grid.Row="0" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"/>
 
                 <Label Text="Baseline Pressure:" Grid.Row="1" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                <Entry BackgroundColor="Gray" Grid.Row="1" Grid.Column="1" Text="" TextColor="White" Keyboard="Numeric"/>
+                <Entry Text="{Binding  tireBaselinePressureDisplayValue}" BackgroundColor="Gray" Grid.Row="1" Grid.Column="1" TextColor="White" Keyboard="Numeric"/>
                 <Label Text="kPa" Grid.Row="1" Grid.Column="2" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
 
                 <Label Text="Fill Material:" Grid.Row="2" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />

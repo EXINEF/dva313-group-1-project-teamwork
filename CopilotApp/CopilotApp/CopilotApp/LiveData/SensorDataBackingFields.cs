@@ -6,28 +6,28 @@ namespace CopilotApp
 {
     public partial class SensorData
     {
-        //Front Left Sensor Data
+        //Front Left Sensor Backing Fields
         public static string _frontLeftSensorID;
         public static string _frontLeftSensorStatus;
-        public static string _frontLeftSensorTemperature;
-        public static string _frontLeftSensorPressure;
+        public static int _frontLeftSensorTemperature;
+        public static double _frontLeftSensorPressure;
 
-        //Front Right Sensor Data
+        //Front Right Sensor Backing Fields
         public static string _frontRightSensorID;
         public static string _frontRightSensorStatus;
-        public static string _frontRightSensorTemperature;
-        public static string _frontRightSensorPressure;
+        public static int _frontRightSensorTemperature;
+        public static double _frontRightSensorPressure;
 
-        //Rear Left Sensor Data
+        //Rear Left Sensor Backing Fields
         public static string _rearLeftSensorID;
         public static string _rearLeftSensorStatus;
-        public static string _rearLeftSensorTemperature;
-        public static string _rearLeftSensorPressure;
+        public static int _rearLeftSensorTemperature;
+        public static double _rearLeftSensorPressure;
 
-        //Rear Right Sensor Data
+        //Rear Right Sensor Backing Fields
         public static string _rearRightSensorID;
         public static string _rearRightSensorStatus;
-        public static string _rearRightSensorTemperature;
-        public static string _rearRightSensorPressure;
+        public static int _rearRightSensorTemperature;
+        public static double _rearRightSensorPressure;
     }
 }

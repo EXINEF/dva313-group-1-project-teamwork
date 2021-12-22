@@ -6,7 +6,7 @@ namespace CopilotApp
 {
     class GPSData
     {
-        public static string longitude = "0.0";
-        public static string latitude = "0.0";
+        public static float longitude = 0.0f;
+        public static float latitude = 0.0f;
     }
 }

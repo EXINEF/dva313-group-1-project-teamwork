@@ -116,7 +116,7 @@ namespace CopilotApp
 
         private void TKPHsend(double preTKPH,double currTKPH)
         {
-            Status s = TKPHeval(preTKPH);   
+            //Status s = TKPHeval(preTKPH);   
             //Query -->
         }
 

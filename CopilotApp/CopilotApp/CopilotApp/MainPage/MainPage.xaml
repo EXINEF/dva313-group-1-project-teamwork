@@ -157,13 +157,13 @@
                         BackgroundColor="Transparent"
                         AbsoluteLayout.LayoutBounds="0.38, 0.52, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
-        <Label  Text="350 kPa"
+        <Label  Text="{Binding frontLeftTirePressureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.13, 0.20, 100, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-        <Label  Text="55 °C"
+        <Label  Text="{Binding frontLeftTireTemperatureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.13, 0.422, 120, 30" 
@@ -179,13 +179,13 @@
                         BorderWidth="1"
                         AbsoluteLayout.LayoutBounds="0.619, 0.52, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
-        <Label  Text="350 kPa"
+        <Label  Text="{Binding frontRightTirePressureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.863, 0.20, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-        <Label  Text="61 °C"
+        <Label  Text="{Binding frontRightTireTemperatureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.86, 0.422, 120, 30" 
@@ -193,20 +193,20 @@
                 HorizontalTextAlignment="Center"/>
 
         <!-- Tire Back Left(with tire image) and labels for pressure and temperature  -->
-        <ImageButton    Command="{Binding TireBackLeftPressedCommand}"
+        <ImageButton    Command="{Binding TireRearLeftPressedCommand}"
                         VerticalOptions="CenterAndExpand"
                         Aspect="AspectFit"
                         Source="TireDefault"
                         BackgroundColor="Transparent"
                         AbsoluteLayout.LayoutBounds="0.38, 0.85, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
-        <Label  Text="348 kPa"
+        <Label  Text="{Binding rearLeftTirePressureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.13, 0.662, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-        <Label  Text="59 °C"
+        <Label  Text="{Binding rearLeftTireTemperatureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.13, 0.885, 120, 30" 
@@ -214,20 +214,20 @@
                 HorizontalTextAlignment="Center"/>
 
         <!-- Tire Back Right(with tire image) and labels for pressure and temperature  -->
-        <ImageButton    Command="{Binding TireBackRightPressedCommand}"
+        <ImageButton    Command="{Binding TireRearRightPressedCommand}"
                         VerticalOptions="CenterAndExpand"
                         Aspect="AspectFit"
                         Source="TireDefault"
                         BackgroundColor="Transparent"
                         AbsoluteLayout.LayoutBounds="0.619 ,0.85, 100, 100"
                         AbsoluteLayout.LayoutFlags="PositionProportional" />
-        <Label  Text="350 kPa"
+        <Label  Text="{Binding rearRightTirePressureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.87, 0.662, 120,30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-        <Label  Text="56 °C"
+        <Label  Text="{Binding rearRightTireTemperatureDisplayValue}"
                 TextColor="White"
                 FontSize="27"
                 AbsoluteLayout.LayoutBounds="0.87, 0.885, 120, 30" 

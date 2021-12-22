@@ -9,68 +9,14 @@ namespace CopilotApp
 {
     public class Database
     {
-        //db4free
-        //static string _ip = "db4free.net";
-        //static string _port = "3306";
-        //static string _username = "dva313user";
-        //static string _password = "zlLJiR6JCd";
-        //static string _databaseName = "dva313";
-
-        //Heroku
+        //Heroku ClearDB Credentials
         static string _ip = "eu-cdbr-west-01.cleardb.com";
         static string _port = "3306";
         static string _username = "b630dce8abed0f";
         static string _password = "37cbbdac";
         static string _databaseName = "heroku_71aa00777cf80be";
 
-        //local
-        //static string _ip = "127.0.0.1";
-        //static string _port = "3306";
-        //static string _username = "root";
-        //static string _password = "";
-        //static string _databaseName = "dva313";
-
-
-        //This database, "db4free.net" is extremely slow but works for now
-        //You can access it(pHpMyAdmin) here: https://www.db4free.net/phpMyAdmin
-        //username: dva313user
-        //password: zlLJiR6JCd
-
-
-        //static string myConnectionString = "datasource=db4free.net;port=3306;username=dva313user;password=zlLJiR6JCd;database=dva313";
-        //static string myConnectionString = "datasource=127.0.0.1;port=3306;username=root;password=;database=dva313";
         static MySqlConnection mySQLConnection;
-
-        public Database()
-        {
-
-        }
-
-        public static void SendTireData(string tireID, string tireBaselinePressure, string tireFillMaterial, string tireTreadDepth)
-        {
-            //Insert
-            string sqlStatementPart1 = "INSERT INTO tpms_tire(id, baseline_pressure, fill_material, tread_depth) VALUES('" + tireID + "'," + tireBaselinePressure + ",'" + tireFillMaterial + "'," + tireTreadDepth + ")";
-            
-            //If ID already exists update the values: for that ID
-            string sqlStatementPart2 = "ON DUPLICATE KEY UPDATE baseline_pressure = VALUES(baseline_pressure), fill_material = VALUES(fill_material), tread_depth = VALUES(tread_depth)";
-
-            //Combine into a single statement
-            string sqlStatement = sqlStatementPart1 + " " + sqlStatementPart2;
-            
-            int nrOfRowsAffected = SendNonQuery(sqlStatement).Result;
-        }
-
-        public static void SendSensorData(string tireID, string pressure, string temperature)
-        {
-            string sqlStatement = "INSERT INTO sensors(ID, pressure, temperature) VALUES(" + tireID + "," + pressure + "," + temperature + "," + ")";
-            int nrOfRowsAffected = SendNonQuery(sqlStatement).Result;
-        }
-
-        public static void SendMachineData(int machineID, Location location)
-        {
-            string sqlStatement = "INSERT INTO machine(ID, latitude, longitude) VALUES(" + machineID + "," + location.Latitude + "," + location.Longitude + ")";
-            int nrOfRowsAffected = SendNonQuery(sqlStatement).Result;
-        }
 
         //Takes neccessary credentials and return a string in the correct format needed to initialize a SQL connection.
         protected static string GenerateConnectionString(string ip, string port, string username, string password, string database)
@@ -79,7 +25,7 @@ namespace CopilotApp
             return connection_string;
         }
 
-        //SQL DATETIME requires a particular format
+        //SQL DATETIME requires a particular format, this get the current datetime of the device in the SQL appropriate format
         public static string GetSQLDateTime()
         {
             DateTime myDateTime = DateTime.Now;
@@ -118,7 +64,7 @@ namespace CopilotApp
             return nrOfRowsAffected;
         }
 
-        //Used for SQL queries that grabs data from the database.
+        //Used for SQL queries that grabs and returns data from the database.
         public static async Task<MySqlDataReader> SendQuery(string query)
         {
             Console.WriteLine("Sending Query: " + query);

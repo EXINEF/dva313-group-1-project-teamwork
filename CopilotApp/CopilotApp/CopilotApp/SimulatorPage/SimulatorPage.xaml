@@ -517,6 +517,20 @@
                         AbsoluteLayout.LayoutFlags="XProportional,YProportional"
          />
 
+        <!-- Send Simulator Data To CoPilot Button  -->
+        <Button Command="{Binding CopyDataToCopilotButtonPressedCommand}"
+                        Text="Copy Data To CoPilot"
+                        FontSize="10"
+                        BackgroundColor="Black"
+                        BorderColor="Silver"
+                        TextColor="White"
+                        BorderWidth="4"
+                        CornerRadius="10"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="0.5, 0.0, 70, 70" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+         />
+
         <!-- Return To MainPage(Overview) Button  -->
         <Button Command="{Binding BackToMainPageButtonPressedCommand}"
                         Text="Back"
