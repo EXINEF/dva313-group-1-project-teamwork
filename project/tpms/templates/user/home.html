@@ -43,18 +43,19 @@
             <div class="card bg-warning text-white mb-4">
                 <div class="card-body">Warning Card</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                     <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">View Details</a>
+                     <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse1" >View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
-                <div class="collapse" id="collapse1" style>
-                    <div class="card card-body bg-warning">
-                        {% for vehicle in vehicles%}
-                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                        {% endfor %}
-                    </div>
+            </div>
+            <div class="collapse" id="collapse1" style>
+                <div class="card card-body container bg-warning">
+                    {% for vehicle in vehicles%}
+                    <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+        
   
         <div class="col-xl-4 col-md-4">
             <div class="card bg-danger text-white mb-4">
