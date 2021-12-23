@@ -12,8 +12,8 @@ class SensorAdmin(admin.ModelAdmin):
 class TireAdmin(admin.ModelAdmin):
     model = Tire
 
-    ordering = ('id', 'remaining_life', 'tread_depth', 'revolutions')
-    list_display = ('id', 'remaining_life', 'tread_depth', 'revolutions')
+    ordering = ('id', 'company', 'remaining_life', 'tread_depth', 'revolutions')
+    list_display = ('id', 'company', 'remaining_life', 'tread_depth', 'revolutions')
     search_fields = ['id']
 
 class LocationAdmin(admin.ModelAdmin):

@@ -35,7 +35,7 @@ class Sensor(models.Model):
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return 'Sensor: ' + self.id
+        return 'ID:%s by %s'%(self.id,self.company)
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
@@ -68,7 +68,7 @@ class Tire(models.Model):
     """
     
     def __str__(self):
-        return 'Tire: ' + self.id
+        return 'ID:%s by %s'%(self.id,self.company)
 
 class Location(models.Model):
     latitude = models.FloatField()

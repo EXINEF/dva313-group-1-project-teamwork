@@ -68,7 +68,7 @@ def vehicle(request, pk):
 @fleet_manager_only
 def addVehicle(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = VehicleForm(initial={'company':fleet_manager.company})
+    form = VehicleForm(initial={'company':fleet_manager.company}, company=fleet_manager.company)
     
     if request.method == 'POST':
         form = VehicleForm(request.POST)
@@ -85,7 +85,7 @@ def addVehicle(request):
 def editVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
-    form = VehicleForm(instance=vehicle)
+    form = VehicleForm(instance=vehicle, company=fleet_manager.company)
     
     if request.method == 'POST':
         form = VehicleForm(request.POST, instance=vehicle)
