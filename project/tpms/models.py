@@ -93,9 +93,11 @@ class Vehicle(models.Model):
     distance_driven_loaded = models.FloatField(blank=True, null=True, default=0)
     machine_hours_empty = models.IntegerField(blank=True, null=True, default=0)
     machine_hours_loaded = models.IntegerField(blank=True, null=True, default=0)
-    payload_empty = models.FloatField(blank=True, null=True, default=0)
-    payload_loaded = models.FloatField(blank=True, null=True, default=0)
+    buckets = models.IntegerField(blank=True, null=True, default=0)
+    payload = models.FloatField(blank=True, null=True, default=0)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    tkph = models.FloatField(blank=True, null=True, default=0) #This is the TKPH that is precalculated. This attribute should be set on tires in the future.
+    weight = models.FloatField(blank=True, null=True, default=0)
 
     tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.DO_NOTHING)
     tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.DO_NOTHING)
