@@ -36,10 +36,29 @@ def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
     tires_num = Tire.objects.count()
-    sensor_num = Sensor.objects.count()
+    sensors_num = Sensor.objects.count()
 
-    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num}
     return render(request, 'user/home.html', context) 
+
+@login_required(login_url='index')
+@fleet_manager_only
+def allTires(request):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    tires = Tire.objects.filter(company=fleet_manager.company)
+
+    context = {'tires':tires, 'fleet_manager':fleet_manager,}
+    return render(request, 'user/all-tires.html', context) 
+
+@login_required(login_url='index')
+@fleet_manager_only
+def allSensors(request):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    sensors = Sensor.objects.filter(company=fleet_manager.company)
+
+    context = {'sensors':sensors, 'fleet_manager':fleet_manager,}
+    return render(request, 'user/all-sensors.html', context) 
+
 
 #@login_required(login_url='index') #This one would be removed 
 #@fleet_manager_only
