@@ -17,8 +17,12 @@ class VehicleForm(ModelForm):
         self.fields['tire_left_rear'].queryset = Tire.objects.filter(company=company)
         self.fields['tire_right_front'].queryset = Tire.objects.filter(company=company)
         self.fields['tire_right_rear'].queryset = Tire.objects.filter(company=company)
-
-        
+    
+class VehicleFormOnlyTires(VehicleForm):
+    class Meta:
+        model = Vehicle
+        #
+        fields = ('tire_left_front','tire_left_rear','tire_right_front','tire_right_rear')  
 
 class TireForm(ModelForm):
     class Meta:

@@ -15,6 +15,7 @@ urlpatterns = [
     path('add-vehicle/', addVehicle, name='add-vehicle'),
     path('edit-vehicle/<str:pk>', editVehicle, name='edit-vehicle'),
     path('delete-vehicle/<str:pk>', deleteVehicle, name='delete-vehicle'),
+    path('edit-tires-vehicle/<str:pk>', editTiresVehicle, name='edit-tires-vehicle'),
 
     path('tire/<str:pk>', tire, name='tire'),
     path('add-tire/', addTire, name='add-tire'),
