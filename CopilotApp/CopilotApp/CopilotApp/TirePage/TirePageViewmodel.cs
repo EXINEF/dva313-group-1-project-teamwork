@@ -15,7 +15,7 @@ namespace CopilotApp
         //So we'll just keep automatically updated copies here for now.
 
         public enum TIRE_POSITION { FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT }
-        TIRE_POSITION _tirePosition;
+        public static TIRE_POSITION tirePosition;
         string _tireID = string.Empty;
         string _baselinePressure;
         string _fillMaterial;
@@ -45,7 +45,6 @@ namespace CopilotApp
             OKCommand = new Command(OKButtonPressed);
             CancelCommand = new Command(CancelButtonPressed);
             //FetchTestCommand = new Command(FetchTireData);
-            _tirePosition = tirePosition;
             LoadTireDisplayValues(tirePosition);
         }
 
@@ -61,11 +60,11 @@ namespace CopilotApp
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        //Calls the Database.cs class with the data as arguments.
+        //Updates the CoPilot and the database with the new values
         void OKButtonPressed()
         {
             //Update internal values of the CoPilot
-            switch (_tirePosition)
+            switch (tirePosition)
             {
                 case TIRE_POSITION.FRONT_LEFT:
                     TireData.frontLeftTireID = tireIDDisplayValue;
