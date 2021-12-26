@@ -20,8 +20,9 @@
         <h1 class="text-white">{{vehicle.id}} Information Page</h1>
         <div style="text-align: right;" class="">
             <div style="text-align: right;">
+                <button class="btn btn-light" onclick="location.href='{% url 'edit-tires-vehicle' vehicle.id %}'"><i class="fas fa-wrench"></i> Edit Tires</button>
                 <button class="btn btn-light" onclick="location.href='{% url 'edit-vehicle' vehicle.id %}'"><i class="fas fa-wrench"></i> Edit</button>
-                <button class="btn btn-light" onclick="location.href='delete-vehicle'"><i class="fas fa-trash-alt"></i> Delete</button>
+                <button class="btn btn-light" onclick="location.href='{% url 'delete-vehicle' vehicle.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
                 <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add Tire</button>
             </div>
         </div>
@@ -31,26 +32,56 @@
 <body class="bg-dark">
         
     <div class="container-fluid px-4"> 
+        
         <br>
         <div id="map" style="text-align: right;width: 50%;"></div>
         <div>
-            <h4 class="text-white">Company: {{vehicle.company}}</h4>
-            <h4 class="text-white">Model: {{vehicle.model}}</h4>
-            <h4 class="text-white">Consumed Fuel: {{vehicle.consumed_fuel}}</h4>
-            <h4 class="text-white">Ambient Temperature: {{vehicle.ambient_temperature}}</h4>
-            <h4 class="text-white">Machine Hours Empty: {{vehicle.machine_hours_empty}}</h4>
-            <h4 class="text-white">Machine Hours Loaded: {{vehicle.machine_hours_loaded}}</h4>
-            <h4 class="text-white">Distance Driven Empty: {{vehicle.distance_driven_empty}}</h4>
-            <h4 class="text-white">Distance Driven Loaded: {{vehicle.distance_driven_loaded}}</h4>
-            <h4 class="text-white">Payload Empty: {{vehicle.payload_empty}}</h4>
-            <h4 class="text-white">Payload Loaded: {{vehicle.payload_loaded}}</h4>
-        </div>
-    </div>
-        
-    <div class="container">
-        <br>
-        <h3>Vehicle's Tires</h3>
+            <div class="card ">
+                <div class="card-body">
+                    <ul class="list-group ">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Company:
+                          <span class="badge bg-primary rounded-pill">{{vehicle.company}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Model
+                          <span class="badge bg-primary rounded-pill">{{vehicle.model}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Consumed Fuel:
+                          <span class="badge bg-primary rounded-pill">{{vehicle.consumed_fuel}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Ambient Temperature:
+                            <span class="badge bg-primary rounded-pill">{{vehicle.ambient_temperature}}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Machine Hours Loaded:
+                            <span class="badge bg-primary rounded-pill">{{vehicle.machine_hours_loaded}}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Distance Driven Empty:
+                            <span class="badge bg-primary rounded-pill">{{vehicle.distance_driven_empty}}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Distance Driven Loaded:
+                            <span class="badge bg-primary rounded-pill">{{vehicle.distance_driven_loaded}}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Payload Empty:
+                            <span class="badge bg-primary rounded-pill">{{vehicle.payload_empty}}</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Payload Loaded:
+                            <span class="badge bg-primary rounded-pill">Payload Loaded: {{vehicle.payload_loaded}}</span>
+                          </li>
+                      </ul>
+                </div>
             
+            </div>
+            
+        </div>
+
         <table class="table table-light table-striped table-bordered">
             <thead>
                 <tr>
@@ -71,7 +102,7 @@
                 {% include "user/vehicle/tire-row.html" with tire=vehicle.tire_right_rear pos='Rear Right' %}
             </tbody>    
         </table>
-    </div>
+    
 </body>
 
 <script>
