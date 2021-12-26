@@ -1,6 +1,7 @@
 {% extends 'core/base-template.html' %}
 {% block content %}
 <div class="container-fluid px-4" >
+   
 <head>
    <meta charset="utf-8" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -34,46 +35,56 @@
             </div>
         </div>
     </div>
+
+    
 </head>
 
+
+
 <body class="bg-dark">
+    
 <!--Warning Cards-->
     <div class="row">
         <div class="col-xl-4 col-md-4">
             <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Warning Card</div>
+                <div class="card-body" style="text-align:center;">Warning Card</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="accordion">
-                     <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse1" >View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    <div class="accordion-collapse collapse" id="collapse1" style>
-                        <div class ="accoridon-body">
-                        <div class="card card-body container bg-warning">
-                            {% for vehicle in vehicles%}
-                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                            {% endfor %}
+                    <div class="container">
+                        <div class="accordion">
+                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding-top:0; padding-down:0;" >View Details</a>
+                            <div class="accordion-collapse collapse" id="collapse1" style>
+                                <div class ="accoridon-body">
+                                    <div class="card card-body container bg-warning">
+                                        {% for vehicle in vehicles%}
+                                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    </div>
                     </div>
                 </div>
             </div>
-           
         </div>
         
   
         <div class="col-xl-4 col-md-4">
             <div class="card bg-danger text-white mb-4">
-                <div class="card-body">Danger Card</div>
+                <div class="card-body" style="text-align:center;">Danger Card</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-                <div class="collapse" id="collapse2" style>
-                    <div class="card card-body bg-danger">
-                        {% for vehicle in vehicles%}
-                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                        {% endfor %}
+                    <div class="container">
+                        <div class="accordion">
+                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse2" style=" background-color:transparent; float:right;  padding-top:0; padding-down:0;" >View Details</a>
+                            <div class="accordion-collapse collapse" id="collapse2" style>
+                                <div class ="accoridon-body">
+                                    <div class="card card-body container bg-danger">
+                                        {% for vehicle in vehicles%}
+                                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,16 +92,21 @@
 
         <div class="col-xl-4 col-md-4">
             <div class="card bg-info text-white mb-4">
-                <div class="card-body">Inventory</div>
+                <div class="card-body" style="text-align:center;">Inventory</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapse3">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-                <div class="collapse" id="collapse3" style>
-                    <div class="card card-body bg-info">
-                        {% for vehicle in vehicles%}
-                        <a class="collapse-item" href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                        {% endfor %}
+                    <div class="container">
+                        <div class="accordion">
+                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding-top:0; padding-down:0;" >View Details</a>
+                            <div class="accordion-collapse collapse" id="collapse3" style>
+                                <div class ="accoridon-body">
+                                    <div class="card card-body container bg-info">
+                                        {% for vehicle in vehicles%}
+                                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
