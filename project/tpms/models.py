@@ -99,7 +99,7 @@ class Vehicle(models.Model):
     payload = models.FloatField(blank=True, null=True, default=0)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     tkph = models.FloatField(blank=True, null=True, default=0) #This is the TKPH that is precalculated. This attribute should be set on tires in the future.
-    weigth = models.FloatField(blank=True, null=True, default=0)
+    weight = models.FloatField(blank=True, null=True, default=0)
 
     tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.DO_NOTHING)
     tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.DO_NOTHING)
