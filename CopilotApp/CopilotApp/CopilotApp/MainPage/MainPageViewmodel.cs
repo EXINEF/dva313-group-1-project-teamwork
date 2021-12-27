@@ -32,7 +32,8 @@ namespace CopilotApp
             TireRearRightPressedCommand = new Command(TireRearRightPressed);
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
             TKPHCalculations.LoadK1Data();
-
+            TKPHloop tkphcalc = new TKPHloop();
+            tkphcalc.run();
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues",  (sender) => { UpdateDisplayValues(); } );
         }
