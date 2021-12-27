@@ -9,7 +9,6 @@ using Xamarin.Essentials;
  * Prefab functionality for database queries and commands *
  **********************************************************/
 
-
 namespace CopilotApp
 {
     public class DatabaseFunctions

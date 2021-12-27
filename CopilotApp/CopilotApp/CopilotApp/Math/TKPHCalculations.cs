@@ -41,7 +41,6 @@ namespace CopilotApp
         
        
 
-
         public TKPHCalculations()
         {
             //query to get current TKHP for that tire. Set id to the local machine's
