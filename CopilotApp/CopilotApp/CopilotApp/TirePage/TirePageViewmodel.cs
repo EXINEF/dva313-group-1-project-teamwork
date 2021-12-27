@@ -139,7 +139,6 @@ namespace CopilotApp
                     tireTreadDepthDisplayValue = "Not found";
                     break;
             }
-
         }
 
 

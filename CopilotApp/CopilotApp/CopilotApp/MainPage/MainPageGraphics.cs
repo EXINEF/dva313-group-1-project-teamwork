@@ -41,7 +41,7 @@ namespace CopilotApp
 
         //These ImageSources are bound to the XAML and are the images that are being displayed to the user.
         //Tire Display Images
-        ImageSource _frontLeftTireImage; public ImageSource frontLeftTireImage { get => _frontLeftTireImage; set { _frontLeftTireImage = value; OnPropertyChanged(nameof(frontLeftTireImage)); Console.WriteLine("BBBBBBBB"); } }
+        ImageSource _frontLeftTireImage; public ImageSource frontLeftTireImage { get => _frontLeftTireImage; set { _frontLeftTireImage = value; OnPropertyChanged(nameof(frontLeftTireImage)); } }
         ImageSource _frontRightTireImage; public ImageSource frontRightTireImage { get => _frontRightTireImage; set { _frontRightTireImage = value; OnPropertyChanged(nameof(frontRightTireImage)); } }
         ImageSource _rearLeftTireImage; public ImageSource rearLeftTireImage { get => _rearLeftTireImage; set { _rearLeftTireImage = value; OnPropertyChanged(nameof(rearLeftTireImage)); } }
         ImageSource _rearRightTireImage; public ImageSource rearRightTireImage { get => _rearRightTireImage; set { _rearRightTireImage = value; OnPropertyChanged(nameof(rearRightTireImage)); } }

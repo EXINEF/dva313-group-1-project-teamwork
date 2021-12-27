@@ -18,7 +18,7 @@
         
         <!-- Top notification bar -->
         <Frame BackgroundColor="SkyBlue" CornerRadius="20" HorizontalOptions="Center"
-               AbsoluteLayout.LayoutBounds="60, 5, 900, 80" IsVisible="false">
+               AbsoluteLayout.LayoutBounds="60, 5, 900, 80" IsVisible="{Binding notificationVisible}">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="120" />
                 </Grid.ColumnDefinitions>
 
-                <Label  Text="This is a notification"
+                <Label  Text="{Binding notificationMessage}"
                         TextColor="BLACK"
                         FontSize="15"
                         LineBreakMode="WordWrap"
@@ -233,7 +233,7 @@
                 AbsoluteLayout.LayoutBounds="0.87, 0.885, 120, 30" 
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional" 
                 HorizontalTextAlignment="Center"/>
-
+        
 
         <!-- Simulator Button  -->
         <Button Command="{Binding SimulatorButtonPressedCommand}"
@@ -245,6 +245,18 @@
                         TextColor="RoyalBlue"
                         IsEnabled="True"
                         AbsoluteLayout.LayoutBounds="1.0, 0, 110, 50" 
+                        AbsoluteLayout.LayoutFlags="XProportional,YProportional"
+         />
+
+        <Button Command="{Binding TestNotificationCommand}"
+                        Text="Send Notification"
+                        FontSize="15"
+                        BackgroundColor="Black"
+                        BorderColor="RoyalBlue"
+                        BorderWidth="2"
+                        TextColor="RoyalBlue"
+                        IsEnabled="True"
+                        AbsoluteLayout.LayoutBounds="0.5, 0, 80, 40" 
                         AbsoluteLayout.LayoutFlags="XProportional,YProportional"
          />
     </AbsoluteLayout>

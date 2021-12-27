@@ -34,11 +34,17 @@ namespace CopilotApp
             TireRearLeftPressedCommand = new Command(TireRearLeftPressed);
             TireRearRightPressedCommand = new Command(TireRearRightPressed);
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
-            //LoadFrontLeftRedCommand = new Command(UpdateLeftTireToRed);
+            DismissNotificationCommand = new Command(DismissNotification);
+            TestNotificationCommand = new Command(TestNotification);
             TKPHCalculations.LoadK1Data();
 
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); } );
+
+            //Subscribe to receive notification using MessagingCenter use MainPageViewmodel.PushNotification("hello world"); to push a notification from anywhere.
+            MessagingCenter.Subscribe<Xamarin.Forms.Application, string> (Xamarin.Forms.Application.Current, "NewNotification", (sender, message) => {
+                AddNotification(message);
+            });
 
             //Default images, needed because otherwise no images wont show when changed.
             frontLeftTireImage = ImageSourceTireDefault;
@@ -69,12 +75,18 @@ namespace CopilotApp
         public ICommand TireRearLeftPressedCommand { get; }
         public ICommand TireRearRightPressedCommand { get; }
         public ICommand SimulatorButtonPressedCommand { get; }
-        public ICommand LoadFrontLeftRedCommand { get; }
+        public ICommand DismissNotificationCommand { get; }
+        public ICommand TestNotificationCommand { get; }
 
         protected void OnPropertyChanged(string name)
         {
             //Some property changed send the event hanlder the name of the property.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void TestNotification()
+        {
+            PushNotification("Just some text to try the notification system");
         }
 
         //Pull values from the LiveData and update the graphics
