@@ -30,6 +30,7 @@ class Sensor(models.Model):
     pressure = models.FloatField(blank=True, null=True)
     remaning_battery = models.FloatField(blank=True, null=True)
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
+    is_used = models.BooleanField(blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
@@ -44,6 +45,7 @@ class Tire(models.Model):
     fill_material = models.CharField(max_length=30, blank=True, null=True)
     tread_depth = models.FloatField(blank=True, null=True)
     revolutions = models.FloatField(blank=True, null=True)
+    is_used = models.BooleanField(blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.DO_NOTHING)
@@ -117,6 +119,13 @@ class Vehicle(models.Model):
 
     def getType(self):
         return 'Wheel Loader'
+
+    def setAllTiresUsed(self):
+        self.tire_left_front.is_used = True
+        self.tire_left_rear.is_used = True
+        self.tire_right_front.is_used = True
+        self.tire_right_rear.is_used = True
+        self.save()
 
 class CompanyAdministrator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

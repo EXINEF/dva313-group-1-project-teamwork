@@ -17,7 +17,7 @@ def unauthenticated_user(view_func):
 				return redirect('admin-page')
 			
 			else:
-				return HttpResponse('You are logged in but you are in no group, the superadmin have to add you to one group. To login again and resolve the problem click <a href="{% url logout %}">HERE</a>')		
+				return HttpResponse('You are logged in but you are in no group, the superadmin have to add you to one group. To login again and resolve the problem click <a href="/logout"> HERE </a>')		
 		
 		else:
 			return view_func(request, *args, **kwargs)

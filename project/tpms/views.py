@@ -146,6 +146,9 @@ def editTiresVehicle(request, pk):
 
         if form.is_valid():
             form.save()
+            v = get_object_or_404(Vehicle, id=pk)
+            v.setAllTiresUsed
+            v.save()
             messages.success(request,'The vehicle %s\'s tires are been update successfuly' % vehicle)
             return redirect('vehicle', vehicle.id)
         else:
