@@ -37,7 +37,7 @@ namespace CopilotApp
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
+        
         async void ReturnToMainPage()
         {
             //The pages work as a stack, when we press the simulator button on the MainPage a SimulatorPage is pushed on the stack
