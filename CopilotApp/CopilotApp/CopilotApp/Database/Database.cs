@@ -10,11 +10,11 @@ namespace CopilotApp
     public class Database
     {
         //Heroku ClearDB Credentials
-        static string _ip = "eu-cdbr-west-01.cleardb.com";
+        static string _ip = "eu-cdbr-west-02.cleardb.net";
         static string _port = "3306";
-        static string _username = "b630dce8abed0f";
-        static string _password = "37cbbdac";
-        static string _databaseName = "heroku_71aa00777cf80be";
+        static string _username = "b787ff70333075";
+        static string _password = "0d107855";
+        static string _databaseName = "heroku_5b190513145da9f";
 
         static MySqlConnection mySQLConnection;
 

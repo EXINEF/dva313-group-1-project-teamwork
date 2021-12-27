@@ -24,7 +24,6 @@ namespace CopilotApp
         }
 
 
-
         public TKPHCalculations()
         {
             //Each instance cover one tire. 

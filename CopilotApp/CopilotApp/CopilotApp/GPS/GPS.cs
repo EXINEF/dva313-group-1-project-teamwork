@@ -21,8 +21,8 @@ namespace CopilotApp
 
             if (result != null)
             {
-                //GPSData.latitude = float.Parse(result.Latitude);
-                //GPSData.longitude = result.Longitude;
+                GPSData.latitude = result.Latitude;
+                GPSData.longitude = result.Longitude;
             }
         }
     }

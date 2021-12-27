@@ -12,5 +12,7 @@ namespace CopilotApp
     public class MachineData
     {
         public static string machineID = "1";
+        public static double ambientTemperature;
+
     }
 }
