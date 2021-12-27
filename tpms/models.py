@@ -35,7 +35,7 @@ class Sensor(models.Model):
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return 'Sensor: ' + self.id
+        return 'ID:%s by %s'%(self.id,self.company)
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
@@ -68,7 +68,7 @@ class Tire(models.Model):
     """
     
     def __str__(self):
-        return 'Tire: ' + self.id
+        return 'ID:%s by %s'%(self.id,self.company)
 
 class Location(models.Model):
     latitude = models.FloatField()
@@ -93,9 +93,11 @@ class Vehicle(models.Model):
     distance_driven_loaded = models.FloatField(blank=True, null=True, default=0)
     machine_hours_empty = models.IntegerField(blank=True, null=True, default=0)
     machine_hours_loaded = models.IntegerField(blank=True, null=True, default=0)
-    payload_empty = models.FloatField(blank=True, null=True, default=0)
-    payload_loaded = models.FloatField(blank=True, null=True, default=0)
+    buckets = models.IntegerField(blank=True, null=True, default=0)
+    payload = models.FloatField(blank=True, null=True, default=0)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    tkph = models.FloatField(blank=True, null=True, default=0) #This is the TKPH that is precalculated. This attribute should be set on tires in the future.
+    weight = models.FloatField(blank=True, null=True, default=0)
 
     tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.DO_NOTHING)
     tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.DO_NOTHING)
@@ -109,8 +111,9 @@ class Vehicle(models.Model):
     def __str__(self):
         return 'Vehicle model: ' + self.model + ' ID: ' + self.id
     
-    def getAttentionValue(self):
-        return attentionValueCalculator()
+    def getStatus(self, status):
+        # TODO calculate this Status with an algorithm
+        return status
 
     def getType(self):
         return 'Wheel Loader'

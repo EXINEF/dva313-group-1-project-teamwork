@@ -40,7 +40,7 @@
           Tire</button>
           <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add new
           Sensor</button>
-          <button class="btn btn-light" onclick="location.href='home-extended'">Extended View</button>
+          <!--<button class="btn btn-light" onclick="location.href='home-extended'">Extended View</button>-->
         </div>
         
          <h1 class="text-white">Fleet Manager Overview</h1>
@@ -79,9 +79,16 @@
        <div class="card bg-warning text-white mb-4">
            <div class="card-body">Warning Card</div>
            <div class="card-footer d-flex align-items-center justify-content-between">
-               <a class="small text-white stretched-link" href="#">View Details</a>
+            <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapse1">View Details</a>
                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
            </div>
+           <div class="collapse" id="collapse1" style>
+            <div class="card card-body bg-warning">
+               {% for vehicle in vehicles%}
+               <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+               {% endfor %}
+            </div>
+        </div>
        </div>
    </div>
   
@@ -89,17 +96,31 @@
        <div class="card bg-danger text-white mb-4">
            <div class="card-body">Danger Card</div>
            <div class="card-footer d-flex align-items-center justify-content-between">
-               <a class="small text-white stretched-link" href="#">View Details</a>
+            <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse2" aria-expanded="false" aria-controls="collapse2">View Details</a>
                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
            </div>
+           <div class="collapse" id="collapse2" style>
+            <div class="card card-body bg-danger">
+               {% for vehicle in vehicles%}
+               <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+               {% endfor %}
+            </div>
+        </div>
        </div>
    </div>
    <div class="col-xl-4 col-md-4">
-    <div class="card bg-success text-white mb-4">
-        <div class="card-body">Success Card</div>
+    <div class="card bg-info text-white mb-4">
+        <div class="card-body">Inventory</div>
         <div class="card-footer d-flex align-items-center justify-content-between">
-            <a class="small text-white stretched-link" href="#">View Details</a>
+            <a class="small text-white stretched-link collapsed" data-bs-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapse3">View Details</a>
             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        </div>
+        <div class="collapse" id="collapse3" style>
+            <div class="card card-body bg-info">
+               {% for vehicle in vehicles%}
+               <a class="collapse-item" href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+               {% endfor %}
+            </div>
         </div>
     </div>
 </div>
@@ -144,7 +165,7 @@
 <!--Table-->   
 <div class="card mb-4">
   <div class="card-header">
-     <h2>My Vehicles (SIMPLE View)</h2>
+     <h2>My Vehicles</h2>
       <!--
       <div style="text-align: right;">
          <button class="btn btn-dark" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add new
@@ -160,10 +181,10 @@
       <table class="table table table" id="sortTable">
          <thread>
             <tr>
-               <th onclick="sortTable(0)" scope="col">Vehicle (ID)</th>
-               <th onclick="sortTable(1)" scope="col">Type</th>
+               <th scope="col">Vehicle (ID)</th>
+               <th scope="col">Type</th>
                <!--This would be the model of the vehicle - Hauler or Wheel loader. when pressed order by model, either all the hauler shows first or the other way-->
-               <th onclick="sortTable(2)" scope="col">Attention Value</th>
+               <!--<th onclick="sortTable(2)" scope="col">Attention Value</th>-->
                <!--The data should show the biggest/most active machine, every vehicle should have a sie or an activity timer? when pressed order by highest value-->
                <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
                <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
@@ -175,7 +196,7 @@
             <tr>
                <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
                <td>{{vehicle.getType}}</td>
-               <td>{{vehicle.getAttentionValue}}</td>
+               <!--<td>{{vehicle.getAttentionValue}}</td>-->
                <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a>
                </td>
                <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"
@@ -195,7 +216,7 @@
 
 
 <!--For now this doesn't work with for loops this is troubling for the onclick... or maybe just the script code-->
-  
+ <!-- 
 <script>
    function sortTable(n) {
      // Set the sorting direction to ascending:
@@ -248,5 +269,5 @@
        }
      }
    }
-</script>
+</script>-->
 {% endblock content %}

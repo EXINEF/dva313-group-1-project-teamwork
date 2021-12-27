@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import FleetManager, Vehicle, Tire, Sensor
-from .forms import VehicleForm, TireForm, SensorForm
+from .forms import VehicleForm, TireForm, SensorForm, VehicleFormOnlyTires
 from .decorators import unauthenticated_user, fleet_manager_only
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -17,7 +17,8 @@ def indexPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            # redirect to index, that will redirect in home or admin
+            return redirect('index')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
@@ -35,24 +36,41 @@ def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
     tires_num = Tire.objects.count()
-    sensor_num = Sensor.objects.count()
+    sensors_num = Sensor.objects.count()
 
-#Here would add, get the home val from fleet_manager.home_view. and then also set the homeview to the database from the input 
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num}
+    return render(request, 'user/home.html', context) 
 
-    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
-    return render(request, 'user/home-simple.html', context) #Then only render /home
-
-@login_required(login_url='index') #This one would be removed 
+@login_required(login_url='index')
 @fleet_manager_only
-def homePageExtended(request):
+def allTires(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    vehicles = Vehicle.objects.filter(company=fleet_manager.company)
-    tires_num = Tire.objects.count()
-    sensor_num = Sensor.objects.count()
-    tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
+    tires = Tire.objects.filter(company=fleet_manager.company)
 
-    context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
-    return render(request, 'user/home-extended.html', context)
+    context = {'tires':tires, 'fleet_manager':fleet_manager,}
+    return render(request, 'user/all-tires.html', context) 
+
+@login_required(login_url='index')
+@fleet_manager_only
+def allSensors(request):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    sensors = Sensor.objects.filter(company=fleet_manager.company)
+
+    context = {'sensors':sensors, 'fleet_manager':fleet_manager,}
+    return render(request, 'user/all-sensors.html', context) 
+
+
+#@login_required(login_url='index') #This one would be removed 
+#@fleet_manager_only
+#def homePageExtended(request):
+ #  fleet_manager = FleetManager.objects.get(user=request.user)
+  #vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+   # tires_num = Tire.objects.count()
+    #sensor_num = Sensor.objects.count()
+    #tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
+
+    #context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
+    #return render(request, 'user/home-extended.html', context)
 
 @login_required(login_url='index')
 @fleet_manager_only
@@ -61,7 +79,6 @@ def vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     locations = vehicle.locations.all().order_by('-creation_datetime')
     lastLoaction = locations.first()
-    print(vehicle.tire_left_front.id)
 
     context = {'vehicle':vehicle, 'locations':locations , 'lastLocation':lastLoaction}
     return render(request, 'user/vehicle/vehicle.html', context)
@@ -70,7 +87,7 @@ def vehicle(request, pk):
 @fleet_manager_only
 def addVehicle(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = VehicleForm(initial={'company':fleet_manager.company})
+    form = VehicleForm(initial={'company':fleet_manager.company}, company=fleet_manager.company)
     
     if request.method == 'POST':
         form = VehicleForm(request.POST)
@@ -87,19 +104,18 @@ def addVehicle(request):
 def editVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
-    form = VehicleForm(instance=vehicle)
+    form = VehicleForm(instance=vehicle, company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = VehicleForm(request.POST, instance=vehicle)
+        form = VehicleForm(request.POST, instance=vehicle, company=fleet_manager.company)
 
         if form.is_valid():
             form.save()
             messages.success(request,'The vehicle %s is been update successfuly' % vehicle)
-            return redirect('home')
+            return redirect('vehicle', vehicle.id)
         else:
             messages.error(request,'Error while updating vehicle: '+str(form.errors))
 
-    
     context = {'vehicle':vehicle, 'form':form}
     return render(request, 'user/vehicle/edit-vehicle.html', context)
 
@@ -116,6 +132,27 @@ def deleteVehicle(request, pk):
 
     context = {'vehicle':vehicle}
     return render(request, 'user/vehicle/delete-vehicle.html', context)
+
+
+@login_required(login_url='index')
+@fleet_manager_only
+def editTiresVehicle(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
+    form = VehicleFormOnlyTires(instance=vehicle, company=fleet_manager.company)
+    
+    if request.method == 'POST':
+        form = VehicleFormOnlyTires(request.POST, instance=vehicle, company=fleet_manager.company)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request,'The vehicle %s\'s tires are been update successfuly' % vehicle)
+            return redirect('vehicle', vehicle.id)
+        else:
+            messages.error(request,'Error while updating vehicle: '+str(form.errors))
+
+    context = {'vehicle':vehicle, 'form':form}
+    return render(request, 'user/vehicle/edit-tires-vehicle.html', context)
 
 @login_required(login_url='index')
 @fleet_manager_only
@@ -155,7 +192,7 @@ def editTire(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request,'The tire %s is been update successfuly' % tire)
-            return redirect('home')
+            return redirect('tire', tire.id)
         else:
             messages.error(request,'Error while updating tire: '+str(form.errors))
 
@@ -215,7 +252,7 @@ def editSensor(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request,'The sensor %s is been update successfuly' % sensor)
-            return redirect('home')
+            return redirect('sensor', sensor.id)
         else:
             messages.error(request,'Error while updating sensor: '+str(form.errors))
 

@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group
 
 from .models import CompanyAdministrator, FleetManager
 
+# TODO SOMETHING TO CHECK IF THE DATABASE IS ONLINE or going in a Specific Page
+
 def fleet_manager_profile(sender, instance, created, **kwargs):
 	if created:
 		group = Group.objects.get(name='fleet-manager')
