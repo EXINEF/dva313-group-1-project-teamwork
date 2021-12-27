@@ -44,7 +44,7 @@ namespace CopilotApp
 					//we do not consider hours loaded and unloaded for this type of calc.
 					//endDate-startDate).TotalHours....
 					//h = h + (machineHoursEmpty + machineHoursLoaded); //since the beginning.
-					tkph.Calc(h);
+					tkph.Calc();
 					startDate = DateTime.Now;
 					
 

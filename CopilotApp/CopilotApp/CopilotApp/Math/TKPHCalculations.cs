@@ -30,9 +30,14 @@ namespace CopilotApp
         private double qm=0; //the avg weigth
         private double qc=0; //payload weigth
         private double qv=0; //base weigth
+        private double h = 0;
         private int t_ref = 38; //Reference temperature.
         private double k2;
         private int tracker = 0;
+        private double l_empt = 0;
+        private double h_empt = 0;
+        private double l_load = 0;
+        private double h_load = 0;
         
        
 
@@ -44,12 +49,12 @@ namespace CopilotApp
              MySqlDataReader reader = (Database.SendQuery(query)).Result;
              double preSetTKPH = double.Parse(reader["tkph"].ToString());
 
+             query = "SELECT weigth FROM tpms_vehicle WHERE id = '1'";
+             reader = (Database.SendQuery(query)).Result;
+             double qv = double.Parse(reader["weigth"].ToString());
 
-            //query to get weight from vehicle. This one will act as the unloaded weight on tire.
-             //query = "SELECT weight FROM Vehicle WHERE id = '1'";
-            // MySqlDataReader reader = (Database.SendQuery(query)).Result;    
-            // qv = (reader["weight"].ToDouble())/4;  //divided by 4 so we ensure it is per tire. 
-
+            
+      
 
         }
 
@@ -60,28 +65,36 @@ namespace CopilotApp
         {
           
 
-           /*//Obstacle: how do we measure distanceDriven. do we give the change or how do we track that?
-            l = l + (MachineBusData.distanceDrivenEmpty+distanceDrivenLoaded);
-           
+           //Obstacle: how do we measure distanceDriven. do we give the change or how do we track that?
+            if(l_empt != MachineBusData.distanceDrivenEmpty)
+            {
+                l_empt = l_empt + (MachineBusData.distanceDrivenEmpty-l_empt);
+            }
+            if(l_load != MachineBusData.distanceDrivenLoaded)
+            {
+                l_load = l_load + (MachineBusData.distanceDrivenEmpty-l_load);
+            }
+            
+             if(h_empt != MachineBusData.machineHoursEmpty)
+            {
+                h_empt = h_empt + (MachineBusData.machineHoursEmpty-h_empt);
+            }
+            if(l_load != MachineBusData.machineHoursLoaded)
+            {
+                h_load = h_load + (MachineBusData.machineHoursLoaded-h_load);
+            }
+            
+            
             //it will ad to qc everytime we call this function but the tracker variable helps up know how many times we have added to qc.
             //dividing qc with the number of times we called this func should give us a good avg of qc.
-            qc = qc + payloadTonnes;
+            qc = qc + MachineBusData.payloadTonnes;
 
-
-            t_a = t_a + ((frontLeftSensorTemperature + frontRightSensorTemperature + rearLeftSensorTemperature + rearRightSensorTemperature) / 4);
+            //t_a = t_a + temperature
+            t_a = t_a + 10;
 
             //adds to the counter so we can get a good average when doing calc. 
             tracker++;
-           */
-          
-
-
-
-
-
-
-
-
+           
 
             /*
             TKPHcalc -
@@ -145,12 +158,18 @@ namespace CopilotApp
 
         
 
-        public void Calc(double hours)
+        public void Calc()
         {
         
-        //calculating the lenght it has gone during the amount of hours. Divide på 7 to get average per day.
-        double vm = ((l / hours)/7);
+        //total length and hours driven during this period.
+        l = l_empt + l_load;
+        h = h_empt + h_load;
         
+        //calculating the lenght it has gone during the amount of hours. Divide på 7 to get average per day.
+        double vm = ((l / h)/7);
+        //storing the total previous 
+        
+
         
 
 
@@ -166,14 +185,19 @@ namespace CopilotApp
         }
 
             qm = (((qv/tracker) + qc)/2);
-            //----
+            
             l = l / 7;
 
-        //Calculating the real site TKPH which in this casé is the average per day for that specific week.
+            //Calculating the real site TKPH which in this casé is the average per day for that specific week.
             double TKPH = qm * vm * k1Values[Math.Ceiling(l).ToString()] * k2;
 
             Evaluate(TKPH);
-           
+            tracker = 0;
+            l_empt = 0;
+            h_empt = 0;
+            l_load = 0;
+            h_load = 0;
+            qc=0;
         
         return;
         }
