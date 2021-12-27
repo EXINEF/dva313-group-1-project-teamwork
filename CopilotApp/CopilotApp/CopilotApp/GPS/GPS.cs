@@ -21,9 +21,9 @@ namespace CopilotApp
 
             if (result != null)
             {
-                //Some error here regarding type coversion.
-              GPSData.latitude = result.Latitude.ToString();
-              GPSData.longitude = result.Longitude.ToString();
+                
+              GPSData.latitude = result.Latitude;
+              GPSData.longitude = result.Longitude;
             }
         }
     }
