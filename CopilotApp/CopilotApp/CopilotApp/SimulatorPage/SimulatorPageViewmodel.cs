@@ -48,7 +48,7 @@ namespace CopilotApp
         void SendMachineData()
         {
             SendMachineDataToDatabase();
-            SendLocationDataToDatabase();
+            //SendLocationDataToDatabase();
         }
 
         void SendSensorData()

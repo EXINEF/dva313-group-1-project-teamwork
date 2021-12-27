@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -36,9 +37,12 @@ namespace CopilotApp
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
-            TKPHCalculations.LoadK1Data();
-            TKPHloop tkphcalc = new TKPHloop();
-            tkphcalc.run();
+
+            Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
+
+            //TKPHCalculations.LoadK1Data();
+            //TKPHloop tkphcalc = new TKPHloop();
+            //tkphcalc.run();
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); } );
 

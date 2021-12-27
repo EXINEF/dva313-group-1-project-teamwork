@@ -40,8 +40,8 @@ namespace CopilotApp
         {
             //query to get current TKHP for that tire. Set id to the local machine's
              string query = "SELECT tkph FROM tpms_vehicle WHERE id = '1'";
-             MySqlDataReader reader = (Database.SendQuery(query)).Result;
-             double preSetTKPH = double.Parse(reader["tkph"].ToString());
+             //MySqlDataReader reader = (Database.SendQuery(query)).Result;
+             //double preSetTKPH = double.Parse(reader["tkph"].ToString());
 
 
             //query to get weight from vehicle. This one will act as the unloaded weight on tire.
@@ -136,7 +136,7 @@ namespace CopilotApp
                 END
             */
             string sqlStatement = "";
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            //int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
        
              
             return;

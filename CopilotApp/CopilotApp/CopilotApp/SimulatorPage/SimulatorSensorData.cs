@@ -30,7 +30,7 @@ namespace CopilotApp
         string _rearRightSensorTemp; public string rearRightSensorTemp { get => _rearRightSensorTemp; set { _rearRightSensorTemp = value; OnPropertyChanged(nameof(rearRightSensorTemp)); } }
         string _rearRightSensorPressure; public string rearRightSensorPressure { get => _rearRightSensorPressure; set { _rearRightSensorPressure = value; OnPropertyChanged(nameof(rearRightSensorPressure)); } }
 
-        public async void SendSensorDataToDatabase()
+        public void SendSensorDataToDatabase()
         {
             //Front Left Sensor
             string SQLCommand = "UPDATE tpms_sensor SET " +
@@ -39,7 +39,7 @@ namespace CopilotApp
                                 "pressure = '" + frontLeftSensorPressure + "' " +
                                 "WHERE id = '" + frontLeftSensorID + "'; ";
 
-            int ColumnsAffected = await Database.SendNonQuery(SQLCommand);
+            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
 
             //Front Right Sensor
             SQLCommand = "UPDATE tpms_sensor SET " +
@@ -48,7 +48,7 @@ namespace CopilotApp
                                 "pressure = '" + frontRightSensorPressure + "' " +
                                 "WHERE id = '" + frontRightSensorID + "'; ";
 
-            ColumnsAffected += await Database.SendNonQuery(SQLCommand);
+            ColumnsAffected += Database.SendNonQuery(SQLCommand);
 
             //Rear Left Sensor
             SQLCommand = "UPDATE tpms_sensor SET " +
@@ -57,7 +57,7 @@ namespace CopilotApp
                                 "pressure = '" + rearLeftSensorPressure + "' " +
                                 "WHERE id = '" + rearLeftSensorID + "'; ";
 
-            ColumnsAffected += await Database.SendNonQuery(SQLCommand);
+            ColumnsAffected += Database.SendNonQuery(SQLCommand);
 
             //Rear Right Sensor
             SQLCommand = "UPDATE tpms_sensor SET " +
@@ -66,7 +66,7 @@ namespace CopilotApp
                                 "pressure = '" + rearRightSensorPressure + "' " +
                                 "WHERE id = '" + rearRightSensorID + "'; ";
 
-            ColumnsAffected += await Database.SendNonQuery(SQLCommand);
+            ColumnsAffected += Database.SendNonQuery(SQLCommand);
 
         }
     }

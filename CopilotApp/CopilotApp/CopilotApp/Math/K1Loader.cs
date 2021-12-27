@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CopilotApp
 {
@@ -11,7 +12,7 @@ namespace CopilotApp
         //private static Dictionary<string, double> k1Values = new Dictionary<string, double>(); <-- Exists in TKPHCalculations.cs
         private static string k1FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "k1values.csv");
         
-        public static async void LoadK1Data()
+        public static async Task LoadK1Data()
         {
             //Check if file exists
             if (File.Exists(k1FilePath))
@@ -102,13 +103,16 @@ namespace CopilotApp
             string SQLQuery = "SELECT distance, value FROM tpms_k1";
 
             //Send Query and get the results into the reader
-            MySqlDataReader reader = await Database.SendQuery(SQLQuery);
+            
+            MySqlDataReader reader = Database.SendQuery(SQLQuery);
 
             //Extract the SQL data row by row
             while (reader.Read())
             {
                 string distance = reader["distance"].ToString();
                 double value = double.Parse(reader["value"].ToString());
+
+                Console.WriteLine(distance + " : " + value.ToString());
 
                 //If key (k1Values[distance]) is already in the dictionary, update the value for the key, otherwise add new entry
                 if (k1Values.ContainsKey(distance))
@@ -137,6 +141,9 @@ namespace CopilotApp
 
             fileWriter.Close();
 
+
+            await Task.CompletedTask;
         }
+
     }
 }
