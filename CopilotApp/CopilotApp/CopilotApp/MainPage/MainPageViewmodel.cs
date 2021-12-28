@@ -37,8 +37,9 @@ namespace CopilotApp
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
             TKPHCalculations.LoadK1Data();
-            TKPHloop tkphcalc = new TKPHloop();
-            tkphcalc.run();
+            /*having trouble with getting values from database. Thus it is commented out*/
+            //Calculations calc = new Calculations();
+            //calc.run(); 
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); } );
 
