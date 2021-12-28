@@ -27,16 +27,16 @@ namespace CopilotApp
         public LifespanCalc()
         {
             //getting id for each tire.
-             string query = "SELECT tire_left_front_id FROM tpms_vehicle WHERE id = '123'"; //ADD MODEL ASWELL.
+             string query = "SELECT tire_left_front_id FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL.
              MySqlDataReader reader = (Database.SendQuery(query)).Result;
              tire_id[0] = reader["id"].ToString();
-             query = "SELECT tire_left_rear_id FROM tpms_vehicle WHERE id = '123'"; //ADD MODEL ASWELL.
+             query = "SELECT tire_left_rear_id FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL.
              reader = (Database.SendQuery(query)).Result;
              tire_id[1] = reader["id"].ToString();
-             query = "SELECT tire_right_front_id FROM tpms_vehicle WHERE id = '123'"; //ADD MODEL ASWELL.
+             query = "SELECT tire_right_front_id FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL.
              reader = (Database.SendQuery(query)).Result;
              tire_id[2] = reader["id"].ToString();
-             query = "SELECT tire_right_rear_id FROM tpms_vehicle WHERE id = '123'"; //ADD MODEL ASWELL.
+             query = "SELECT tire_right_rear_id FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL.
              reader = (Database.SendQuery(query)).Result;
              tire_id[3] = reader["id"].ToString();
             
@@ -111,7 +111,16 @@ namespace CopilotApp
             for(int i= 0; i+1 > tire_ls.Length; i++)
             {
                 tire_ls[i] = tire_ls[i] + ((t2-t1).Hours * Func(tire_curr_pressure[i]/tire_base_pressure[i])) - ((t2-t1).Hours/tire_ls[i]);
-                sqlStatement = "UPDATE tpms_vehicle SET tkph =  "+ tire_ls[i] +" WHERE id = '"+ tire_id[i] +"'";//assuming these is a value for that id.
+                //if tire life is below 0 then we just update the column with 0.
+                if(tire_ls[i] < 0)
+                {
+                     sqlStatement = "UPDATE tmps_tire SET remaining_life = 0 WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
+                }
+                else
+                {
+                     sqlStatement = "UPDATE tpms_tire SET remaining_life = "+ tire_ls[i] +" WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
+                }
+                
                 nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
             }
 
