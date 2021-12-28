@@ -46,11 +46,9 @@ namespace CopilotApp
         public TKPHCalculations()
         {
             //query to get current TKHP for that tire. Set id to the local machine's
-             string query = "SELECT tkph FROM tpms_vehicle WHERE id = '123'"; //ADD MODEL ASWELL.
-             MySqlDataReader reader = (Database.SendQuery(query)).Result;
-             preSetTKPH = double.Parse(reader["tkph"].ToString());
+           
 
-             query = "SELECT weigth FROM tpms_vehicle WHERE id = '123',"; //ADD MODEL ASWELL.
+             query = "SELECT weight FROM tpms_vehicle WHERE id = '123',"; //ADD MODEL ASWELL.
              reader = (Database.SendQuery(query)).Result;
              qv = double.Parse(reader["weight"].ToString());
 
@@ -141,11 +139,8 @@ namespace CopilotApp
 	            INSERT INTO tpms_vehicle(tkph) VALUES (321)
                 END
             */
-          
-            //Prefer to to do a query like above. 
-           // string sqlStatement = "INSERT INTO tpms_vehicle(tkph) VALUES ("+ res +")";
-           string sqlStatement = "UPDATE tpms_vehicle SET tkph =  '"+ res +"' WHERE id = '123'"; //using update as we assume there is a column.
-           int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            string sqlStatement = "";
+            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
        
              
             return;

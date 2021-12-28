@@ -29,19 +29,19 @@ namespace CopilotApp
             //Combine into a single statement
             string sqlStatement = sqlStatementPart1 + " " + sqlStatementPart2;
 
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
         }
 
         public static void SendSensorData(string tireID, string pressure, string temperature)
         {
             string sqlStatement = "INSERT INTO sensors(ID, pressure, temperature) VALUES(" + tireID + "," + pressure + "," + temperature + "," + ")";
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
         }
 
         public static void SendMachineData(int machineID, Location location)
         {
             string sqlStatement = "INSERT INTO machine(ID, latitude, longitude) VALUES(" + machineID + "," + location.Latitude + "," + location.Longitude + ")";
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
         }
 
         public static void SendLocationData()

@@ -27,7 +27,7 @@ namespace CopilotApp
             //foreach tire{ load tire data from database() }
         }
 
-        private async void SendMachineDataToDatabase()
+        private void SendMachineDataToDatabase()
         {
             string SQLCommand = "UPDATE tpms_vehicle SET " +
                 "ambient_temperature = '" + ambientTemp + "', " +
@@ -36,20 +36,20 @@ namespace CopilotApp
                 "machine_hours_empty = '" + machineHoursEmpty + "', " +
                 "machine_hours_loaded = '" + machineHoursLoaded + "', " +
                 "machine_hours_loaded = '" + machineHoursLoaded + "', " +
-                "payload_empty = '" + payloadTonnes + "', " +
-                "payload_loaded = '" + payloadBuckets + "', " +
+                "payload = '" + payloadTonnes + "', " +
+                "buckets = '" + payloadBuckets + "', " +
                 "consumed_fuel = '" + consumedFuel + "' " +
                 "WHERE id = '" + machineID + "';";
 
-            int ColumnsAffected = await Database.SendNonQuery(SQLCommand);
+            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
         }
 
-        private async void SendLocationDataToDatabase()
+        private void SendLocationDataToDatabase()
         {
             string SQLCommand = "INSERT INTO tpms_location (" + "id, " + "latitude, " + "longitude, " + "creation_datetime) " +
             "VALUES(" + machineID + ", '" + latitude + "', '" + longitude + "', '" + GetDateTime() + "' );";
 
-            int ColumnsAffected = await Database.SendNonQuery(SQLCommand);
+            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
         }
 
     }

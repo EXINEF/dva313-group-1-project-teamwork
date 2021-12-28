@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -36,6 +37,7 @@ namespace CopilotApp
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
+            Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
             TKPHCalculations.LoadK1Data();
             /*having trouble with getting values from database. Thus it is commented out*/
             //Calculations calc = new Calculations();

@@ -33,7 +33,7 @@ namespace CopilotApp
         }
 
         //Used for SQL statements that only inserts or updates values and only returns an int showing the number of rows affected
-        public static async Task<int> SendNonQuery(string sqlStatement)
+        public static int SendNonQuery(string sqlStatement)
         {
             Console.WriteLine("Sending SQL statement: " + sqlStatement);
 
@@ -46,7 +46,7 @@ namespace CopilotApp
             MySqlCommand sqlCmd = new MySqlCommand(sqlStatement, mySQLConnection);
 
             //Timeout in seconds incase the database does not respond.
-            sqlCmd.CommandTimeout = 10;
+            sqlCmd.CommandTimeout = 5;
 
             int nrOfRowsAffected = -1;
             try
@@ -54,7 +54,7 @@ namespace CopilotApp
                 mySQLConnection.Open();
 
                 //Executue SQL command(Send statement to database)
-                nrOfRowsAffected = await sqlCmd.ExecuteNonQueryAsync();
+                nrOfRowsAffected = sqlCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace CopilotApp
         }
 
         //Used for SQL queries that grabs and returns data from the database.
-        public static async Task<MySqlDataReader> SendQuery(string query)
+        public static MySqlDataReader SendQuery(string query)
         {
             Console.WriteLine("Sending Query: " + query);
 
@@ -78,7 +78,7 @@ namespace CopilotApp
             MySqlCommand sqlCmd = new MySqlCommand(query, mySQLConnection);
 
             //Timeout in seconds incase the database does not respond.
-            sqlCmd.CommandTimeout = 10;
+            sqlCmd.CommandTimeout = 5;
 
             //Data reader to store the results of the query
             MySqlDataReader sqlDataReader = null;
@@ -87,7 +87,7 @@ namespace CopilotApp
                 mySQLConnection.Open();
 
                 //Executue SQL command(Send query to database). Returns a MySqlDataReader object containing the query data.
-                sqlDataReader = await sqlCmd.ExecuteReaderAsync();
+                sqlDataReader = sqlCmd.ExecuteReader();
             }
             catch (Exception ex)
             {

@@ -48,10 +48,10 @@ namespace CopilotApp
         public void LoadTireDataFromDatabase(string tireID)
         {
             string query = "SELECT tire_id FROM tpms_vehicle_tires WHERE vehicle_id = '" + tireID + "'";
-            MySqlDataReader reader = (Database.SendQuery(query)).Result;
+            MySqlDataReader reader = Database.SendQuery(query);
         }
 
-        public async void SendTireDataToDatabase()
+        public void SendTireDataToDatabase()
         {
             //Front Left Tire
             string SQLCommand = "UPDATE tpms_tire SET " +
@@ -59,7 +59,7 @@ namespace CopilotApp
                                 "fill_material = '" + frontLeftTireFillMaterial + "', " +
                                 "tread_depth = '" + frontLeftTireTreadDepth + "' " +
                                 "WHERE id = '" + frontLeftTireID + "'; ";
-            int ColumnsAffected = await Database.SendNonQuery(SQLCommand);
+            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
 
             //Front Right Tire
             SQLCommand = "UPDATE tpms_tire SET " +
@@ -67,7 +67,7 @@ namespace CopilotApp
                                 "fill_material = '" + frontRightTireFillMaterial + "', " +
                                 "tread_depth = '" + frontRightTireTreadDepth + "' " +
                                 "WHERE id = '" + frontRightTireID + "'; ";
-            ColumnsAffected += await Database.SendNonQuery(SQLCommand);
+            ColumnsAffected += Database.SendNonQuery(SQLCommand);
 
             //Rear Left Tire
             SQLCommand = "UPDATE tpms_tire SET " +
@@ -75,7 +75,7 @@ namespace CopilotApp
                                 "fill_material = '" + rearLeftTireFillMaterial + "', " +
                                 "tread_depth = '" + rearLeftTireTreadDepth + "' " +
                                 "WHERE id = '" + rearLeftTireID + "'; ";
-            ColumnsAffected = await Database.SendNonQuery(SQLCommand);
+            ColumnsAffected = Database.SendNonQuery(SQLCommand);
 
             //Rear Right Tire
             SQLCommand = "UPDATE tpms_tire SET " +
@@ -83,7 +83,7 @@ namespace CopilotApp
                                 "fill_material = '" + rearRightTireFillMaterial + "', " +
                                 "tread_depth = '" + rearRightTireTreadDepth + "' " +
                                 "WHERE id = '" + rearRightTireID + "'; ";
-            ColumnsAffected += await Database.SendNonQuery(SQLCommand);
+            ColumnsAffected += Database.SendNonQuery(SQLCommand);
 
         }
 
