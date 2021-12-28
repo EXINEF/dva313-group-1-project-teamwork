@@ -48,7 +48,7 @@ namespace CopilotApp
             //query to get current TKHP for that tire. Set id to the local machine's
            
 
-             query = "SELECT weight FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL.
+             query = "SELECT weight FROM tpms_vehicle WHERE id = '123',"; //ADD MODEL ASWELL.
              reader = (Database.SendQuery(query)).Result;
              qv = double.Parse(reader["weight"].ToString());
 
@@ -89,7 +89,7 @@ namespace CopilotApp
             qc = qc + MachineBusData.payloadTonnes;
 
             //t_a = t_a + temperature
-            t_a = t_a + MachineData.ambientTemperature;
+            t_a = t_a + 10;
 
             //adds to the counter so we can get a good average when doing calc. 
             tracker++;
@@ -139,7 +139,7 @@ namespace CopilotApp
 	            INSERT INTO tpms_vehicle(tkph) VALUES (321)
                 END
             */
-            string sqlStatement = "UPDATE tmps_vehicle SET tpms = 0 WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
+            string sqlStatement = "";
             int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
        
              
