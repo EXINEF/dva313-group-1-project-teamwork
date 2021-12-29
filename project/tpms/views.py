@@ -87,12 +87,15 @@ def vehicle(request, pk):
 @fleet_manager_only
 def addVehicle(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = VehicleForm(initial={'company':fleet_manager.company}, company=fleet_manager.company)
+    form = VehicleForm(company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = VehicleForm(request.POST)
+        form = VehicleForm(request.POST, company=fleet_manager.company)
         if form.is_valid():
-            form.save()
+            new_vehicle = form.save(commit=False)
+            new_vehicle.company = fleet_manager.company
+            new_vehicle.save()
+            form.save_m2m()
             messages.success(request,'The new vehicle was addedd successfuly')
             return redirect('home')
 
@@ -170,12 +173,15 @@ def tire(request, pk):
 @fleet_manager_only
 def addTire(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = TireForm(initial={'company':fleet_manager.company})
+    form = TireForm()
 
     if request.method == 'POST':
         form = TireForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_tire = form.save(commit=False)
+            new_tire.company = fleet_manager.company
+            new_tire.save()
+            form.save_m2m()
             messages.success(request,'The new tire was addedd successfuly')
             return redirect('home')
 
@@ -230,14 +236,19 @@ def sensor(request, pk):
 @fleet_manager_only
 def addSensor(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = SensorForm(initial={'company':fleet_manager.company})
+    form = SensorForm()
 
     if request.method == 'POST':
         form = SensorForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_sensor = form.save(commit=False)
+            new_sensor.company = fleet_manager.company
+            new_sensor.save()
+            form.save_m2m()
             messages.success(request,'The new sensor was addedd successfuly')
             return redirect('home')
+        else:
+            print(form.errors)
 
     context = {'form':form}
     return render(request, 'user/sensor/add-sensor.html', context)

@@ -34,7 +34,7 @@ class SensorForm(ModelForm):
     class Meta:
         model = Sensor
         fields = '__all__'
-        exclude = ('company',)
+        exclude = ['company',]
 
 class CreateUserForm(UserCreationForm):
 	class Meta:
