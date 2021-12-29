@@ -111,11 +111,28 @@ class Vehicle(models.Model):
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return 'Vehicle model: ' + self.model + ' ID: ' + self.id
+        return 'ID:%s model:%s by %s STATUS:%s'%(self.id,self.model,self.company,self.getStatus())
     
-    def getStatus(self, status):
-        # TODO calculate this Status with an algorithm
-        return status
+    def getStatus(self):
+        if self.tire_left_front.sensor.remaining_battery < 10:
+            return 'DANGER'
+        if self.tire_left_rear.sensor.remaining_battery < 10:
+            return 'DANGER'
+        if self.tire_right_front.sensor.remaining_battery < 10:
+            return 'DANGER'
+        if self.tire_right_rear.sensor.remaining_battery < 10:
+            return 'DANGER'
+        if self.tire_left_front.sensor.remaining_battery < 20:
+            return 'WARNING'
+        if self.tire_left_rear.sensor.remaining_battery < 20:
+            return 'WARNING'
+        if self.tire_right_front.sensor.remaining_battery < 20:
+            return 'WARNING'
+        if self.tire_right_rear.sensor.remaining_battery < 20:
+            return 'WARNING'
+        if self.tire_specc != 'NEUTRAL':
+            return 'WARNING'
+        return 'OK'
 
     def getType(self):
         return 'Wheel Loader'
