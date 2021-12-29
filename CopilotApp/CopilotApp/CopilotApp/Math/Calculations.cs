@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CopilotApp
 {
@@ -16,7 +17,7 @@ namespace CopilotApp
 
 		}
 
-		public void run()
+		public async Task run()
 		{
 			//This block will calculate and update DB by indicating if the real site TKPH is under/over specced or neutral.
 			//Every 7th day will the DB be updated.
@@ -38,9 +39,9 @@ namespace CopilotApp
 					startDate = DateTime.Now;
 					
 				}
-				Thread.Sleep(50);
+				Thread.Sleep(1000);
 			}
-
+			await Task.CompletedTask;
 		}
 
 	}

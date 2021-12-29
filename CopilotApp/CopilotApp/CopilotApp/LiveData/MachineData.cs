@@ -11,7 +11,7 @@ namespace CopilotApp
 
     public class MachineData
     {
-        public static string machineID = "1";
+        public static string machineID = "999"; //switched from 1 to test the values that exists in DB.
         public static double ambientTemperature;
 
     }

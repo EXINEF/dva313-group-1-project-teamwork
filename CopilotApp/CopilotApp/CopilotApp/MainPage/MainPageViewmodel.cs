@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -38,10 +38,10 @@ namespace CopilotApp
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
             Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
-            TKPHCalculations.LoadK1Data();
-            /*having trouble with getting values from database. Thus it is commented out*/
-            //Calculations calc = new Calculations();
-            //calc.run(); 
+            
+            Calculations calc = new Calculations();
+            Task.Run(async () => { await calc.run(); });
+      
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); } );
 

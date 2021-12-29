@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 
 namespace CopilotApp
@@ -46,11 +48,27 @@ namespace CopilotApp
         public TKPHCalculations()
         {
             //query to get current TKHP for that tire. Set id to the local machine's
-           
+             string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
+             MySqlDataReader reader = (Database.SendQuery(query));
+            while (reader == null)
+            {
+                reader = (Database.SendQuery(query));
+            }
+            reader.Read();
+             preSetTKPH = double.Parse(reader["tkph"].ToString());
+            
+            //string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
+            //MySqlCommand myCommand = new MySqlCommand(query, mySQLConnection);
+          
 
-             query = "SELECT weight FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL.
-             reader = (Database.SendQuery(query)).Result;
-             qv = double.Parse(reader["weight"].ToString());
+            query = "SELECT weight FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL. maybe
+            reader = Database.SendQuery(query);
+            while (reader == null)
+            {
+                reader = (Database.SendQuery(query));
+            }
+            reader.Read();
+            qv = double.Parse(reader["weight"].ToString());
 
             
       
@@ -139,8 +157,8 @@ namespace CopilotApp
 	            INSERT INTO tpms_vehicle(tkph) VALUES (321)
                 END
             */
-            string sqlStatement = "UPDATE tmps_vehicle SET tpms = 0 WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            string sqlStatement = "UPDATE tmps_vehicle SET tire_specc = '"+ res +"' WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
+            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
        
              
             return;
