@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 
 namespace CopilotApp
@@ -38,19 +40,35 @@ namespace CopilotApp
         private double h_empt = 0;
         private double l_load = 0;
         private double h_load = 0;
+        private double preSetTKPH;
+        private Status res;
         
        
 
         public TKPHCalculations()
         {
             //query to get current TKHP for that tire. Set id to the local machine's
-             string query = "SELECT tkph FROM tpms_vehicle WHERE id = '1'";
-             MySqlDataReader reader = Database.SendQuery(query);
-             //double preSetTKPH = double.Parse(reader["tkph"].ToString());
+             string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
+             MySqlDataReader reader = (Database.SendQuery(query));
+            while (reader == null)
+            {
+                reader = (Database.SendQuery(query));
+            }
+            reader.Read();
+             preSetTKPH = double.Parse(reader["tkph"].ToString());
+            
+            //string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
+            //MySqlCommand myCommand = new MySqlCommand(query, mySQLConnection);
+          
 
-             query = "SELECT weigth FROM tpms_vehicle WHERE id = '1'";
-             reader = Database.SendQuery(query);
-             double qv = double.Parse(reader["weigth"].ToString());
+            query = "SELECT weight FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL. maybe
+            reader = Database.SendQuery(query);
+            while (reader == null)
+            {
+                reader = (Database.SendQuery(query));
+            }
+            reader.Read();
+            qv = double.Parse(reader["weight"].ToString());
 
             
       
@@ -89,7 +107,7 @@ namespace CopilotApp
             qc = qc + MachineBusData.payloadTonnes;
 
             //t_a = t_a + temperature
-            t_a = t_a + 10;
+            t_a = t_a + MachineData.ambientTemperature;
 
             //adds to the counter so we can get a good average when doing calc. 
             tracker++;
@@ -101,20 +119,7 @@ namespace CopilotApp
             and k2 if the ambient temperature is below or above the referenced temperature of 38C. 
 
            Input:
-            t = Ambient temperature. Should be gathered from the vehicle
-            l = The lenght of a cycle
-            h = The duration of a cycle
-
-            qc = is the load per tyre in ton (TKPH) on a laden vehicle.
-            qv = is the load per tyre in ton (TKPH) on an unladen vehicle
-            Note: Assume Qv and Qc is given and the TKPH will be the same on each tire.
-
-           k1 = the coeffecient give by the michelin document. This should be an array taken from a database where such values exists.
-
-           Output:
-            The calculated TKPH value for the current cycle.
-
-      */
+         */
 
         }
 
@@ -122,20 +127,24 @@ namespace CopilotApp
 
         private void Evaluate(double rsTKPH)
         {
-            /*private Status result;
+             
+            
 
+            //if the real site TKPH is higher than 10% of the pre calculated TKPH then it is over specced. 
+            //If real site TKPH is below by 10% or lower then it is overspecced.
             if((preSetTKPH*1.1) < rsTKPH)
              {
-                  result = Status.OVER;
+                  res = Status.OVER;
              }
-             if((preSetTKPH*0.9) > rsTKPH)
+             else if((preSetTKPH*0.9) > rsTKPH)
              {
-                 result = Status.UNDER;
+                 res = Status.UNDER;
+             }else
+             {
+                 res = Status.NEUTRAL;  
              }
-             else
-             {
-                 result = Status.NEUTRAL;
-             }*/
+                 
+             
 
             //Do SQLCOMMAND to UPDATE spec in DB.
             /*
@@ -148,8 +157,8 @@ namespace CopilotApp
 	            INSERT INTO tpms_vehicle(tkph) VALUES (321)
                 END
             */
-            string sqlStatement = "";
-            //int nrOfRowsAffected = Database.SendNonQuery(sqlStatement).Result;
+            string sqlStatement = "UPDATE tmps_vehicle SET tire_specc = '"+ res +"' WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
+            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
        
              
             return;
@@ -166,7 +175,7 @@ namespace CopilotApp
         
         //calculating the lenght it has gone during the amount of hours. Divide på 7 to get average per day.
         double vm = ((l / h)/7);
-        //storing the total previous 
+       
         
 
         

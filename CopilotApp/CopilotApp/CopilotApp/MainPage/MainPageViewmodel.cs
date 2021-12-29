@@ -37,12 +37,11 @@ namespace CopilotApp
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
-
             Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
-
-            //TKPHCalculations.LoadK1Data();
-            //TKPHloop tkphcalc = new TKPHloop();
-            //tkphcalc.run();
+            
+            Calculations calc = new Calculations();
+            Task.Run(async () => { await calc.run(); });
+      
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); } );
 
