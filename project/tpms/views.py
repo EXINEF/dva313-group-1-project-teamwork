@@ -173,10 +173,10 @@ def tire(request, pk):
 @fleet_manager_only
 def addTire(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = TireForm()
+    form = TireForm(company=fleet_manager.company)
 
     if request.method == 'POST':
-        form = TireForm(request.POST)
+        form = TireForm(request.POST, company=fleet_manager.company)
         if form.is_valid():
             new_tire = form.save(commit=False)
             new_tire.company = fleet_manager.company
@@ -193,10 +193,10 @@ def addTire(request):
 def editTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
-    form = TireForm(instance=tire)
+    form = TireForm(instance=tire, company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = TireForm(request.POST, instance=tire)
+        form = TireForm(request.POST, instance=tire, company=fleet_manager.company)
 
         if form.is_valid():
             form.save()

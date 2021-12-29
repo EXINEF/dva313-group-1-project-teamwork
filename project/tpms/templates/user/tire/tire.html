@@ -15,8 +15,8 @@
 
     <h1>TIRE Home Page</h1>
     <div style="text-align: right;">
-        <button class="btn btn-light" onclick="location.href='edit-tire'"><i class="fas fa-wrench"></i> Edit</button>
-        <button class="btn btn-light" onclick="location.href='delete-tire'"><i class="fas fa-trash-alt"></i> Delete</button>
+        <button class="btn btn-light" onclick="location.href='{% url 'edit-tire' tire.id %}'"><i class="fas fa-wrench"></i> Edit</button>
+        <button class="btn btn-light" onclick="location.href='{% url 'delete-tire' tire.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
     </div>
     <h2>ID: {{tire.id}}</h2>
 

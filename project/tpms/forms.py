@@ -7,7 +7,7 @@ class VehicleForm(ModelForm):
     class Meta:
         model = Vehicle
         fields = '__all__'
-        exclude = ('locations','company',)
+        exclude = ['locations','company',]
 
     def __init__(self, *args, company, **kwargs):
         super().__init__(*args, **kwargs)
@@ -28,7 +28,11 @@ class TireForm(ModelForm):
     class Meta:
         model = Tire
         fields = '__all__'
-        exclude = ('company',)
+        exclude = ['company',]
+    
+    def __init__(self, *args, company, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['sensor'].queryset = Sensor.objects.filter(company=company, is_used=False)
 
 class SensorForm(ModelForm):
     class Meta:

@@ -30,13 +30,13 @@ class Sensor(models.Model):
     pressure = models.FloatField(blank=True, null=True)
     remaning_battery = models.FloatField(blank=True, null=True)
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
-    is_used = models.BooleanField(blank = True, null=True)
+    is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return 'ID:%s by %s'%(self.id,self.company)
+        return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
@@ -45,7 +45,7 @@ class Tire(models.Model):
     fill_material = models.CharField(max_length=30, blank=True, null=True)
     tread_depth = models.FloatField(blank=True, null=True)
     revolutions = models.FloatField(blank=True, null=True)
-    is_used = models.BooleanField(blank = True, null=True)
+    is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.DO_NOTHING)
@@ -70,7 +70,7 @@ class Tire(models.Model):
     """
     
     def __str__(self):
-        return 'ID:%s by %s'%(self.id,self.company)
+        return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
 
 class Location(models.Model):
     latitude = models.FloatField()
