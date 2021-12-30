@@ -31,11 +31,7 @@
  
 {% include 'user/home-cards.html' %}
 
-{% if fleet_manager.home_view == 'EXTENDED' %}
-    {% include 'user/home-extended.html' %}
-{% else %}
-    {% include 'user/home-simple.html' %}
-{% endif %}
+{% include 'user/home-vehicles-table.html' %}
 
 </body>
 
