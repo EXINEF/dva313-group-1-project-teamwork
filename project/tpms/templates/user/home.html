@@ -31,7 +31,12 @@
  
 {% include 'user/home-cards.html' %}
 
-{% include 'user/home-simple.html' %}
+{% if fleet_manager.home_view == 'EXTENDED' %}
+    {% include 'user/home-extended.html' %}
+{% else %}
+    {% include 'user/home-simple.html' %}
+{% endif %}
+
 </body>
-</div>
+
 {% endblock content %}
