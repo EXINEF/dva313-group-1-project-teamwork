@@ -114,6 +114,8 @@ class Vehicle(models.Model):
         return 'ID:%s model:%s by %s STATUS:%s'%(self.id,self.model,self.company,self.getStatus())
     
     def getStatus(self):
+        if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
+            return 'DANGER'
         if self.tire_left_front.sensor.remaining_battery < 10:
             return 'DANGER'
         if self.tire_left_rear.sensor.remaining_battery < 10:

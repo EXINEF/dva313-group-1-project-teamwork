@@ -1,18 +1,10 @@
 {% extends 'core/base-template.html' %}
 {% block content %}
-<div class="container-fluid px-4" >
-   
-<head>
-   <meta charset="utf-8" />
-   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-   <meta name="description" content="" />
-   <meta name="author" content="" />
-   <title>Volvo TPMS</title>
-   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-   <link href="css/styles.css" rel="stylesheet" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+
+<body class="bg-dark">
+    
 <!--Info of Overview--> 
+<div class="container-fluid px-4" >
    <div class="card-sm">
         <div class="card-body">
             <div style="text-align: right;">
@@ -35,114 +27,11 @@
             </div>
         </div>
     </div>
+</div>
+ 
+{% include 'user/home-cards.html' %}
 
-    
-</head>
-
-
-
-<body class="bg-dark">
-    
-<!--Warning Cards-->
-    <div class="row">
-        <div class="col-xl-4 col-md-4">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body" style="text-align:center;">Warning Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="container">
-                        <div class="accordion">
-                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding:0;" >View Details</a>
-                            <div class="accordion-collapse collapse" id="collapse1" style>
-                                <div class ="accoridon-body">
-                                    <div class="card card-body container bg-warning">
-                                        {% for vehicle in vehicles%}
-                                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-  
-        <div class="col-xl-4 col-md-4">
-            <div class="card bg-danger text-white mb-4">
-                <div class="card-body" style="text-align:center;">Danger Card</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="container">
-                        <div class="accordion">
-                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse2" style=" background-color:transparent; float:right;  padding:0;" >View Details</a>
-                            <div class="accordion-collapse collapse" id="collapse2" style>
-                                <div class ="accoridon-body">
-                                    <div class="card card-body container bg-danger">
-                                        {% for vehicle in vehicles%}
-                                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-md-4">
-            <div class="card bg-info text-white mb-4">
-                <div class="card-body" style="text-align:center;">Inventory</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="container">
-                        <div class="accordion">
-                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding: 0;" >View Details</a>
-                            <div class="accordion-collapse collapse" id="collapse3" style>
-                                <div class ="accoridon-body">
-                                    <div class="card card-body container bg-info">
-                                        {% for vehicle in vehicles%}
-                                        <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<!--Warning Cards Ends-->
-
-<!--Table-->   
-    <div class="card mb-4">
-        <div class="card-header">
-            <h2>My Vehicles</h2>
-        </div>
-        <table class="table table table" id="sortTable">
-            <thread>
-                <tr>
-                    <th scope="col">Vehicle (ID)</th>
-                    <th scope="col">Type</th>
-                    <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
-                    <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
-                </tr>
-            </thread>
-            <tbody>
-                <tr>
-                    {% for vehicle in vehicles %}
-                    <tr>
-                    <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
-                    <td>{{vehicle.getType}}</td>
-                    <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a></td>
-                    <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"style="color:black"></i></a></td>
-                    </tr>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        </table>
-<!--Table Ends-->
-    </div>
+{% include 'user/home-simple.html' %}
 </body>
 </div>
 {% endblock content %}
