@@ -22,3 +22,6 @@ urlpatterns = [
 ]
 
 handler404 = 'tpms.views.page_404'
+
+admin.site.site_header = 'Volvo Tpms Super-Admin Panel'
+admin.site.site_title = 'Volvo Tpms Super-Admin Panel'

@@ -10,6 +10,9 @@ def unauthenticated_user(view_func):
 	def wrapper_func(request, *args, **kwargs):
 
 		if request.user.is_authenticated:
+			if request.user.is_staff:
+				return redirect('/admin')
+
 			if request.user.groups.exists() and request.user.groups.all()[0].name == 'fleet-manager':
 				return redirect('home')
 			
@@ -28,6 +31,8 @@ def unauthenticated_user(view_func):
 def company_administrator_only(view_func):
 	def wrapper_function(request, *args, **kwargs):
 		group = None
+		if request.user.is_staff:
+			return redirect('/admin')
 		if request.user.groups.exists():
 			group = request.user.groups.all()[0].name
 		if group == 'company-administrator':
@@ -39,6 +44,8 @@ def company_administrator_only(view_func):
 # only the fleetmanager can see this page
 def fleet_manager_only(view_func):
 	def wrapper_function(request, *args, **kwargs):
+		if request.user.is_staff:
+			return redirect('/admin')
 		group = None
 		if request.user.groups.exists():
 			group = request.user.groups.all()[0].name
