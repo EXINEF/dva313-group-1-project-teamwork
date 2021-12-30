@@ -5,15 +5,15 @@ from .models import Sensor, Tire, Location, Vehicle, CompanyAdministrator, Fleet
 class SensorAdmin(admin.ModelAdmin):
     model = Sensor
 
-    ordering = ('id', 'status', 'temperature', 'pressure', 'remaning_battery')
-    list_display = ('id', 'status', 'temperature', 'pressure', 'remaning_battery')
+    ordering = ('id', 'company', 'is_used', 'status', 'temperature', 'pressure', 'remaning_battery',)
+    list_display = ('id', 'company', 'is_used', 'status', 'temperature', 'pressure', 'remaning_battery',)
     search_fields = ['id']
 
 class TireAdmin(admin.ModelAdmin):
     model = Tire
 
-    ordering = ('id', 'company', 'remaining_life', 'tread_depth', 'revolutions')
-    list_display = ('id', 'company', 'remaining_life', 'tread_depth', 'revolutions')
+    ordering = ('id', 'company', 'is_used', 'remaining_life', 'tread_depth', 'revolutions',)
+    list_display = ('id', 'company', 'is_used', 'remaining_life', 'tread_depth', 'revolutions',)
     search_fields = ['id']
 
 class LocationAdmin(admin.ModelAdmin):

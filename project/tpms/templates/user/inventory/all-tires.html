@@ -22,7 +22,7 @@
     <tbody>
         {% for tire in tires %}
             <tr>
-            <th scope="row">{{tire.id}}</th>
+            <th scope="row"><a href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
             <td>{{tire.remaining_life}}</td>
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>

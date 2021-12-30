@@ -48,7 +48,7 @@ def allTires(request):
     tires = Tire.objects.filter(company=fleet_manager.company)
 
     context = {'tires':tires, 'fleet_manager':fleet_manager,}
-    return render(request, 'user/all-tires.html', context) 
+    return render(request, 'user/inventory/all-tires.html', context) 
 
 @login_required(login_url='index')
 @fleet_manager_only
@@ -57,20 +57,7 @@ def allSensors(request):
     sensors = Sensor.objects.filter(company=fleet_manager.company)
 
     context = {'sensors':sensors, 'fleet_manager':fleet_manager,}
-    return render(request, 'user/all-sensors.html', context) 
-
-
-#@login_required(login_url='index') #This one would be removed 
-#@fleet_manager_only
-#def homePageExtended(request):
- #  fleet_manager = FleetManager.objects.get(user=request.user)
-  #vehicles = Vehicle.objects.filter(company=fleet_manager.company)
-   # tires_num = Tire.objects.count()
-    #sensor_num = Sensor.objects.count()
-    #tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
-
-    #context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
-    #return render(request, 'user/home-extended.html', context)
+    return render(request, 'user/inventory/all-sensors.html', context) 
 
 @login_required(login_url='index')
 @fleet_manager_only
@@ -87,12 +74,15 @@ def vehicle(request, pk):
 @fleet_manager_only
 def addVehicle(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = VehicleForm(initial={'company':fleet_manager.company}, company=fleet_manager.company)
+    form = VehicleForm(company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = VehicleForm(request.POST)
+        form = VehicleForm(request.POST, company=fleet_manager.company)
         if form.is_valid():
-            form.save()
+            new_vehicle = form.save(commit=False)
+            new_vehicle.company = fleet_manager.company
+            new_vehicle.save()
+            form.save_m2m()
             messages.success(request,'The new vehicle was addedd successfuly')
             return redirect('home')
 
@@ -133,7 +123,6 @@ def deleteVehicle(request, pk):
     context = {'vehicle':vehicle}
     return render(request, 'user/vehicle/delete-vehicle.html', context)
 
-
 @login_required(login_url='index')
 @fleet_manager_only
 def editTiresVehicle(request, pk):
@@ -146,6 +135,9 @@ def editTiresVehicle(request, pk):
 
         if form.is_valid():
             form.save()
+            v = get_object_or_404(Vehicle, id=pk)
+            v.setAllTiresUsed
+            v.save()
             messages.success(request,'The vehicle %s\'s tires are been update successfuly' % vehicle)
             return redirect('vehicle', vehicle.id)
         else:
@@ -167,12 +159,15 @@ def tire(request, pk):
 @fleet_manager_only
 def addTire(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = TireForm(initial={'company':fleet_manager.company})
+    form = TireForm(company=fleet_manager.company)
 
     if request.method == 'POST':
-        form = TireForm(request.POST)
+        form = TireForm(request.POST, company=fleet_manager.company)
         if form.is_valid():
-            form.save()
+            new_tire = form.save(commit=False)
+            new_tire.company = fleet_manager.company
+            new_tire.save()
+            form.save_m2m()
             messages.success(request,'The new tire was addedd successfuly')
             return redirect('home')
 
@@ -184,10 +179,10 @@ def addTire(request):
 def editTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
-    form = TireForm(instance=tire)
+    form = TireForm(instance=tire, company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = TireForm(request.POST, instance=tire)
+        form = TireForm(request.POST, instance=tire, company=fleet_manager.company)
 
         if form.is_valid():
             form.save()
@@ -227,14 +222,19 @@ def sensor(request, pk):
 @fleet_manager_only
 def addSensor(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = SensorForm(initial={'company':fleet_manager.company})
+    form = SensorForm()
 
     if request.method == 'POST':
         form = SensorForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_sensor = form.save(commit=False)
+            new_sensor.company = fleet_manager.company
+            new_sensor.save()
+            form.save_m2m()
             messages.success(request,'The new sensor was addedd successfuly')
             return redirect('home')
+        else:
+            print(form.errors)
 
     context = {'form':form}
     return render(request, 'user/sensor/add-sensor.html', context)
@@ -273,24 +273,6 @@ def deleteSensor(request, pk):
 
     context = {'sensor':sensor}
     return render(request, 'user/sensor/delete-sensor.html', context)
-
-# TODO we have to remove this cause we will send data directly to the database and not by the server
-# http://127.0.0.1:8000/savedata/AUTHSYSTEM-TEST111-SENSORTEST1-3234-223-BROKEN-SENSORTEST2-40234-222-WORKING-SENSORTEST3-2237-32345-DANGER-SENSORTEST4-5453-1354-WARNING
-def saveData(request, query):
-    chunks = query.split('-')
-    if chunks[0] == 'AUTHSYSTEM':
-        vehicle = get_object_or_404(Vehicle,id=chunks[1])
-        tires = vehicle.tires.all()
-        counter = 0
-        for x in range(2, len(chunks), 4):
-            sensor = tires[counter].sensor
-            sensor.temperature = chunks[x+1]
-            sensor.pressure = chunks[x+2]
-            sensor.status = chunks[x+3]
-            sensor.save()
-            counter+=1
-            
-    return redirect('/')
 
 def page_404(request, exception):
     return render(request, 'error/404.html')
