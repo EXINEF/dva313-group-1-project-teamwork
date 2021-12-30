@@ -27,10 +27,10 @@ python manage.py runserver
 3) Check the website<br>http://127.0.0.1:8000/
 
 ### TEST DATABASE Credentials
-<br>Hostname:   eu-cdbr-west-01.cleardb.com
-<br>Username:   b630dce8abed0f
-<br>Password:   37cbbdac
-<br>Database:   heroku_71aa00777cf80be
+<br>Hostname:   eu-cdbr-west-02.cleardb.net
+<br>Username:   b787ff70333075
+<br>Password:   0d107855
+<br>Database:   heroku_5b190513145da9f
 
 ### ADMIN CREDENTIALS TO LOG IN DJANGO locally
 http://127.0.0.1:8000/admin
