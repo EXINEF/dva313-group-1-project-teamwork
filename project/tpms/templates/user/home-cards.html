@@ -6,15 +6,11 @@
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <div class="container">
                     <div class="accordion">
-                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding:0;" >View Details</a>
+                        <a class=" text-white accordion-button collapsed" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding:0;" >View Details</a>
                         <div class="accordion-collapse collapse" id="collapse1" style>
-                            <div class ="accoridon-body">
                                 <div class="card card-body container bg-warning">
-                                    {% for vehicle in vehicles%}
-                                    <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                                    {% endfor %}
+                                    <!--I think it was the for loop that makes the bug, that is not async and will therefore not wait for it to be done and render too much space and therefore it will look like it exapnd too much -->
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -32,9 +28,7 @@
                         <div class="accordion-collapse collapse" id="collapse2" style>
                             <div class ="accoridon-body">
                                 <div class="card card-body container bg-danger">
-                                    {% for vehicle in vehicles%}
-                                    <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                                    {% endfor %}
+                                    <!--I think it was the for loop that makes the bug, that is not async and will therefore not wait for it to be done and render too much space and therefore it will look like it exapnd too much -->
                                 </div>
                             </div>
                         </div>
@@ -54,9 +48,7 @@
                         <div class="accordion-collapse collapse" id="collapse3" style>
                             <div class ="accoridon-body">
                                 <div class="card card-body container bg-info">
-                                    {% for vehicle in vehicles%}
-                                    <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
-                                    {% endfor %}
+                                    <!--I think it was the for loop that makes the bug, that is not async and will therefore not wait for it to be done and render too much space and therefore it will look like it exapnd too much -->
                                 </div>
                             </div>
                         </div>
