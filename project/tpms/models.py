@@ -163,7 +163,6 @@ class FleetManager(models.Model):
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=50, blank=True, null=True) 
-    home_view = models.CharField(max_length=30, choices=HOME_VIEW)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
