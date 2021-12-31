@@ -39,8 +39,8 @@ namespace CopilotApp
             TestNotificationCommand = new Command(TestNotification);
             Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
             
-            Calculations calc = new Calculations();
-            Task.Run(async () => { await calc.run(); });
+            //Calculations calc = new Calculations();
+            //Task.Run(async () => { await calc.run(); });
       
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); } );
@@ -96,15 +96,6 @@ namespace CopilotApp
         //Pull values from the LiveData and update the graphics
         public void UpdateDisplay()
         {
-            frontLeftTireTemperatureDisplayValue = SensorData.frontLeftSensorTemperature.ToString() + " °C";
-            frontLeftTirePressureDisplayValue = SensorData.frontLeftSensorPressure.ToString() + " kPa";
-            frontRightTireTemperatureDisplayValue = SensorData.frontRightSensorTemperature.ToString() + " °C";
-            frontRightTirePressureDisplayValue = SensorData.frontRightSensorPressure.ToString() + " kPa";
-            rearLeftTireTemperatureDisplayValue = SensorData.rearLeftSensorTemperature.ToString() + " °C";
-            rearLeftTirePressureDisplayValue = SensorData.rearLeftSensorPressure.ToString() + " kPa";
-            rearRightTireTemperatureDisplayValue = SensorData.rearRightSensorTemperature.ToString() + " °C";
-            rearRightTirePressureDisplayValue = SensorData.rearRightSensorPressure.ToString() + " kPa";
-
             UpdateFrontLeftTireGraphics();
             UpdateFrontRightTireGraphics();
             UpdateRearLeftTireGraphics();
@@ -140,6 +131,10 @@ namespace CopilotApp
 
         private void UpdateFrontLeftTireGraphics()
         {
+            //Grab newest data from the Live Data and set as the display values
+            frontLeftTireTemperatureDisplayValue = SensorData.frontLeftSensorTemperature.ToString() + " °C";
+            frontLeftTirePressureDisplayValue = SensorData.frontLeftSensorPressure.ToString() + " kPa";
+
             TEMPERATURE_STATUS tempStatus = GetTemperatureStatus(SensorData.frontLeftSensorTemperature);
             PRESSURE_STATUS pressureStatus = GetPressureStatus(SensorData.frontLeftSensorPressure, TireData.frontLeftTireBaselinePressure);
 
@@ -191,6 +186,10 @@ namespace CopilotApp
         }
         private void UpdateFrontRightTireGraphics()
         {
+            //Grab newest data from the Live Data and set as the display values
+            frontRightTireTemperatureDisplayValue = SensorData.frontRightSensorTemperature.ToString() + " °C";
+            frontRightTirePressureDisplayValue = SensorData.frontRightSensorPressure.ToString() + " kPa";
+
             TEMPERATURE_STATUS tempStatus = GetTemperatureStatus(SensorData.frontRightSensorTemperature);
             PRESSURE_STATUS pressureStatus = GetPressureStatus(SensorData.frontRightSensorPressure, TireData.frontRightTireBaselinePressure);
 
@@ -241,6 +240,10 @@ namespace CopilotApp
         }
         private void UpdateRearLeftTireGraphics()
         {
+            //Grab newest data from the Live Data and set as the display values
+            rearLeftTireTemperatureDisplayValue = SensorData.rearLeftSensorTemperature.ToString() + " °C";
+            rearLeftTirePressureDisplayValue = SensorData.rearLeftSensorPressure.ToString() + " kPa";
+
             TEMPERATURE_STATUS tempStatus = GetTemperatureStatus(SensorData.rearLeftSensorTemperature);
             PRESSURE_STATUS pressureStatus = GetPressureStatus(SensorData.rearLeftSensorPressure, TireData.rearLeftTireBaselinePressure);
 
@@ -291,6 +294,10 @@ namespace CopilotApp
         }
         private void UpdateRearRightTireGraphics()
         {
+            //Grab newest data from the Live Data and set as the display values
+            rearRightTireTemperatureDisplayValue = SensorData.rearRightSensorTemperature.ToString() + " °C";
+            rearRightTirePressureDisplayValue = SensorData.rearRightSensorPressure.ToString() + " kPa";
+
             TEMPERATURE_STATUS tempStatus = GetTemperatureStatus(SensorData.rearRightSensorTemperature);
             PRESSURE_STATUS pressureStatus = GetPressureStatus(SensorData.rearRightSensorPressure, TireData.rearRightTireBaselinePressure);
 

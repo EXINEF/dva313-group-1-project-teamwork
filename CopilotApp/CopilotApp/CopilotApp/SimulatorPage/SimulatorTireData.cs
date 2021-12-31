@@ -53,6 +53,12 @@ namespace CopilotApp
 
         public void SendTireDataToDatabase()
         {
+            DatabaseFunctions.SendTireData(frontLeftTireID, null,frontLeftTireBaselinePressure, frontLeftTireFillMaterial, frontLeftTireTreadDepth, null, null, frontLeftSensorID);
+            DatabaseFunctions.SendTireData(frontRightTireID, null, frontRightTireBaselinePressure, frontRightTireFillMaterial, frontRightTireTreadDepth, null, null, frontRightSensorID);
+            DatabaseFunctions.SendTireData(rearLeftTireID, null, rearLeftTireBaselinePressure, rearLeftTireFillMaterial, rearLeftTireTreadDepth, null, null, rearLeftSensorID);
+            DatabaseFunctions.SendTireData(rearRightTireID, null, rearRightTireBaselinePressure, rearRightTireFillMaterial, rearRightTireTreadDepth, null, null, rearRightSensorID);
+
+            /*
             //Front Left Tire
             string SQLCommand = "UPDATE tpms_tire SET " +
                                 "baseline_pressure = '" + frontLeftTireBaselinePressure + "', " +
@@ -85,6 +91,7 @@ namespace CopilotApp
                                 "WHERE id = '" + rearRightTireID + "'; ";
             ColumnsAffected += Database.SendNonQuery(SQLCommand);
 
+            */
         }
 
 

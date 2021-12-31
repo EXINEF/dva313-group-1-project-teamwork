@@ -29,6 +29,12 @@ namespace CopilotApp
 
         private void SendMachineDataToDatabase()
         {
+
+            DatabaseFunctions.SendMachineData(machineID, "Wheel loader", ambientTemp, distanceDrivenEmpty, distanceDrivenLoaded, machineHoursEmpty, machineHoursLoaded, 
+                                                       payloadTonnes, payloadBuckets, consumedFuel, frontLeftTireID, rearLeftTireID, frontRightTireID, rearRightTireID);
+
+            return;
+
             string SQLCommand = "UPDATE tpms_vehicle SET " +
                 "ambient_temperature = '" + ambientTemp + "', " +
                 "distance_driven_empty = '" + distanceDrivenEmpty + "', " +
@@ -44,12 +50,10 @@ namespace CopilotApp
             int ColumnsAffected = Database.SendNonQuery(SQLCommand);
         }
 
+        //Sends the longitude and latitude of the machine to the database.
         private void SendLocationDataToDatabase()
         {
-            string SQLCommand = "INSERT INTO tpms_location (" + "id, " + "latitude, " + "longitude, " + "creation_datetime) " +
-            "VALUES(" + machineID + ", '" + latitude + "', '" + longitude + "', '" + GetDateTime() + "' );";
-
-            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
+            DatabaseFunctions.SendLocationData(machineID, double.Parse(latitude), double.Parse(longitude));
         }
 
     }

@@ -97,5 +97,74 @@ namespace CopilotApp
             return sqlDataReader;
         }
 
+
+        /**************************************
+        *                ASYNC                *
+        ***************************************/
+
+        //Used for SQL statements that only inserts or updates values and only returns an int showing the number of rows affected
+        public static async Task<int> SendNonQueryAsync(string sqlStatement)
+        {
+            Console.WriteLine("Sending SQL statement: " + sqlStatement);
+
+            string myConnectionString = GenerateConnectionString(_ip, _port, _username, _password, _databaseName);
+
+            //Establish a new connection for every query
+            mySQLConnection = new MySqlConnection(myConnectionString);
+
+            //Set up a SQL statement to be executed takes the statement and the connection to which the the statement should be sent 
+            MySqlCommand sqlCmd = new MySqlCommand(sqlStatement, mySQLConnection);
+
+            //Timeout in seconds incase the database does not respond.
+            sqlCmd.CommandTimeout = 5;
+
+            int nrOfRowsAffected = -1;
+            try
+            {
+                await mySQLConnection.OpenAsync();
+
+                //Executue SQL command(Send statement to database)
+                nrOfRowsAffected = await sqlCmd.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SQL statement send failed: " + ex.Message);
+            }
+
+            return nrOfRowsAffected;
+        }
+
+        //Used for SQL queries that grabs and returns data from the database.
+        public static async Task<MySqlDataReader> SendQueryAsync(string query)
+        {
+            Console.WriteLine("Sending Query: " + query);
+
+            string myConnectionString = GenerateConnectionString(_ip, _port, _username, _password, _databaseName);
+
+            //Establish a new connection for every query
+            mySQLConnection = new MySqlConnection(myConnectionString);
+
+            //Set up a SQL Command to be executed takes the query and the connection to which the the query should be sent 
+            MySqlCommand sqlCmd = new MySqlCommand(query, mySQLConnection);
+
+            //Timeout in seconds incase the database does not respond.
+            sqlCmd.CommandTimeout = 5;
+
+            //Data reader to store the results of the query
+            MySqlDataReader sqlDataReader = null;
+            try
+            {
+                await mySQLConnection.OpenAsync();
+
+                //Executue SQL command(Send query to database). Returns a MySqlDataReader object containing the query data.
+                sqlDataReader = await sqlCmd.ExecuteReaderAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Query failed: " + ex.Message);
+            }
+
+            return sqlDataReader;
+        }
     }
 }

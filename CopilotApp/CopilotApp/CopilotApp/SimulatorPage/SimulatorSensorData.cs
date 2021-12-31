@@ -32,6 +32,13 @@ namespace CopilotApp
 
         public void SendSensorDataToDatabase()
         {
+            DatabaseFunctions.SendSensorData(_frontLeftSensorID, frontLeftSensorPressure, frontLeftSensorTemp, frontLeftSensorStatus, null, null);
+            DatabaseFunctions.SendSensorData(_frontRightSensorID, frontRightSensorPressure, frontRightSensorTemp, frontRightSensorStatus, null, null);
+            DatabaseFunctions.SendSensorData(_rearLeftSensorID, rearLeftSensorPressure, rearLeftSensorTemp, frontLeftSensorStatus, null, null);
+            DatabaseFunctions.SendSensorData(_rearRightSensorID, rearRightSensorPressure, rearRightSensorTemp, frontRightSensorStatus, null, null);
+
+
+            /*
             //Front Left Sensor
             string SQLCommand = "UPDATE tpms_sensor SET " +
                                 "status = '" + frontLeftSensorStatus + "', " +
@@ -67,7 +74,7 @@ namespace CopilotApp
                                 "WHERE id = '" + rearRightSensorID + "'; ";
 
             ColumnsAffected += Database.SendNonQuery(SQLCommand);
-
+            */
         }
     }
 }
