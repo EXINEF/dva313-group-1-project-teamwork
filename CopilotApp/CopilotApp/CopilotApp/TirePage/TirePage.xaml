@@ -11,20 +11,26 @@
         <local:TirePageViewmodel/>
     </ContentPage.BindingContext>
 
-    <AbsoluteLayout>
-        <Frame BackgroundColor="Black">
+    <StackLayout>
+
+        <Image Source="tiregif200x200x45.gif" IsAnimationPlaying="true" HeightRequest="130" Margin="0,10,0,0"></Image>
+        
+        <Frame BackgroundColor="Black" HorizontalOptions="Center" WidthRequest="400">
+
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Label Text="Tire ID:" Grid.Row="0" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
@@ -42,31 +48,25 @@
                 <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
 
                 <Label Text="Tire Life:" Grid.Row="4" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                <Label Text="71%" Grid.Row="4" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                <Label Text="{Binding tireLife}" Grid.Row="4" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
                 
-                <Label Text="Revolusions:" Grid.Row="5" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                <Label Text="8063" Grid.Row="5" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                
-                <Label Text="Battery Life:" Grid.Row="6" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                <Label Text="82%" Grid.Row="6" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                <Label Text="Revolutions:" Grid.Row="5" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                <Label Text="{Binding tireRevolutions}" Grid.Row="5" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
             </Grid>
         </Frame>
 
         <Button Command="{Binding OKCommand}"
-                AbsoluteLayout.LayoutBounds="0.50, 0.95, 300, 200"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
                 Text="OK"
                 IsEnabled="True"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"/>
+                VerticalOptions="End"
+                HorizontalOptions="Center"
+                />
         <Button Command="{Binding CancelCommand}"
-                AbsoluteLayout.LayoutBounds="0.50, 1.1, 300, 200"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
                 Text="Cancel"
                 IsEnabled="True"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="End"
                 HorizontalOptions="Center"/>
 
-    </AbsoluteLayout>
+    </StackLayout>
 
 </ContentPage>
