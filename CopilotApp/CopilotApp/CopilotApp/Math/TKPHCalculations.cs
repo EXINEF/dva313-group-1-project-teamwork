@@ -27,21 +27,24 @@ namespace CopilotApp
             OVER,
         }
 
-        private double t_a=0; //the ambient temperature.
-        private double l=0;//the length driven in km
-        private double qm=0; //the avg weigth
-        private double qc=0; //payload weigth
-        private double qv=0; //base weigth
-        private double h = 0;
+        private decimal t_a=0; //the ambient temperature.
+        private decimal l=0;//the length driven in km
+        private decimal qm=0; //the avg weigth
+        private decimal qc=0; //payload weigth
+        private decimal qv=0; //base weigth
+        private decimal h = 0;
         private int t_ref = 38; //Reference temperature.
         private double k2;
         private int tracker = 0;
-        private double l_empt = 0;
-        private double h_empt = 0;
-        private double l_load = 0;
-        private double h_load = 0;
+        private decimal l_k1 = 0;
+        private decimal l_empt = 0;
+        private decimal h_empt = 0;
+        private decimal l_load = 0;
+        private decimal h_load = 0;
         private double preSetTKPH;
         private Status res;
+        private int n = 0;
+        private int n_curr = 0;
         
        
 
@@ -57,9 +60,7 @@ namespace CopilotApp
             reader.Read();
              preSetTKPH = double.Parse(reader["tkph"].ToString());
             
-            //string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
-            //MySqlCommand myCommand = new MySqlCommand(query, mySQLConnection);
-          
+           
 
             query = "SELECT weight FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL. maybe
             reader = Database.SendQuery(query);
@@ -68,10 +69,9 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-            qv = double.Parse(reader["weight"].ToString());
+            qv = decimal.Parse(reader["weight"].ToString());
 
-            
-      
+            n = MachineBusData.payloadBuckets;
 
         }
 
@@ -83,32 +83,35 @@ namespace CopilotApp
           
 
            //Obstacle: how do we measure distanceDriven. do we give the change or how do we track that?
-            if(l_empt != MachineBusData.distanceDrivenEmpty)
+            if(l_empt != (decimal)MachineBusData.distanceDrivenEmpty)
             {
-                l_empt = l_empt + (MachineBusData.distanceDrivenEmpty-l_empt);
+                l_empt = l_empt + ((decimal)MachineBusData.distanceDrivenEmpty-l_empt);
             }
-            if(l_load != MachineBusData.distanceDrivenLoaded)
+            if(l_load != (decimal)MachineBusData.distanceDrivenLoaded)
             {
-                l_load = l_load + (MachineBusData.distanceDrivenEmpty-l_load);
+                l_load = l_load + ((decimal)MachineBusData.distanceDrivenEmpty-l_load);
             }
             
-             if(h_empt != MachineBusData.machineHoursEmpty)
+             if(h_empt != (decimal)MachineBusData.machineHoursEmpty)
             {
-                h_empt = h_empt + (MachineBusData.machineHoursEmpty-h_empt);
+                h_empt = h_empt + ((decimal)MachineBusData.machineHoursEmpty-h_empt);
             }
-            if(l_load != MachineBusData.machineHoursLoaded)
+            if(l_load != (decimal)MachineBusData.machineHoursLoaded)
             {
-                h_load = h_load + (MachineBusData.machineHoursLoaded-h_load);
+                h_load = h_load + ((decimal)MachineBusData.machineHoursLoaded-h_load);
             }
             
             
             //it will ad to qc everytime we call this function but the tracker variable helps up know how many times we have added to qc.
             //dividing qc with the number of times we called this func should give us a good avg of qc.
-            qc = qc + MachineBusData.payloadTonnes;
+            qc = qc + (decimal)MachineBusData.payloadTonnes;
 
             //t_a = t_a + temperature
-            t_a = t_a + MachineData.ambientTemperature;
+            t_a = t_a + (decimal)MachineData.ambientTemperature;
 
+            n_curr = MachineBusData.payloadBuckets-n;
+           
+            
             //adds to the counter so we can get a good average when doing calc. 
             tracker++;
            
@@ -174,7 +177,8 @@ namespace CopilotApp
         h = h_empt + h_load;
         
         //calculating the lenght it has gone during the amount of hours. Divide på 7 to get average per day.
-        double vm = ((l / h)/7);
+        //.........
+        decimal vm = ((l / h)/7);
        
         
 
@@ -183,21 +187,33 @@ namespace CopilotApp
 
         //Calculate k2 where if t_a is higher than t_ref then we use formula (1). If t_a is below t_ref then use formula 2.
         //Good to know if t_a = t_ref then k2 will be = 1.
-        if (t_a/tracker > 38)
+        if (t_a/(decimal)tracker > 38)
         {
-            k2 = 1 / (1 - ((0.4 * (t_a - t_ref)) / vm));
+            k2 = 1 / (1 - ((0.4 * ((double)t_a - t_ref)) / (double)vm));
         }
         else
         {
-            k2 = 1 / (1 - ((0.25 * (t_a - t_ref)) / vm));
+            k2 = 1 / (1 - ((0.25 * ((double)t_a - t_ref)) / (double)vm));
         }
-
-            qm = (((qv/tracker) + qc)/2);
+            //assuming the tonnes are for the whole vehicle so we divide by 4 to get how much per tire.
+            qm = ((((qv/(decimal)tracker)/4) + (qc/4))/2);
             
+            //Length split amongs seven days.
             l = l / 7;
+            //Divide it the N cycles per day to gain a good K1 value.
+            n = n_curr;
+            if(n == 0)
+            {
+                l_k1 = l;
+            }
+            else
+            {
+                l_k1 = l/(decimal)n;
+            }
+           
 
             //Calculating the real site TKPH which in this casé is the average per day for that specific week.
-            double TKPH = qm * vm * k1Values[Math.Ceiling(l).ToString()] * k2;
+            double TKPH = (double)qm * (double)vm * k1Values[Math.Ceiling(l_k1).ToString()] * k2;
 
             Evaluate(TKPH);
             tracker = 0;
@@ -206,6 +222,7 @@ namespace CopilotApp
             l_load = 0;
             h_load = 0;
             qc=0;
+            n_curr = 0;
         
         return;
         }

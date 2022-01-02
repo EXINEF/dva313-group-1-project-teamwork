@@ -18,9 +18,8 @@ namespace CopilotApp
         //3 = right rear
         private string[] tire_id = new string[4];
         private decimal[] tire_ls = new decimal[4];
-        private double[] tire_base_pressure = new double[4];
-        private double[] tire_curr_pressure = new double[4];
-        private double[] ls = new double[4];
+        private decimal[] tire_base_pressure = new decimal[4];
+        private decimal[] tire_curr_pressure = new decimal[4];
         private string sqlStatement;
         //private int nrOfRowsAffected;
         DateTime t2;
@@ -105,7 +104,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-             tire_base_pressure[0] = Double.Parse(reader["baseline_pressure"].ToString());
+             tire_base_pressure[0] = Decimal.Parse(reader["baseline_pressure"].ToString());
              query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '"+ tire_id[1] +"'"; 
              reader = (Database.SendQuery(query));
             while (reader == null)
@@ -113,7 +112,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-             tire_base_pressure[1] = Double.Parse(reader["baseline_pressure"].ToString());
+             tire_base_pressure[1] = Decimal.Parse(reader["baseline_pressure"].ToString());
              query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '"+ tire_id[2] +"'"; 
              reader = (Database.SendQuery(query));
             while (reader == null)
@@ -121,7 +120,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-             tire_base_pressure[2] = Double.Parse(reader["baseline_pressure"].ToString());
+             tire_base_pressure[2] = Decimal.Parse(reader["baseline_pressure"].ToString());
              query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '"+ tire_id[3] +"'"; 
              reader = (Database.SendQuery(query));
             while (reader == null)
@@ -129,7 +128,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-             tire_base_pressure[3] = Double.Parse(reader["baseline_pressure"].ToString());
+             tire_base_pressure[3] = Decimal.Parse(reader["baseline_pressure"].ToString());
 
             
       
@@ -140,11 +139,11 @@ namespace CopilotApp
        
 
 
-        private double Func(double x)
+        private decimal Func(decimal x)
         {
             //This formula is based of using non linear regression and curve fit it into a polynomial function. This takes the precentage lost from base pressure and 
             //returns the precentage lost from lifespan.
-            return Math.Pow(x, 4) + 3.743 * Math.Pow(x, 3) - 3.882 * Math.Pow(x, 2) - 0.2472 * x + 4.436 * Math.Pow(10, -5);  
+            return Decimal.Multiply(((decimal)Math.Pow((double)x, 4) + (decimal)3.743),(decimal)Math.Pow((double)x, 3)) - Decimal.Multiply((decimal)3.882, (decimal)Math.Pow((double)x, 2)) - Decimal.Multiply((decimal)0.2472, x) + Decimal.Multiply((decimal)4.436, (decimal)Math.Pow(10, -5));  
         }
 
         public DateTime CalcL(DateTime t1)
@@ -155,7 +154,7 @@ namespace CopilotApp
            // precentage = frontRightTireBaselinePressure/baselinepressure
 
             /*IF NOT EXISTS(select* __)
-                begin
+                beginl
                     
                 end
          */
@@ -163,17 +162,17 @@ namespace CopilotApp
             
             //sets todays datetime.
             t2 = DateTime.Now;
-            tire_curr_pressure[0] = SensorData.frontLeftSensorPressure;
-            tire_curr_pressure[1] = SensorData.rearLeftSensorPressure;
-            tire_curr_pressure[2] = SensorData.frontRightSensorPressure;
-            tire_curr_pressure[3] = SensorData.rearRightSensorPressure;
+            tire_curr_pressure[0] = (decimal)SensorData.frontLeftSensorPressure;
+            tire_curr_pressure[1] = (decimal)SensorData.rearLeftSensorPressure;
+            tire_curr_pressure[2] = (decimal)SensorData.frontRightSensorPressure;
+            tire_curr_pressure[3] = (decimal)SensorData.rearRightSensorPressure;
             
                
             //assuming the remaining life in the database is measured in hours.
             for(int i= 0; i < tire_ls.Length; i++)
             {
-                
-                tire_ls[i] = (decimal)tire_ls[i] + ((((decimal)(t2-t1).Seconds) * (decimal)Func(tire_curr_pressure[i]/tire_base_pressure[i])) - ((((decimal)(t2-t1).Seconds))) /(decimal)tire_ls[i]);
+               
+                tire_ls[i] = tire_ls[i] + Decimal.Multiply((decimal)(t2-t1).Seconds,Func(tire_curr_pressure[i]/tire_base_pressure[i])) - (((decimal)(t2-t1).Seconds) /tire_ls[i]);
                 //if tire life is below 0 then we just update the column with 0.
                
                 if (tire_ls[i] < 0)

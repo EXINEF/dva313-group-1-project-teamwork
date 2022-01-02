@@ -17,7 +17,7 @@ namespace CopilotApp
         public static double distanceDrivenLoaded;
         public static double machineHoursEmpty;
         public static double machineHoursLoaded;
-        public static int payloadBuckets;
+        public static int payloadBuckets; //AKA Cycles
         public static double payloadTonnes;
         public static double consumedFuel;
     }
