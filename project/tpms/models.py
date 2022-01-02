@@ -26,9 +26,9 @@ class Sensor(models.Model):
     )
 
     id = models.CharField(max_length=50, primary_key=True)
-    temperature = models.FloatField(blank=True, null=True)
-    pressure = models.FloatField(blank=True, null=True)
-    remaning_battery = models.FloatField(blank=True, null=True)
+    temperature = models.FloatField(blank=True, null=True, default=0)
+    pressure = models.FloatField(blank=True, null=True, default=0)
+    remaning_battery = models.FloatField(blank=True, null=True, default=0)
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -38,13 +38,22 @@ class Sensor(models.Model):
     def __str__(self):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
 
+    def getStatus(self):
+        if self.status != 'WORKING':
+            return 'DANGER'
+        if self.remaning_battery < 10:
+            return 'DANGER'
+        if self.remaning_battery < 20:
+            return 'WARNING'
+        return 'OK'
+
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
-    remaining_life = models.FloatField(blank=True, null=True)
-    baseline_pressure = models.FloatField(blank=True, null=True) 
+    remaining_life = models.FloatField(blank=True, null=True, default=0)
+    baseline_pressure = models.FloatField(blank=True, null=True, default=0) 
     fill_material = models.CharField(max_length=30, blank=True, null=True)
-    tread_depth = models.FloatField(blank=True, null=True)
-    revolutions = models.FloatField(blank=True, null=True)
+    tread_depth = models.FloatField(blank=True, null=True, default=0)
+    revolutions = models.FloatField(blank=True, null=True, default=0)
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
@@ -116,21 +125,21 @@ class Vehicle(models.Model):
     def getStatus(self):
         if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
             return 'DANGER'
-        if self.tire_left_front.sensor.remaining_battery < 10:
+        if self.tire_left_front.sensor.remaning_battery < 10:
             return 'DANGER'
-        if self.tire_left_rear.sensor.remaining_battery < 10:
+        if self.tire_left_rear.sensor.remaning_battery < 10:
             return 'DANGER'
-        if self.tire_right_front.sensor.remaining_battery < 10:
+        if self.tire_right_front.sensor.remaning_battery < 10:
             return 'DANGER'
-        if self.tire_right_rear.sensor.remaining_battery < 10:
+        if self.tire_right_rear.sensor.remaning_battery < 10:
             return 'DANGER'
-        if self.tire_left_front.sensor.remaining_battery < 20:
+        if self.tire_left_front.sensor.remaning_battery < 20:
             return 'WARNING'
-        if self.tire_left_rear.sensor.remaining_battery < 20:
+        if self.tire_left_rear.sensor.remaning_battery < 20:
             return 'WARNING'
-        if self.tire_right_front.sensor.remaining_battery < 20:
+        if self.tire_right_front.sensor.remaning_battery < 20:
             return 'WARNING'
-        if self.tire_right_rear.sensor.remaining_battery < 20:
+        if self.tire_right_rear.sensor.remaning_battery < 20:
             return 'WARNING'
         if self.tire_specc != 'NEUTRAL':
             return 'WARNING'

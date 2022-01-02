@@ -57,18 +57,26 @@
 
     <div class="col-xl-4 col-md-4">
         <div class="card bg-info text-white mb-4">
-            <div class="card-body" style="text-align:center;">Inventory</div>
+            <div class="card-body" style="text-align:center;">Inventory Sensors Not OK: {{sensors_inventory_num}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <div class="container">
                     <div class="accordion">
-                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding: 0;" >View Details</a>
+                        {% if sensors_inventory_num != 0 %}
+                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding: 0;" >View Sensors</a>
                         <div class="accordion-collapse collapse" id="collapse3" style>
                             <div class ="accoridon-body">
                                 <div class="card card-body container bg-info">
-                                    <!--I think it was the for loop that makes the bug, that is not async and will therefore not wait for it to be done and render too much space and therefore it will look like it exapnd too much -->
+                                    {% for sensor in sensors %}
+                                        {% if sensor.getStatus != 'OK' %}
+                                            <a href="{% url 'sensor' sensor.id %}">{{sensor.id}}</a>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >All Sensors are OK</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import FleetManager, Vehicle, Tire, Sensor
+from .models import Company, FleetManager, Vehicle, Tire, Sensor
 from .forms import VehicleForm, TireForm, SensorForm, VehicleFormOnlyTires
 from .decorators import unauthenticated_user, fleet_manager_only
 from django.contrib.auth.decorators import login_required
@@ -37,18 +37,27 @@ def countVehiclesInStatus(vehicles, status):
             counter += 1
     return counter
 
+def countSensorsInventory(sensors):
+    counter = 0
+    for sensor in sensors:
+        if sensor.getStatus() != 'OK':
+            counter += 1
+    return counter
+
 @login_required(login_url='index')
 @fleet_manager_only
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    sensors = Sensor.objects.filter(company=fleet_manager.company)
     vehicles_warning_num = countVehiclesInStatus(vehicles, 'WARNING')
     vehicles_danger_num = countVehiclesInStatus(vehicles, 'DANGER')
+    sensors_inventory_num = countSensorsInventory(sensors)
 
     tires_num = Tire.objects.count()
     sensors_num = Sensor.objects.count()
 
-    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, }
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, 'sensors':sensors, 'sensors_inventory_num':sensors_inventory_num, }
     return render(request, 'user/home.html', context) 
 
 @login_required(login_url='index')
