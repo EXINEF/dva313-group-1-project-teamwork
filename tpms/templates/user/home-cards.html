@@ -1,0 +1,86 @@
+<!--Warning Cards-->
+<div class="row">
+    <div class="col-xl-4 col-md-4">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body" style="text-align:center;">Warning Vehicles: {{vehicles_warning_num}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="container">
+                    <div class="accordion">
+                        {% if vehicles_warning_num != 0 %}
+                            <a class=" text-white accordion-button collapsed" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding:0;" >Show Vehicles</a>
+                            <div class="accordion-collapse collapse" id="collapse1" style>
+                                <div class="card card-body container bg-warning">
+                                    {% for vehicle in vehicles %}
+                                        {% if vehicle.getStatus == 'WARNING' %}
+                                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% endif %}
+                                    {% endfor %}    
+                                </div>
+                            </div>
+                        {% else %}
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >No Vehicles in Warning</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-4 col-md-4">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body" style="text-align:center;">Danger Vehicles: {{vehicles_danger_num}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="container">
+                    <div class="accordion">
+                        {% if vehicles_danger_num != 0 %}
+                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse2" style=" background-color:transparent; float:right;  padding:0;" >Show Vehicles</a>
+                            <div class="accordion-collapse collapse" id="collapse2" style>
+                                <div class ="accoridon-body">
+                                    <div class="card card-body container bg-danger">
+                                        {% for vehicle in vehicles %}
+                                            {% if vehicle.getStatus == 'DANGER' %}
+                                                <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                            {% endif %}
+                                        {% endfor %} 
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >No Vehicles in Danger</a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-4">
+        <div class="card bg-info text-white mb-4">
+            <div class="card-body" style="text-align:center;">Inventory Sensors Not OK: {{sensors_inventory_num}}</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="container">
+                    <div class="accordion">
+                        {% if sensors_inventory_num != 0 %}
+                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding: 0;" >View Sensors</a>
+                        <div class="accordion-collapse collapse" id="collapse3" style>
+                            <div class ="accoridon-body">
+                                <div class="card card-body container bg-info">
+                                    {% for sensor in sensors %}
+                                        {% if sensor.getStatus != 'OK' %}
+                                            <a href="{% url 'sensor' sensor.id %}">{{sensor.id}}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >All Sensors are OK</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Warning Cards Ends-->
