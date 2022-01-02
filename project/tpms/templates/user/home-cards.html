@@ -2,16 +2,24 @@
 <div class="row">
     <div class="col-xl-4 col-md-4">
         <div class="card bg-warning text-white mb-4">
-            <div class="card-body" style="text-align:center;">Warning Card</div>
+            <div class="card-body" style="text-align:center;">Warning Vehicles: {{vehicles_warning_num}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <div class="container">
                     <div class="accordion">
-                        <a class=" text-white accordion-button collapsed" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding:0;" >View Details</a>
-                        <div class="accordion-collapse collapse" id="collapse1" style>
+                        {% if vehicles_warning_num != 0 %}
+                            <a class=" text-white accordion-button collapsed" data-bs-toggle="collapse" href="#collapse1" style=" background-color:transparent; float:right;  padding:0;" >Show Vehicles</a>
+                            <div class="accordion-collapse collapse" id="collapse1" style>
                                 <div class="card card-body container bg-warning">
-                                    <!--I think it was the for loop that makes the bug, that is not async and will therefore not wait for it to be done and render too much space and therefore it will look like it exapnd too much -->
+                                    {% for vehicle in vehicles %}
+                                        {% if vehicle.getStatus == 'WARNING' %}
+                                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% endif %}
+                                    {% endfor %}    
                                 </div>
-                        </div>
+                            </div>
+                        {% else %}
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >No Vehicles in Warning</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -20,18 +28,27 @@
     
     <div class="col-xl-4 col-md-4">
         <div class="card bg-danger text-white mb-4">
-            <div class="card-body" style="text-align:center;">Danger Card</div>
+            <div class="card-body" style="text-align:center;">Danger Vehicles: {{vehicles_danger_num}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <div class="container">
                     <div class="accordion">
-                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse2" style=" background-color:transparent; float:right;  padding:0;" >View Details</a>
-                        <div class="accordion-collapse collapse" id="collapse2" style>
-                            <div class ="accoridon-body">
-                                <div class="card card-body container bg-danger">
-                                    <!--I think it was the for loop that makes the bug, that is not async and will therefore not wait for it to be done and render too much space and therefore it will look like it exapnd too much -->
+                        {% if vehicles_danger_num != 0 %}
+                            <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse2" style=" background-color:transparent; float:right;  padding:0;" >Show Vehicles</a>
+                            <div class="accordion-collapse collapse" id="collapse2" style>
+                                <div class ="accoridon-body">
+                                    <div class="card card-body container bg-danger">
+                                        {% for vehicle in vehicles %}
+                                            {% if vehicle.getStatus == 'DANGER' %}
+                                                <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                            {% endif %}
+                                        {% endfor %} 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% else %}
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >No Vehicles in Danger</a>
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>

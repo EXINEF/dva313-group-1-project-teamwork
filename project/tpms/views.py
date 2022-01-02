@@ -30,15 +30,25 @@ def logoutPage(request):
     logout(request)
     return redirect('index')
 
+def countVehiclesInStatus(vehicles, status):
+    counter = 0
+    for vehicle in vehicles:
+        if vehicle.getStatus() == status:
+            counter += 1
+    return counter
+
 @login_required(login_url='index')
 @fleet_manager_only
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    vehicles_warning_num = countVehiclesInStatus(vehicles, 'WARNING')
+    vehicles_danger_num = countVehiclesInStatus(vehicles, 'DANGER')
+
     tires_num = Tire.objects.count()
     sensors_num = Sensor.objects.count()
 
-    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num}
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, }
     return render(request, 'user/home.html', context) 
 
 @login_required(login_url='index')
