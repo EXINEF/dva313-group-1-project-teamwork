@@ -15,24 +15,32 @@ namespace CopilotApp
         public static string frontLeftTireID;
         public static double frontLeftTireBaselinePressure;
         public static string frontLeftTireFillMaterial;
-        public static int frontLeftTireTreadDepth;
+        public static double frontLeftTireTreadDepth;
+        public static double frontLeftTireLife;
+        public static double frontLeftTireRevolutions;
 
         //Front Right Tire
         public static string frontRightTireID;
         public static double frontRightTireBaselinePressure;
         public static string frontRightTireFillMaterial;
-        public static int frontRightTireTreadDepth;
+        public static double frontRightTireTreadDepth;
+        public static double frontRightTireLife;
+        public static double frontRightTireRevolutions;
 
         //Rear Left Tire
         public static string rearLeftTireID;
         public static double rearLeftTireBaselinePressure;
         public static string rearLeftTireFillMaterial;
-        public static int rearLeftTireTreadDepth;
+        public static double rearLeftTireTreadDepth;
+        public static double rearLeftTireLife;
+        public static double rearLeftTireRevolutions;
 
         //Rear Right Tire
         public static string rearRightTireID;
         public static double rearRightTireBaselinePressure;
         public static string rearRightTireFillMaterial;
-        public static int rearRightTireTreadDepth;
+        public static double rearRightTireTreadDepth;
+        public static double rearRightTireLife;
+        public static double rearRightTireRevolutions;
     }
 }

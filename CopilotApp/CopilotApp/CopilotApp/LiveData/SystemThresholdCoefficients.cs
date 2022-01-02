@@ -17,6 +17,5 @@ namespace CopilotApp
         public static double LOW_TIRE_PRESSURE_COEFFICIENT = 0.9;
         public static double HIGH_PRESSURE_COEFFICIENT = 1.25;
         public static double VERY_HIGH_TIRE_PRESSURE_COEFFICIENT = 1.4;
-
     }
 }

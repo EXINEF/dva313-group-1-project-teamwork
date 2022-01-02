@@ -111,7 +111,7 @@ namespace CopilotApp
             PushNotification("Just some text to try the notification system");
         }
 
-        //Pull values from the LiveData and update the graphics
+        //Update All graphics
         public void UpdateDisplay()
         {
             UpdateFrontLeftTireGraphics();

@@ -93,52 +93,52 @@ namespace CopilotApp
             if (frontLeftTireID != null && frontLeftTireID != "") { TireData.frontLeftTireID = frontLeftTireID; }
             if (frontLeftTireBaselinePressure != null && frontLeftTireBaselinePressure != "") { TireData.frontLeftTireBaselinePressure = double.Parse(frontLeftTireBaselinePressure); }
             if (frontLeftTireFillMaterial != null && frontLeftTireFillMaterial != "") { TireData.frontLeftTireFillMaterial = frontLeftTireFillMaterial; }
-            if (frontLeftTireTreadDepth != null && frontLeftTireTreadDepth != "") { TireData.frontLeftTireTreadDepth = int.Parse(frontLeftTireTreadDepth); }
+            if (frontLeftTireTreadDepth != null && frontLeftTireTreadDepth != "") { TireData.frontLeftTireTreadDepth = double.Parse(frontLeftTireTreadDepth); }
 
             //Front Right Tire
             if (frontRightTireID != null && frontRightTireID != "") { TireData.frontRightTireID = frontRightTireID; }
             if (frontRightTireBaselinePressure != null && frontRightTireBaselinePressure != "") { TireData.frontRightTireBaselinePressure = double.Parse(frontRightTireBaselinePressure); }
             if (frontRightTireFillMaterial != null && frontRightTireFillMaterial != "") { TireData.frontRightTireFillMaterial = frontRightTireFillMaterial; }
-            if (frontRightTireTreadDepth != null && frontRightTireTreadDepth != "") { TireData.frontRightTireTreadDepth = int.Parse(frontRightTireTreadDepth); }
+            if (frontRightTireTreadDepth != null && frontRightTireTreadDepth != "") { TireData.frontRightTireTreadDepth = double.Parse(frontRightTireTreadDepth); }
 
             //Rear Left Tire
             if (rearLeftTireID != null && rearLeftTireID != "") { TireData.rearLeftTireID = rearLeftTireID; }
             if (rearLeftTireBaselinePressure != null && rearLeftTireBaselinePressure != "") { TireData.rearLeftTireBaselinePressure = double.Parse(rearLeftTireBaselinePressure); }
             if (rearLeftTireFillMaterial != null && rearLeftTireFillMaterial != "") { TireData.rearLeftTireFillMaterial = rearLeftTireFillMaterial; }
-            if (rearLeftTireTreadDepth != null && rearLeftTireTreadDepth != "") { TireData.rearLeftTireTreadDepth = int.Parse(rearLeftTireTreadDepth); }
+            if (rearLeftTireTreadDepth != null && rearLeftTireTreadDepth != "") { TireData.rearLeftTireTreadDepth = double.Parse(rearLeftTireTreadDepth); }
 
             //Rear Right Tire
             if (rearRightTireID != null && rearRightTireID != "") { TireData.rearRightTireID = rearRightTireID; }
             if (rearRightTireBaselinePressure != null && rearRightTireBaselinePressure != "") { TireData.rearRightTireBaselinePressure = double.Parse(rearRightTireBaselinePressure); }
             if (rearRightTireFillMaterial != null && rearRightTireFillMaterial != "") { TireData.rearRightTireFillMaterial = rearRightTireFillMaterial; }
-            if (rearRightTireTreadDepth != null && rearRightTireTreadDepth != "") { TireData.rearRightTireTreadDepth = int.Parse(rearRightTireTreadDepth); }
+            if (rearRightTireTreadDepth != null && rearRightTireTreadDepth != "") { TireData.rearRightTireTreadDepth = double.Parse(rearRightTireTreadDepth); }
 
             //Front Left Sensor
             if (frontLeftSensorID != null && frontLeftSensorID != "") { SensorData.frontLeftSensorID = frontLeftSensorID; }
-            if (frontLeftSensorTemp != null && frontLeftSensorTemp != "") { SensorData.frontLeftSensorTemperature = int.Parse(frontLeftSensorTemp); }
+            if (frontLeftSensorTemp != null && frontLeftSensorTemp != "") { SensorData.frontLeftSensorTemperature = double.Parse(frontLeftSensorTemp); }
             if (frontLeftSensorPressure != null && frontLeftSensorPressure != "") { SensorData.frontLeftSensorPressure = double.Parse(frontLeftSensorPressure); }
             if (frontLeftSensorStatus != null && frontLeftSensorStatus != "") { SensorData.frontLeftSensorStatus = frontLeftSensorStatus; }
 
             //Front Right Sensor
             if (frontRightSensorID != null && frontRightSensorID != "") { SensorData.frontRightSensorID = frontRightSensorID; }
-            if (frontRightSensorTemp != null && frontRightSensorTemp != "") { SensorData.frontRightSensorTemperature = int.Parse(frontRightSensorTemp); }
+            if (frontRightSensorTemp != null && frontRightSensorTemp != "") { SensorData.frontRightSensorTemperature = double.Parse(frontRightSensorTemp); }
             if (frontRightSensorPressure != null && frontRightSensorPressure != "") { SensorData.frontRightSensorPressure = double.Parse(frontRightSensorPressure); }
             if (frontRightSensorStatus != null && frontRightSensorStatus != "") { SensorData.frontRightSensorStatus = frontRightSensorStatus; }
 
             //Rear Left Sensor
             if (rearLeftSensorID != null && rearLeftSensorID != "") { SensorData.rearLeftSensorID = rearLeftSensorID; }
-            if (rearLeftSensorTemp != null && rearLeftSensorTemp != "") { SensorData.rearLeftSensorTemperature = int.Parse(rearLeftSensorTemp); }
+            if (rearLeftSensorTemp != null && rearLeftSensorTemp != "") { SensorData.rearLeftSensorTemperature = double.Parse(rearLeftSensorTemp); }
             if (rearLeftSensorPressure != null && rearLeftSensorPressure != "") { SensorData.rearLeftSensorPressure = double.Parse(rearLeftSensorPressure); }
             if (rearLeftSensorStatus != null && rearLeftSensorStatus != "") { SensorData.rearLeftSensorStatus = rearLeftSensorStatus; }
 
             //Rear Right Sensor
             if (rearRightSensorID != null && rearRightSensorID != "") { SensorData.rearRightSensorID = rearRightSensorID; }
-            if (rearRightSensorTemp != null && rearRightSensorTemp != "") { SensorData.rearRightSensorTemperature = int.Parse(rearRightSensorTemp); }
+            if (rearRightSensorTemp != null && rearRightSensorTemp != "") { SensorData.rearRightSensorTemperature = double.Parse(rearRightSensorTemp); }
             if (rearRightSensorPressure != null && rearRightSensorPressure != "") { SensorData.rearRightSensorPressure = double.Parse(rearRightSensorPressure); }
             if (rearRightSensorStatus != null && rearRightSensorStatus != "") { SensorData.rearRightSensorStatus = rearRightSensorStatus; }
 
             //Sends a message that will notify MainPage to update the DisplayValues.
-            MessagingCenter.Send<object>(this, "UpdateMainPageDisplayValues");
+            //MessagingCenter.Send<object>(this, "UpdateMainPageDisplayValues");
 
         }
     }
