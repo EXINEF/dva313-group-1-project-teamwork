@@ -177,24 +177,28 @@ namespace CopilotApp
             int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
         }
 
-        public static void SendLocationData(string machineID, double latitude, double longitude)
+        public static void SendLocationData(string machineID, string latitude, string longitude)
         {
-            string sqlQuery = "INSERT INTO tpms_location(id, latitude, longitude, creation_datetime)" +
-                              "VALUES(DEFAULT, "+ latitude +", "+ longitude +", CURRENT_TIME); " +
-                              "SELECT LAST_INSERT_ID();";
-
-            MySqlDataReader reader = Database.SendQuery(sqlQuery);
-
-            if(reader != null)
+            if (machineID != null && machineID != "" && latitude != null && latitude != "" && longitude != null && longitude != "")
             {
-                reader.Read();
-                
-                int locationID = int.Parse(reader["LAST_INSERT_ID()"].ToString());
 
-                string sqlCommand = "INSERT into tpms_vehicle_locations(id, vehicle_id, location_id)" +
-                                    "VALUES(DEFAULT, '" + machineID + "'," + locationID + ")";
+                string sqlQuery = "INSERT INTO tpms_location(id, latitude, longitude, creation_datetime)" +
+                                  "VALUES(DEFAULT, " + latitude + ", " + longitude + ", CURRENT_TIME); " +
+                                  "SELECT LAST_INSERT_ID();";
 
-                int nrOfAffectedRows = Database.SendNonQuery(sqlCommand); 
+                MySqlDataReader reader = Database.SendQuery(sqlQuery);
+
+                if (reader != null)
+                {
+                    reader.Read();
+
+                    int locationID = int.Parse(reader["LAST_INSERT_ID()"].ToString());
+
+                    string sqlCommand = "INSERT into tpms_vehicle_locations(id, vehicle_id, location_id)" +
+                                        "VALUES(DEFAULT, '" + machineID + "'," + locationID + ")";
+
+                    int nrOfAffectedRows = Database.SendNonQuery(sqlCommand);
+                }
             }
 
         }

@@ -51,7 +51,9 @@ namespace CopilotApp
             SimulatorButtonPressedCommand = new Command(SimulatorButtonPressed);
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
-            Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
+
+            Startup.Run();
+            //Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
 
             //Calculations calc = new Calculations();
             //Task.Run(async () => { await calc.run(); });

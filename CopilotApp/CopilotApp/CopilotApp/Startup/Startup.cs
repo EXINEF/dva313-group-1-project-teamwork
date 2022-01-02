@@ -11,7 +11,8 @@ namespace CopilotApp
         public static void Run()
         {
             Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
-            //Load tire data
+            Task.Run(async () => { await StartupTireDataLoader.LoadTireData(); });
+
         }
     }
 

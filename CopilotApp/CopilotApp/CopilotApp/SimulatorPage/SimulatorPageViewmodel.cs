@@ -137,9 +137,6 @@ namespace CopilotApp
             if (rearRightSensorPressure != null && rearRightSensorPressure != "") { SensorData.rearRightSensorPressure = double.Parse(rearRightSensorPressure); }
             if (rearRightSensorStatus != null && rearRightSensorStatus != "") { SensorData.rearRightSensorStatus = rearRightSensorStatus; }
 
-            //Sends a message that will notify MainPage to update the DisplayValues.
-            //MessagingCenter.Send<object>(this, "UpdateMainPageDisplayValues");
-
         }
     }
 }

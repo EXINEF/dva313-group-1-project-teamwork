@@ -144,6 +144,5 @@ namespace CopilotApp
 
             await Task.CompletedTask;
         }
-
     }
 }

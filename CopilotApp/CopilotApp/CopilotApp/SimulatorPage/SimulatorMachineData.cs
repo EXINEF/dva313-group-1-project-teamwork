@@ -35,6 +35,7 @@ namespace CopilotApp
 
             return;
 
+            /*
             string SQLCommand = "UPDATE tpms_vehicle SET " +
                 "ambient_temperature = '" + ambientTemp + "', " +
                 "distance_driven_empty = '" + distanceDrivenEmpty + "', " +
@@ -48,12 +49,13 @@ namespace CopilotApp
                 "WHERE id = '" + machineID + "';";
 
             int ColumnsAffected = Database.SendNonQuery(SQLCommand);
+            */
         }
 
         //Sends the longitude and latitude of the machine to the database.
         private void SendLocationDataToDatabase()
         {
-            DatabaseFunctions.SendLocationData(machineID, double.Parse(latitude), double.Parse(longitude));
+            DatabaseFunctions.SendLocationData(machineID, latitude, longitude);
         }
 
     }
