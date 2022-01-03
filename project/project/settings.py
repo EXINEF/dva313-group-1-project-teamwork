@@ -96,9 +96,9 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'heroku_449df15fabad088',
-        'USER': 'b2df0156b0be15',
-        'PASSWORD': 'ddbbe928',
+        'NAME': 'heroku_5634595b177414d',
+        'USER': 'b2ec3467a34a87',
+        'PASSWORD': '32928457',
         'HOST': 'eu-cdbr-west-02.cleardb.net',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         "OPTIONS": {
