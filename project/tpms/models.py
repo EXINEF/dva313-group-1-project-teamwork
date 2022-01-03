@@ -57,7 +57,7 @@ class Tire(models.Model):
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
-    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.DO_NOTHING)
+    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.SET_NULL)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     """
