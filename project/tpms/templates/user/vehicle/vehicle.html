@@ -115,6 +115,7 @@
             snailTrailCoords.push({lat:{{location.latitude}}, lng:{{location.longitude}} })
             
         {% endfor %}
+        if( snailTrailCoords.length > 0){
         var cent = new google.maps.LatLng(snailTrailCoords[snailTrailCoords.length-1]);
         var options = {
             zoom:16,
@@ -152,6 +153,7 @@
                 map:map
             });
         }
+    }
     }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBV2H0qKkBVZNpOeoVnmmn8h-vC3pOY1Wk&callback=initMap"></script>
