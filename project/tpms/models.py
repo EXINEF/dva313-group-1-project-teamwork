@@ -125,6 +125,8 @@ class Vehicle(models.Model):
     def getStatus(self):
         if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
             return 'DANGER'
+        if self.tire_left_front.sensor is None or self.tire_left_rear.sensor  is None or self.tire_right_front.sensor  is None or self.tire_right_rear.sensor  is None:
+            return 'DANGER'
         if self.tire_left_front.sensor.remaning_battery < 10:
             return 'DANGER'
         if self.tire_left_rear.sensor.remaning_battery < 10:
