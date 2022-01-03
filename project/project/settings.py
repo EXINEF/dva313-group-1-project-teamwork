@@ -96,10 +96,10 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'heroku_71aa00777cf80be',
-        'USER': 'b630dce8abed0f',
-        'PASSWORD': '37cbbdac',
-        'HOST': 'eu-cdbr-west-01.cleardb.com',   # Or an IP Address that your DB is hosted on
+        'NAME': 'heroku_449df15fabad088',
+        'USER': 'b2df0156b0be15',
+        'PASSWORD': 'ddbbe928',
+        'HOST': 'eu-cdbr-west-02.cleardb.net',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         "OPTIONS": {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"

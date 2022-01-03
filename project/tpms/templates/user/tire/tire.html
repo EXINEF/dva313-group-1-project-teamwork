@@ -4,15 +4,19 @@
 
 <style>
     a{
-        color: white; 
+        color: black; 
+    }
+    h1,h2,h3,h4{
+        color:white;
     }
 </style>
+<body class="bg-dark">
 <div class="container">
 
     <h1>TIRE Home Page</h1>
     <div style="text-align: right;">
-        <a class="btn btn-dark" href="{% url 'edit-tire' tire.id %}">Edit</a>
-        <a class="btn btn-dark" href="{% url 'delete-tire' tire.id %}">Delete</a>
+        <button class="btn btn-light" onclick="location.href='{% url 'edit-tire' tire.id %}'"><i class="fas fa-wrench"></i> Edit</button>
+        <button class="btn btn-light" onclick="location.href='{% url 'delete-tire' tire.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
     </div>
     <h2>ID: {{tire.id}}</h2>
 
@@ -23,7 +27,7 @@
     <h4>revolutions: {{tire.revolutions}}</h4>
   
     <h3>Tire Sensor</h3>
-    <table class="table table-dark table-striped">
+    <table class="table table-light table-striped">
     <thead>
         <tr>
         <th scope="col">Sensor ID</th>
@@ -50,8 +54,7 @@
     </table>
 
 </div>
-
-
+</body>
 
 
 {% endblock content %}

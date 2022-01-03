@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import FleetManager, Vehicle, Tire, Sensor
-from .forms import VehicleForm, TireForm, SensorForm
+from .models import Company, FleetManager, Vehicle, Tire, Sensor
+from .forms import VehicleForm, TireForm, SensorForm, VehicleFormOnlyTires
 from .decorators import unauthenticated_user, fleet_manager_only
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -17,7 +17,8 @@ def indexPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            # redirect to index, that will redirect in home or admin
+            return redirect('index')
         else:
             messages.error(request, 'Username OR password is incorrect')
 
@@ -29,30 +30,53 @@ def logoutPage(request):
     logout(request)
     return redirect('index')
 
+def countVehiclesInStatus(vehicles, status):
+    counter = 0
+    for vehicle in vehicles:
+        if vehicle.getStatus() == status:
+            counter += 1
+    return counter
+
+def countSensorsInventory(sensors):
+    counter = 0
+    for sensor in sensors:
+        if sensor.getStatus() != 'OK':
+            counter += 1
+    return counter
+
 @login_required(login_url='index')
 @fleet_manager_only
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    sensors = Sensor.objects.filter(company=fleet_manager.company)
+    vehicles_warning_num = countVehiclesInStatus(vehicles, 'WARNING')
+    vehicles_danger_num = countVehiclesInStatus(vehicles, 'DANGER')
+    sensors_inventory_num = countSensorsInventory(sensors)
+
     tires_num = Tire.objects.count()
-    sensor_num = Sensor.objects.count()
+    sensors_num = Sensor.objects.count()
 
-#Here would add, get the home val from fleet_manager.home_view. and then also set the homeview to the database from the input 
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, 'sensors':sensors, 'sensors_inventory_num':sensors_inventory_num, }
+    return render(request, 'user/home.html', context) 
 
-    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num}
-    return render(request, 'user/home-simple.html', context) #Then only render /home
-
-@login_required(login_url='index') #This one would be removed 
+@login_required(login_url='index')
 @fleet_manager_only
-def homePageExtended(request):
+def allTires(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    vehicles = Vehicle.objects.filter(company=fleet_manager.company)
-    tires_num = Tire.objects.count()
-    sensor_num = Sensor.objects.count()
-    tires = Tire.objects.filter(company=fleet_manager.company) #Tried with this but not working?  
+    tires = Tire.objects.filter(company=fleet_manager.company)
 
-    context = {'vehicles':vehicles,'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensor_num':sensor_num, 'tires':tires}
-    return render(request, 'user/home-extended.html', context)
+    context = {'tires':tires, 'fleet_manager':fleet_manager,}
+    return render(request, 'user/inventory/all-tires.html', context) 
+
+@login_required(login_url='index')
+@fleet_manager_only
+def allSensors(request):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    sensors = Sensor.objects.filter(company=fleet_manager.company)
+
+    context = {'sensors':sensors, 'fleet_manager':fleet_manager,}
+    return render(request, 'user/inventory/all-sensors.html', context) 
 
 @login_required(login_url='index')
 @fleet_manager_only
@@ -61,7 +85,6 @@ def vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
     locations = vehicle.locations.all().order_by('-creation_datetime')
     lastLoaction = locations.first()
-    print(vehicle.tire_left_front.id)
 
     context = {'vehicle':vehicle, 'locations':locations , 'lastLocation':lastLoaction}
     return render(request, 'user/vehicle/vehicle.html', context)
@@ -70,12 +93,15 @@ def vehicle(request, pk):
 @fleet_manager_only
 def addVehicle(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = VehicleForm(initial={'company':fleet_manager.company})
+    form = VehicleForm(company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = VehicleForm(request.POST)
+        form = VehicleForm(request.POST, company=fleet_manager.company)
         if form.is_valid():
-            form.save()
+            new_vehicle = form.save(commit=False)
+            new_vehicle.company = fleet_manager.company
+            new_vehicle.save()
+            form.save_m2m()
             messages.success(request,'The new vehicle was addedd successfuly')
             return redirect('home')
 
@@ -87,19 +113,18 @@ def addVehicle(request):
 def editVehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
-    form = VehicleForm(instance=vehicle)
+    form = VehicleForm(instance=vehicle, company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = VehicleForm(request.POST, instance=vehicle)
+        form = VehicleForm(request.POST, instance=vehicle, company=fleet_manager.company)
 
         if form.is_valid():
             form.save()
             messages.success(request,'The vehicle %s is been update successfuly' % vehicle)
-            return redirect('home')
+            return redirect('vehicle', vehicle.id)
         else:
             messages.error(request,'Error while updating vehicle: '+str(form.errors))
 
-    
     context = {'vehicle':vehicle, 'form':form}
     return render(request, 'user/vehicle/edit-vehicle.html', context)
 
@@ -119,6 +144,29 @@ def deleteVehicle(request, pk):
 
 @login_required(login_url='index')
 @fleet_manager_only
+def editTiresVehicle(request, pk):
+    fleet_manager = FleetManager.objects.get(user=request.user)
+    vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
+    form = VehicleFormOnlyTires(instance=vehicle, company=fleet_manager.company)
+    
+    if request.method == 'POST':
+        form = VehicleFormOnlyTires(request.POST, instance=vehicle, company=fleet_manager.company)
+
+        if form.is_valid():
+            form.save()
+            v = get_object_or_404(Vehicle, id=pk)
+            v.setAllTiresUsed
+            v.save()
+            messages.success(request,'The vehicle %s\'s tires are been update successfuly' % vehicle)
+            return redirect('vehicle', vehicle.id)
+        else:
+            messages.error(request,'Error while updating vehicle: '+str(form.errors))
+
+    context = {'vehicle':vehicle, 'form':form}
+    return render(request, 'user/vehicle/edit-tires-vehicle.html', context)
+
+@login_required(login_url='index')
+@fleet_manager_only
 def tire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
@@ -130,12 +178,15 @@ def tire(request, pk):
 @fleet_manager_only
 def addTire(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = TireForm(initial={'company':fleet_manager.company})
+    form = TireForm(company=fleet_manager.company)
 
     if request.method == 'POST':
-        form = TireForm(request.POST)
+        form = TireForm(request.POST, company=fleet_manager.company)
         if form.is_valid():
-            form.save()
+            new_tire = form.save(commit=False)
+            new_tire.company = fleet_manager.company
+            new_tire.save()
+            form.save_m2m()
             messages.success(request,'The new tire was addedd successfuly')
             return redirect('home')
 
@@ -147,15 +198,15 @@ def addTire(request):
 def editTire(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     tire = get_object_or_404(Tire, id=pk, company=fleet_manager.company)
-    form = TireForm(instance=tire)
+    form = TireForm(instance=tire, company=fleet_manager.company)
     
     if request.method == 'POST':
-        form = TireForm(request.POST, instance=tire)
+        form = TireForm(request.POST, instance=tire, company=fleet_manager.company)
 
         if form.is_valid():
             form.save()
             messages.success(request,'The tire %s is been update successfuly' % tire)
-            return redirect('home')
+            return redirect('tire', tire.id)
         else:
             messages.error(request,'Error while updating tire: '+str(form.errors))
 
@@ -190,14 +241,19 @@ def sensor(request, pk):
 @fleet_manager_only
 def addSensor(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
-    form = SensorForm(initial={'company':fleet_manager.company})
+    form = SensorForm()
 
     if request.method == 'POST':
         form = SensorForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_sensor = form.save(commit=False)
+            new_sensor.company = fleet_manager.company
+            new_sensor.save()
+            form.save_m2m()
             messages.success(request,'The new sensor was addedd successfuly')
             return redirect('home')
+        else:
+            print(form.errors)
 
     context = {'form':form}
     return render(request, 'user/sensor/add-sensor.html', context)
@@ -215,7 +271,7 @@ def editSensor(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request,'The sensor %s is been update successfuly' % sensor)
-            return redirect('home')
+            return redirect('sensor', sensor.id)
         else:
             messages.error(request,'Error while updating sensor: '+str(form.errors))
 
@@ -236,24 +292,6 @@ def deleteSensor(request, pk):
 
     context = {'sensor':sensor}
     return render(request, 'user/sensor/delete-sensor.html', context)
-
-# TODO we have to remove this cause we will send data directly to the database and not by the server
-# http://127.0.0.1:8000/savedata/AUTHSYSTEM-TEST111-SENSORTEST1-3234-223-BROKEN-SENSORTEST2-40234-222-WORKING-SENSORTEST3-2237-32345-DANGER-SENSORTEST4-5453-1354-WARNING
-def saveData(request, query):
-    chunks = query.split('-')
-    if chunks[0] == 'AUTHSYSTEM':
-        vehicle = get_object_or_404(Vehicle,id=chunks[1])
-        tires = vehicle.tires.all()
-        counter = 0
-        for x in range(2, len(chunks), 4):
-            sensor = tires[counter].sensor
-            sensor.temperature = chunks[x+1]
-            sensor.pressure = chunks[x+2]
-            sensor.status = chunks[x+3]
-            sensor.save()
-            counter+=1
-            
-    return redirect('/')
 
 def page_404(request, exception):
     return render(request, 'error/404.html')

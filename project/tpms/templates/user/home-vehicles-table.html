@@ -1,0 +1,29 @@
+<!--Table-->   
+<div class="card mb-4">
+   <div class="card-header">
+       <h2>My Vehicles</h2>
+   </div>
+   <table class="table table table" id="sortTable">
+       <thread>
+           <tr>
+               <th scope="col">Vehicle (ID)</th>
+               <th scope="col">Type</th>
+               <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
+               <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
+           </tr>
+       </thread>
+       <tbody>
+           <tr>
+               {% for vehicle in vehicles %}
+               <tr>
+               <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
+               <td>{{vehicle.getType}}</td>
+               <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a></td>
+               <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"style="color:black"></i></a></td>
+               </tr>
+               {% endfor %}
+           </tr>
+       </tbody>
+   </table>
+</div>
+<!--Table Ends-->
