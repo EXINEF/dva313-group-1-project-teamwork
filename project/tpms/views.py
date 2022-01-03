@@ -55,7 +55,7 @@ def homePage(request):
     sensors_inventory_num = countSensorsInventory(sensors)
 
     tires_num = vehicles.count()
-    sensors_num = sensors.objects.count()
+    sensors_num = sensors.count()
 
     context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, 'sensors':sensors, 'sensors_inventory_num':sensors_inventory_num, }
     return render(request, 'user/home.html', context) 
