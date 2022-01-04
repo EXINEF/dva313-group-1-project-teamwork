@@ -5,8 +5,8 @@ from .models import Sensor, Tire, Location, Vehicle, CompanyAdministrator, Fleet
 class SensorAdmin(admin.ModelAdmin):
     model = Sensor
 
-    ordering = ('id', 'company', 'is_used', 'status', 'temperature', 'pressure', 'remaning_battery',)
-    list_display = ('id', 'company', 'is_used', 'status', 'temperature', 'pressure', 'remaning_battery',)
+    ordering = ('id', 'company', 'is_used', 'status', 'temperature', 'pressure',)
+    list_display = ('id', 'company', 'is_used', 'status', 'temperature', 'pressure',)
     search_fields = ['id']
 
 class TireAdmin(admin.ModelAdmin):

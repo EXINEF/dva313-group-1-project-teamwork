@@ -15,7 +15,8 @@
                 <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add Sensor</button>
             </div>
             <h1 class="text-white">Fleet Manager Overview</h1>
-            <h3 class="text-white">Company: {{fleet_manager.company}}</h3>
+            <h4 class="text-white">Username: {{fleet_manager.user.username}}</h4>
+            <h4 class="text-white">Company: {{fleet_manager.company}}</h4>
             <div class="row">
                 <div class="col-sm">
                     <h4 class="text-white">Vehicles: {{vehicles.count}}</h4>

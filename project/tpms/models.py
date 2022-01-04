@@ -28,7 +28,6 @@ class Sensor(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     temperature = models.FloatField(blank=True, null=True, default=0)
     pressure = models.FloatField(blank=True, null=True, default=0)
-    remaning_battery = models.FloatField(blank=True, null=True, default=0)
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -46,6 +45,10 @@ class Sensor(models.Model):
         if self.remaning_battery < 20:
             return 'WARNING'
         return 'OK'
+
+    def getRemaningBattery(self):
+        # TODO
+        return 0
 
     def getExpiredDate(self):
         return self.creation_datetime + timedelta(weeks=52*3)
