@@ -19,7 +19,6 @@ namespace CopilotApp
         private string GetDateTime()
         {
             //Format example: 2021-12-15 18:56:53.632463
-
             string dateTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second + ".000000";
             return dateTime;
         }

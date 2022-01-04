@@ -3,27 +3,51 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace CopilotApp
 {
     public class GPS
     {
-        //Async request coordinates from the android device internal GPS system
-        public async static Task<Location> GetCoordinates()
+        //Async request coordinate update from the android device internal GPS system
+        public static async Task UpdateCoordinates(int maxGeolocationDelayms)
         {
-            var result = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
-            return result;
-        }
-
-        public async static void UpdateCoordinates()
-        {
-            var result = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10)));
-
-            if (result != null)
+            //What the fuck?
+            Device.BeginInvokeOnMainThread(async
+            () =>
             {
-                GPSData.latitude = result.Latitude;
-                GPSData.longitude = result.Longitude;
-            }
+                try
+                {
+                    var result = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromMilliseconds(maxGeolocationDelayms)));
+
+                    if (result != null)
+                    {
+                        Console.WriteLine($"Latitude: {result.Latitude}, Longitude: {result.Longitude}");
+                        GPSData.latitude = result.Latitude;
+                        GPSData.longitude = result.Longitude;
+                    }
+                }
+                catch (FeatureNotSupportedException fnsEx)
+                {
+                    Console.WriteLine("GPS FeatureNotSupportedException: " + fnsEx.Message);
+                }
+                catch (FeatureNotEnabledException fneEx)
+                {
+                    Console.WriteLine("GPS FeatureNotEnabledException: " + fneEx.Message);
+                }
+                catch (PermissionException pEx)
+                {
+                    Console.WriteLine("GPS PermissionException: " + pEx.Message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("GPS Exception: " + ex.Message);
+                }
+
+                await Task.CompletedTask;
+            });
+
+            await Task.CompletedTask;
         }
     }
 }

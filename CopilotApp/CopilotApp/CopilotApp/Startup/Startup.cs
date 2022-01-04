@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CopilotApp
@@ -10,8 +11,11 @@ namespace CopilotApp
 
         public static void Run()
         {
-            Task.Run(async () => { await TKPHCalculations.LoadK1Data(); });
-            Task.Run(async () => { await StartupTireDataLoader.LoadTireData(); });
+            Task.Run(async () => { 
+                await TKPHCalculations.LoadK1Data();
+                await StartupTireDataLoader.LoadTireData();
+                await AutomatedDataSending.StartSending();
+            });
 
         }
     }

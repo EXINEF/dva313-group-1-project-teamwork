@@ -20,7 +20,7 @@ namespace CopilotApp
         }
 
         public static int SendTireData(string tireID, string remaining_life, string tireBaselinePressure, string tireFillMaterial, string tireTreadDepth,
-                                        string revolutions, string companyID, string sensorID)
+                                       string revolutions, string companyID, string sensorID)
         {
             //dict["database_variable_name"] = value; // Only place filled in values in the dictionary
             Dictionary<string, string> dict = new Dictionary<string, string>();
@@ -127,14 +127,14 @@ namespace CopilotApp
         }
         */
 
-        public static void SendMachineData(string machineID, string model, string ambientTemp, string distanceDrivenEmpty, string distanceDrivenLoaded,
+        public static int SendMachineData(string machineID, string model, string ambientTemp, string distanceDrivenEmpty, string distanceDrivenLoaded,
         string machineHoursEmpty, string machineHoursLoaded, string payloadTonnes, string payloadBuckets, string consumedFuel,
-        string tire_left_front_id, string tire_left_rear_id, string tire_right_front_id, string tire_right_rear_id)
+        string tire_left_front_id, string tire_left_rear_id, string tire_right_front_id, string tire_right_rear_id, string tire_specc)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
             //dict["database_variable_name"] = value; // Only place filled in values in the dictionary
-            if (machineID != null && machineID != "") { dict["id"] = machineID; } else { return; }
+            if (machineID != null && machineID != "") { dict["id"] = machineID; } else { return -1; }
             if (model != null && model != "") { dict["model"] = model; } else { dict["model"] = "Wheel loader"; }
             if (ambientTemp != null && ambientTemp != "") { dict["ambient_temperature"] = ambientTemp; }
             if (distanceDrivenEmpty != null && distanceDrivenEmpty != "") { dict["distance_driven_empty"] = distanceDrivenEmpty; }
@@ -148,6 +148,7 @@ namespace CopilotApp
             if (tire_left_rear_id != null && tire_left_rear_id != "") { dict["tire_left_rear_id"] = tire_left_rear_id; }
             if (tire_right_front_id != null && tire_right_front_id != "") { dict["tire_right_front_id"] = tire_right_front_id; }
             if (tire_right_rear_id != null && tire_right_rear_id != "") { dict["tire_right_rear_id"] = tire_right_rear_id; }
+            if (tire_specc != null && tire_specc != "") { dict["tire_specc"] = tire_specc; }
 
             string insertParamList = "";
             string insertValueList = "";
@@ -175,6 +176,8 @@ namespace CopilotApp
 
             string sqlStatement = insertStatement + updateStatement;
             int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
+
+            return nrOfRowsAffected;
         }
 
         public static void SendLocationData(string machineID, string latitude, string longitude)
@@ -200,13 +203,13 @@ namespace CopilotApp
                     int nrOfAffectedRows = Database.SendNonQuery(sqlCommand);
                 }
             }
-
         }
+
 
         /**************************************
         *                ASYNC                *
         ***************************************/
-
+        /*
         public static async Task<int> SendTireDataAsync(string tireID, string tireBaselinePressure, string tireFillMaterial, string tireTreadDepth,
                                                         string revolutions, string companyID, string sensorID)
         {
@@ -247,9 +250,10 @@ namespace CopilotApp
 
             string sqlStatement = insertStatement + updateStatement;
 
-            int nrOfRowsAffected = await Database.SendNonQueryAsync(sqlStatement);
+            int nrOfRowsAffected = Database.SendNonQueryAsync(sqlStatement);
 
             return nrOfRowsAffected;
         }
+        */
     }
 }

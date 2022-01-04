@@ -10,11 +10,11 @@ namespace CopilotApp
     public class Database
     {
         //Heroku ClearDB Credentials
-        static string _ip = "eu-cdbr-west-02.cleardb.net";
-        static string _port = "3306";
-        static string _username = "b787ff70333075";
-        static string _password = "0d107855";
-        static string _databaseName = "heroku_5b190513145da9f";
+        static string _ip = "mysql-64846-0.cloudclusters.net";
+        static string _port = "12457";
+        static string _username = "bob";
+        static string _password = "MVa5fPoA";
+        static string _databaseName = "tpmsDB";
 
         static MySqlConnection mySQLConnection;
 
@@ -101,6 +101,7 @@ namespace CopilotApp
         /**************************************
         *                ASYNC                *
         ***************************************/
+        /*
 
         //Used for SQL statements that only inserts or updates values and only returns an int showing the number of rows affected
         public static async Task<int> SendNonQueryAsync(string sqlStatement)
@@ -166,5 +167,6 @@ namespace CopilotApp
 
             return sqlDataReader;
         }
+        */
     }
 }
