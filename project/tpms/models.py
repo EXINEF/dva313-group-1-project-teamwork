@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from .algorithms import attentionValueCalculator
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
@@ -47,8 +46,11 @@ class Sensor(models.Model):
         return 'OK'
 
     def getRemaningBattery(self):
-        # TODO
-        return 0
+        delta = datetime.now(timezone.utc) - self.creation_datetime
+        days = delta.days
+        if(days >+ 730):
+            return 0
+        return str(int((1 - (days / 730)) * 100)) + ' %'
 
     def getExpiredDate(self):
         return self.creation_datetime + timedelta(weeks=52*3)

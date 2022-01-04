@@ -25,7 +25,7 @@
             <th scope="row"><a href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
             <td>{{sensor.temperature}}</td>
             <td>{{sensor.pressure}}</td>
-            <td>{{sensor.remaning_battery}}</td>
+            <td>{{sensor.getRemaningBattery}}</td>
             <td>{{sensor.status}}</td>
             <td>{{sensor.getExpiredDate}}</td>
             <td><a href="{% url 'edit-sensor' sensor.id %}">Edit</a></td>
