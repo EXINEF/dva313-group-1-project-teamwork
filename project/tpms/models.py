@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from .algorithms import attentionValueCalculator
-
+from datetime import timedelta
 
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
@@ -46,6 +46,9 @@ class Sensor(models.Model):
         if self.remaning_battery < 20:
             return 'WARNING'
         return 'OK'
+
+    def getExpiredDate(self):
+        return self.creation_datetime + timedelta(weeks=52*3)
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)

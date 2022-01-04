@@ -27,7 +27,7 @@
             <td>{{sensor.pressure}}</td>
             <td>{{sensor.remaning_battery}}</td>
             <td>{{sensor.status}}</td>
-            <td>{{sensor.creation_datetime}}</td>
+            <td>{{sensor.getExpiredDate}}</td>
             <td><a href="{% url 'edit-sensor' sensor.id %}">Edit</a></td>
             <td><a href="{% url 'delete-sensor' sensor.id %}">Delete</a></td>
             </tr>
