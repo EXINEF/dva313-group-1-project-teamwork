@@ -13,6 +13,7 @@
         <form action="" method="POST">
             {% csrf_token %}
             {{form.as_p}}
+            <a href="{% url 'add-sensor' %}" target="_blank" class="btn btn-primary">Add a sensor</a>
             <input type="submit" value="Add Tire" class="btn btn-success">
         </form> 
     </div>
