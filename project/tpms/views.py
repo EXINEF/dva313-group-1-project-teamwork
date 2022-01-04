@@ -83,7 +83,7 @@ def allSensors(request):
 def vehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
-    locations = vehicle.locations.all().order_by('-creation_datetime')
+    locations = vehicle.locations.all().order_by('creation_datetime')
     lastLoaction = locations.first()
 
     context = {'vehicle':vehicle, 'locations':locations , 'lastLocation':lastLoaction}

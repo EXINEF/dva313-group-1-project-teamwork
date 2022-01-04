@@ -18,6 +18,8 @@ class TireAdmin(admin.ModelAdmin):
 
 class LocationAdmin(admin.ModelAdmin):
     model = Location
+    ordering = ('id', 'latitude', 'longitude', 'creation_datetime',)
+    list_display = ('id', 'latitude', 'longitude', 'creation_datetime',)
 
 class VehicleAdmin(admin.ModelAdmin):
     model = Vehicle
