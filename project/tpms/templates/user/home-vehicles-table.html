@@ -16,10 +16,10 @@
            <tr>
                {% for vehicle in vehicles %}
                <tr>
-               <th scope="row"><a href="{% url 'vehicle' vehicle.id%}" style="color: black;">{{vehicle.id}}</a></th>
+               <th scope="row"><a class="table"href="{% url 'vehicle' vehicle.id%}" >{{vehicle.id}}</a></th>
                <td>{{vehicle.getType}}</td>
-               <td><a href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench" style="color: black;"></i></a></td>
-               <td><a href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"style="color:black"></i></a></td>
+               <td><a class="table"href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench"></i></a></td>
+               <td><a class="table"href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"></i></a></td>
                </tr>
                {% endfor %}
            </tr>
