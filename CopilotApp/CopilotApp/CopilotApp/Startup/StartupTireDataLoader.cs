@@ -8,6 +8,8 @@ namespace CopilotApp
 {
     class StartupTireDataLoader
     {
+        public static bool isLoaded;
+
         public static async Task LoadTireData()
         {
 

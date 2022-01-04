@@ -32,6 +32,9 @@ namespace CopilotApp
                 Console.WriteLine("SendLiveMachineData();");
                 await SendLiveMachineData();
 
+                Console.WriteLine("SendLiveTireData();");
+                await SendLiveTireData();
+
                 Console.WriteLine("SendLiveSensorData();");
                 await SendLiveSensorData();
 
@@ -44,8 +47,17 @@ namespace CopilotApp
             await Task.CompletedTask;
         }
 
-        public static async Task CheckLoadingStatus()
+        public static async Task SendLiveTireData()
         {
+            string tire1Query = "UPDATE tpms_tire SET revolutions = '" + TireData.frontLeftTireRevolutions + "' WHERE id = '" + TireData.frontLeftTireID + "';";
+            string tire2Query = "UPDATE tpms_tire SET revolutions = '" + TireData.frontRightTireRevolutions + "' WHERE id = '" + TireData.frontRightTireID + "';";
+            string tire3Query = "UPDATE tpms_tire SET revolutions = '" + TireData.rearLeftTireRevolutions + "' WHERE id = '" + TireData.rearLeftTireID + "';";
+            string tire4Query = "UPDATE tpms_tire SET revolutions = '" + TireData.rearRightTireRevolutions + "' WHERE id = '" + TireData.rearRightTireID + "';";
+
+            string sqlQuery = tire1Query + tire2Query + tire3Query + tire4Query;
+
+            int nrOfRowsAffected = Database.SendNonQuery(sqlQuery);
+
             await Task.CompletedTask;
         }
 

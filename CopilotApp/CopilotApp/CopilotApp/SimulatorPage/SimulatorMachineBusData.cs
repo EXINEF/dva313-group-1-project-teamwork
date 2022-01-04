@@ -15,5 +15,4 @@ namespace CopilotApp
         string _consumedFuel; public string consumedFuel { get => _consumedFuel; set { _consumedFuel = value; OnPropertyChanged(nameof(consumedFuel)); } }
     }
 
-
 }

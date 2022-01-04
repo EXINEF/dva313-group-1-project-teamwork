@@ -13,11 +13,13 @@ namespace CopilotApp
         {
             Task.Run(async () => { 
                 await TKPHCalculations.LoadK1Data();
+                await StartupMachineDataLoader.LoadMachineData();
                 await StartupTireDataLoader.LoadTireData();
                 await AutomatedDataSending.StartSending();
             });
 
         }
+
     }
 
 
