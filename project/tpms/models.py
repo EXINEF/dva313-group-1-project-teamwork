@@ -50,7 +50,7 @@ class Sensor(models.Model):
         days = delta.days
         if(days >+ 730):
             return 0
-        return str(int((1 - (days / 730)) * 100)) + ' %'
+        return int((1 - (days / 730)) * 100)
 
     def getExpiredDate(self):
         return self.creation_datetime + timedelta(weeks=52*3)
