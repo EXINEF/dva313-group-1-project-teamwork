@@ -111,7 +111,7 @@ namespace CopilotApp
 
             int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, MachineData.companyName, null);
 
-            //If the database was successfully updated, then update the internal values as well.
+            //If the database was successfully updated, then update the internal values as well.s
             if (nrOfRowsAffected != -1)
             {
                 switch (tirePosition)
