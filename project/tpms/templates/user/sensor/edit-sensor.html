@@ -1,26 +1,44 @@
 {% extends 'core/base-template.html' %}
 
 {% block content %}
+<style>
+    p{
+        margin: 20px; 
+    }
+    input{
+        width: 250px; 
+    }
+    label{
+        width: 400px; 
+        text-align:left; 
+    }
+    select{
+        width: 250px; 
+    }
+    .btn{
+        margin: 20px; 
+        width: 150px; 
+        padding: 10px; 
+    }
+</style>
 
-
-<div class="container">
-
-    <h1>Edit Sensor{{sensor.id}}</h1>
-
-    <div class="row">
-        <div class="col-6">         
+<body class="bg-dark">
+<div class="container col-lg-7">
+    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+        <div class=" card-header">
+            <h1>Edit Sensor{{sensor.id}}</h1>
+        </div>      
             <form action="" method="POST">
                 {% csrf_token %}
                 {{form.as_p}}
+                <a href="{% url 'sensor' sensor.id %}" class="btn btn-danger">Don't save it</a>
                 <button type="submit" class="btn btn-success">Save it</button>
             </form>
-        </div>
-        <div class="col-6">
-            <a href="{% url 'sensor' sensor.id %}" class="btn btn-dark">Don't save it</a>
-        </div>
+       
     </div>
 
 </div>
+</body>
 
 {% endblock content %}
 
