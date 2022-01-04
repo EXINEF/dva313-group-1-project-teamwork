@@ -32,6 +32,7 @@ namespace CopilotApp
 				tkph.Track();
 				endDate = DateTime.Now;
 				t_ls = ls.CalcL(t_ls);
+				//for the purpose of testing. Set (endDate - startDate).TotalMinutes == 10.0
 				if ((endDate - startDate).TotalDays == 7.0)
 				{
 				
