@@ -49,12 +49,13 @@ def countSensorsInventory(sensors):
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    tires = Tire.objects.filter(company=fleet_manager.company)
     sensors = Sensor.objects.filter(company=fleet_manager.company)
     vehicles_warning_num = countVehiclesInStatus(vehicles, 'WARNING')
     vehicles_danger_num = countVehiclesInStatus(vehicles, 'DANGER')
     sensors_inventory_num = countSensorsInventory(sensors)
 
-    tires_num = vehicles.count()
+    tires_num = tires.count()
     sensors_num = sensors.count()
 
     context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, 'sensors':sensors, 'sensors_inventory_num':sensors_inventory_num, }
