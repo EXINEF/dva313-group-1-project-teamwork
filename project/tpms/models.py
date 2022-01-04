@@ -40,9 +40,9 @@ class Sensor(models.Model):
     def getStatus(self):
         if self.status != 'WORKING':
             return 'DANGER'
-        if self.remaning_battery < 10:
+        if self.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.remaning_battery < 20:
+        if self.getRemaningBattery() < 20:
             return 'WARNING'
         return 'OK'
 
@@ -121,7 +121,7 @@ class Vehicle(models.Model):
     tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.SET_NULL)
     tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.SET_NULL)
 
-    tire_specc = models.CharField(max_length=30, blank=True, null=True, choices=SPECC_TYPE)
+    tire_specc = models.CharField(max_length=30, default='NEUTRAL', blank=True, null=True, choices=SPECC_TYPE)
     locations = models.ManyToManyField(Location, blank=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
@@ -133,21 +133,21 @@ class Vehicle(models.Model):
             return 'DANGER'
         if self.tire_left_front.sensor is None or self.tire_left_rear.sensor  is None or self.tire_right_front.sensor  is None or self.tire_right_rear.sensor  is None:
             return 'DANGER'
-        if self.tire_left_front.sensor.remaning_battery < 10:
+        if self.tire_left_front.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_left_rear.sensor.remaning_battery < 10:
+        if self.tire_left_rear.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_right_front.sensor.remaning_battery < 10:
+        if self.tire_right_front.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_right_rear.sensor.remaning_battery < 10:
+        if self.tire_right_rear.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_left_front.sensor.remaning_battery < 20:
+        if self.tire_left_front.sensor.getRemaningBattery() < 20:
             return 'WARNING'
-        if self.tire_left_rear.sensor.remaning_battery < 20:
+        if self.tire_left_rear.sensor.getRemaningBattery() < 20:
             return 'WARNING'
-        if self.tire_right_front.sensor.remaning_battery < 20:
+        if self.tire_right_front.sensor.getRemaningBattery() < 20:
             return 'WARNING'
-        if self.tire_right_rear.sensor.remaning_battery < 20:
+        if self.tire_right_rear.sensor.getRemaningBattery() < 20:
             return 'WARNING'
         if self.tire_specc != 'NEUTRAL':
             return 'WARNING'
