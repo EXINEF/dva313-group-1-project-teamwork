@@ -51,8 +51,9 @@ namespace CopilotApp
         private int n = 0;
         private int n_curr = 0;
         private double vm = 0;
-        
-       
+        private double TKPH = 0;
+
+
 
         public TKPHCalculations()
         {
@@ -197,39 +198,44 @@ namespace CopilotApp
             {
                 vm = 0;
             }
-           
-        
-       
-        
-
-        
 
 
-        //Calculate k2 where if t_a is higher than t_ref then we use formula (1). If t_a is below t_ref then use formula 2.
-        //Good to know if t_a = t_ref then k2 will be = 1.
-        /*if (t_a/(decimal)tracker > 38)
-        {
-            k2 = 1 / (1 - ((0.4 * ((double)t_a - t_ref)) / (double)vm));
-        }
-        else
-        {
-            k2 = 1 / (1 - ((0.25 * ((double)t_a - t_ref)) / (double)vm));
-        }*/
 
-        if(t_a > 38)
-        {
-            k2 = (1 / (1 - ((0.4 * (t_a - 38) / vm))));
-        }
-        else
-        {
-            k2 = (1 / (1 - ((0.25 * (t_a - 38) / vm))));
-        }
 
+
+
+
+
+            //Calculate k2 where if t_a is higher than t_ref then we use formula (1). If t_a is below t_ref then use formula 2.
+            //Good to know if t_a = t_ref then k2 will be = 1.
+            /*if (t_a/(decimal)tracker > 38)
+            {
+                k2 = 1 / (1 - ((0.4 * ((double)t_a - t_ref)) / (double)vm));
+            }
+            else
+            {
+                k2 = 1 / (1 - ((0.25 * ((double)t_a - t_ref)) / (double)vm));
+            }*/
+            if (vm != 0)
+            {
+                if (t_a > 38)
+                {
+                    k2 = (1 / (1 - ((0.4 * (t_a - 38) / vm))));
+                }
+                else
+                {
+                    k2 = (1 / (1 - ((0.25 * (t_a - 38) / vm))));
+                }
+            }
+            else
+            {
+                k2 = 1;
+            }
       
             //assuming the tonnes are for the whole vehicle so we divide by 4 to get how much per tire.
             //qm = ((((qv/(decimal)tracker)/4) + (qc/4))/2);
             qm = (((double)qv/4) + (qc/4))/2;
-            
+
             //Length split amongs seven days.
             //l = l / 7;
 
@@ -247,8 +253,20 @@ namespace CopilotApp
             /*k1Values[Math.Ceiling(l_k1).ToString()]*/
             //Calculating the real site TKPH which in  this casé is the average per day for that specific week.
             //double TKPH = (double)qm * (double)vm * k2* k1Values[Math.Ceiling(l_k1).ToString()];
-            double TKPH = qm * vm * k2* k1Values[Math.Ceiling(l).ToString()];
-            Evaluate(TKPH);
+
+            if (l != 0)
+            {
+                TKPH = qm * vm * k2 * k1Values[Math.Ceiling(l).ToString()];
+            }
+            else
+            {
+                TKPH = 0;
+            }
+
+            if (TKPH != 0)
+            {
+                Evaluate(TKPH);
+            }
             tracker = 0;
             l_empt = 0;
             h_empt = 0;
