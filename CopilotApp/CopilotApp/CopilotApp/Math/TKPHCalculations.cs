@@ -27,12 +27,17 @@ namespace CopilotApp
             OVER,
         }
 
-        private decimal t_a=0; //the ambient temperature.
-        private decimal l=0;//the length driven in km
-        private decimal qm=0; //the avg weigth
-        private decimal qc=0; //payload weigth
+        //private decimal t_a=0; //the ambient temperature.
+        //private decimal l=0;//the length driven in km
+        //private decimal qm=0; //the avg weigth
+        //private decimal qc=0; //payload weigth
         private decimal qv=0; //base weigth
-        private decimal h = 0;
+        //private decimal h = 0;
+        private double t_a = 0.0;
+        private double l = 0.0;
+        private double qm = 0.0;
+        private double qc = 0.0;
+        private double h = 0.0;
         private int t_ref = 38; //Reference temperature.
         private double k2;
         private int tracker = 0;
@@ -45,11 +50,15 @@ namespace CopilotApp
         private Status res;
         private int n = 0;
         private int n_curr = 0;
+        private double vm = 0;
         
        
 
         public TKPHCalculations()
         {
+            
+
+
             //query to get current TKHP for that tire. Set id to the local machine's
              string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
              MySqlDataReader reader = (Database.SendQuery(query));
@@ -71,18 +80,18 @@ namespace CopilotApp
             reader.Read();
             qv = decimal.Parse(reader["weight"].ToString());
 
-            n = MachineBusData.payloadBuckets;
+           
 
         }
 
 
         
-
+        /*
         public void Track()
         {
           
 
-           //Obstacle: how do we measure distanceDriven. do we give the change or how do we track that?
+         
             if(l_empt != (decimal)MachineBusData.distanceDrivenEmpty)
             {
                 l_empt = l_empt + ((decimal)MachineBusData.distanceDrivenEmpty-l_empt);
@@ -96,7 +105,7 @@ namespace CopilotApp
             {
                 h_empt = h_empt + ((decimal)MachineBusData.machineHoursEmpty-h_empt);
             }
-            if(l_load != (decimal)MachineBusData.machineHoursLoaded)
+            if(h_load != (decimal)MachineBusData.machineHoursLoaded)
             {
                 h_load = h_load + ((decimal)MachineBusData.machineHoursLoaded-h_load);
             }
@@ -109,7 +118,8 @@ namespace CopilotApp
             //t_a = t_a + temperature
             t_a = t_a + (decimal)MachineData.ambientTemperature;
 
-            n_curr = MachineBusData.payloadBuckets-n;
+            //if()
+          //  n_curr = MachineBusData.payloadBuckets-n;
            
             
             //adds to the counter so we can get a good average when doing calc. 
@@ -117,15 +127,10 @@ namespace CopilotApp
            
 
             /*
-            TKPHcalc -
-            Here we calculate the real cite TKPH. This will be multiplied by the coefficient k1 if the cycle lenght exceeds 5km 
-            and k2 if the ambient temperature is below or above the referenced temperature of 38C. 
+          
 
-           Input:
-         */
-
-        }
-
+        }*/
+    
 
 
         private void Evaluate(double rsTKPH)
@@ -146,8 +151,8 @@ namespace CopilotApp
              {
                  res = Status.NEUTRAL;  
              }
-                 
-             
+
+
 
             //Do SQLCOMMAND to UPDATE spec in DB.
             /*
@@ -160,7 +165,8 @@ namespace CopilotApp
 	            INSERT INTO tpms_vehicle(tkph) VALUES (321)
                 END
             */
-            string sqlStatement = "UPDATE tmps_vehicle SET tire_specc = '"+ res +"' WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
+            string result = res.ToString();
+            string sqlStatement = "UPDATE tpms_vehicle SET tire_specc = '"+ result +"' WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
             int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
        
              
@@ -171,14 +177,28 @@ namespace CopilotApp
 
         public void Calc()
         {
+          
+           //total length and hours driven during this period.
+           // l = l_empt + l_load;
+            //h = h_empt + h_load;
+            l = MachineBusData.distanceDrivenEmpty+MachineBusData.distanceDrivenLoaded;
+            h = MachineBusData.machineHoursEmpty+MachineBusData.machineHoursLoaded;
+            n = MachineBusData.payloadBuckets;
+            t_a = MachineData.ambientTemperature;
+            qc = MachineBusData.payloadTonnes;
+
+            //calculating the lenght it has gone during the amount of hours. Divide på 7 to get average per day.
+            //.........  /7
+            //decimal vm = ((l / h));
+            if (h != 0)
+            {
+                vm = (((l * n) / h));
+            }else
+            {
+                vm = 0;
+            }
+           
         
-        //total length and hours driven during this period.
-        l = l_empt + l_load;
-        h = h_empt + h_load;
-        
-        //calculating the lenght it has gone during the amount of hours. Divide på 7 to get average per day.
-        //.........
-        decimal vm = ((l / h)/7);
        
         
 
@@ -187,21 +207,34 @@ namespace CopilotApp
 
         //Calculate k2 where if t_a is higher than t_ref then we use formula (1). If t_a is below t_ref then use formula 2.
         //Good to know if t_a = t_ref then k2 will be = 1.
-        if (t_a/(decimal)tracker > 38)
+        /*if (t_a/(decimal)tracker > 38)
         {
             k2 = 1 / (1 - ((0.4 * ((double)t_a - t_ref)) / (double)vm));
         }
         else
         {
             k2 = 1 / (1 - ((0.25 * ((double)t_a - t_ref)) / (double)vm));
+        }*/
+
+        if(t_a > 38)
+        {
+            k2 = (1 / (1 - ((0.4 * (t_a - 38) / vm))));
         }
+        else
+        {
+            k2 = (1 / (1 - ((0.25 * (t_a - 38) / vm))));
+        }
+
+      
             //assuming the tonnes are for the whole vehicle so we divide by 4 to get how much per tire.
-            qm = ((((qv/(decimal)tracker)/4) + (qc/4))/2);
+            //qm = ((((qv/(decimal)tracker)/4) + (qc/4))/2);
+            qm = (((double)qv/4) + (qc/4))/2;
             
             //Length split amongs seven days.
-            l = l / 7;
+            //l = l / 7;
+
             //Divide it the N cycles per day to gain a good K1 value.
-            n = n_curr;
+            /*n = n_curr;
             if(n == 0)
             {
                 l_k1 = l;
@@ -210,11 +243,11 @@ namespace CopilotApp
             {
                 l_k1 = l/(decimal)n;
             }
-           
-
-            //Calculating the real site TKPH which in this casé is the average per day for that specific week.
-            double TKPH = (double)qm * (double)vm * k1Values[Math.Ceiling(l_k1).ToString()] * k2;
-
+           */
+            /*k1Values[Math.Ceiling(l_k1).ToString()]*/
+            //Calculating the real site TKPH which in  this casé is the average per day for that specific week.
+            //double TKPH = (double)qm * (double)vm * k2* k1Values[Math.Ceiling(l_k1).ToString()];
+            double TKPH = qm * vm * k2* k1Values[Math.Ceiling(l).ToString()];
             Evaluate(TKPH);
             tracker = 0;
             l_empt = 0;
@@ -223,6 +256,12 @@ namespace CopilotApp
             h_load = 0;
             qc=0;
             n_curr = 0;
+
+
+            l = 0;
+            h = 0;
+            n = 0;
+            t_a = 0;
         
         return;
         }

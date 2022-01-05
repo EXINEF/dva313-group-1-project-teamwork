@@ -53,8 +53,8 @@ namespace CopilotApp
             TestNotificationCommand = new Command(TestNotification);
 
             Startup.Run();
-            //Calculations calc = new Calculations();
-            //Task.Run(async () => { await calc.run(); });
+            Calculations calc = new Calculations();
+            Task.Run(async () => { await calc.run(); });
 
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); });
