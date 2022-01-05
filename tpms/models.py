@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from .algorithms import attentionValueCalculator
-
+from datetime import datetime, timedelta, timezone
 
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
@@ -28,7 +27,6 @@ class Sensor(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     temperature = models.FloatField(blank=True, null=True, default=0)
     pressure = models.FloatField(blank=True, null=True, default=0)
-    remaning_battery = models.FloatField(blank=True, null=True, default=0)
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -41,11 +39,21 @@ class Sensor(models.Model):
     def getStatus(self):
         if self.status != 'WORKING':
             return 'DANGER'
-        if self.remaning_battery < 10:
+        if self.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.remaning_battery < 20:
+        if self.getRemaningBattery() < 20:
             return 'WARNING'
         return 'OK'
+
+    def getRemaningBattery(self):
+        delta = datetime.now(timezone.utc) - self.creation_datetime
+        days = delta.days
+        if(days >+ 730):
+            return 0
+        return int((1 - (days / 730)) * 100)
+
+    def getExpiredDate(self):
+        return self.creation_datetime + timedelta(weeks=52*3)
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
@@ -57,7 +65,7 @@ class Tire(models.Model):
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
-    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.DO_NOTHING)
+    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.SET_NULL)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     """
@@ -110,12 +118,12 @@ class Vehicle(models.Model):
     tkph = models.FloatField(blank=True, null=True, default=0) #This is the TKPH that is precalculated. This attribute should be set on tires in the future.
     weight = models.FloatField(blank=True, null=True, default=0)
 
-    tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.DO_NOTHING)
-    tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.DO_NOTHING)
-    tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.DO_NOTHING)
-    tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.DO_NOTHING)
+    tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.SET_NULL)
+    tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.SET_NULL)
+    tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.SET_NULL)
+    tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.SET_NULL)
 
-    tire_specc = models.CharField(max_length=30, blank=True, null=True, choices=SPECC_TYPE)
+    tire_specc = models.CharField(max_length=30, default='NEUTRAL', blank=True, null=True, choices=SPECC_TYPE)
     locations = models.ManyToManyField(Location, blank=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
@@ -125,21 +133,23 @@ class Vehicle(models.Model):
     def getStatus(self):
         if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
             return 'DANGER'
-        if self.tire_left_front.sensor.remaning_battery < 10:
+        if self.tire_left_front.sensor is None or self.tire_left_rear.sensor  is None or self.tire_right_front.sensor  is None or self.tire_right_rear.sensor  is None:
             return 'DANGER'
-        if self.tire_left_rear.sensor.remaning_battery < 10:
+        if self.tire_left_front.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_right_front.sensor.remaning_battery < 10:
+        if self.tire_left_rear.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_right_rear.sensor.remaning_battery < 10:
+        if self.tire_right_front.sensor.getRemaningBattery() < 10:
             return 'DANGER'
-        if self.tire_left_front.sensor.remaning_battery < 20:
+        if self.tire_right_rear.sensor.getRemaningBattery() < 10:
+            return 'DANGER'
+        if self.tire_left_front.sensor.getRemaningBattery() < 20:
             return 'WARNING'
-        if self.tire_left_rear.sensor.remaning_battery < 20:
+        if self.tire_left_rear.sensor.getRemaningBattery() < 20:
             return 'WARNING'
-        if self.tire_right_front.sensor.remaning_battery < 20:
+        if self.tire_right_front.sensor.getRemaningBattery() < 20:
             return 'WARNING'
-        if self.tire_right_rear.sensor.remaning_battery < 20:
+        if self.tire_right_rear.sensor.getRemaningBattery() < 20:
             return 'WARNING'
         if self.tire_specc != 'NEUTRAL':
             return 'WARNING'

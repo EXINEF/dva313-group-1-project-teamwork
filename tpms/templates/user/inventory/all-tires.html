@@ -1,11 +1,12 @@
 {% extends 'core/base-template.html' %}
+<link ref=" ../../../../static/css/main.css" type="stylesheet">
 
 {% block content %}
+<body class="bg-dark">
+<div class="container col-sm">
+    <h1 class="text-white">All Tires of {{fleet_manager.company}}</h1>
 
-<div class="container">
-    <h1>All Tires of {{fleet_manager.company}}</h1>
-
-    <table class="table table-dark table-striped" id="sortTable">
+    <table class="table table-light table-striped" id="sortTable">
     <thead>
         <tr>
         <th scope="col">Id</th>
@@ -22,15 +23,15 @@
     <tbody>
         {% for tire in tires %}
             <tr>
-            <th scope="row"><a href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
+            <th scope="row"><a class="table" href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
             <td>{{tire.remaining_life}}</td>
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>
             <td>{{tire.tread_depth}}</td>
             <td>{{tire.revolutions}}</td>
             <td>{{tire.creation_datetime}}</td>
-            <td><a href="{% url 'edit-tire' tire.id %}">Edit</a></td>
-            <td><a href="{% url 'delete-tire' tire.id %}">Delete</a></td>
+            <td><a class="table" href="{% url 'edit-tire' tire.id %}"><i class="fas fa-wrench"></i></a></td>
+            <td><a class="table" href="{% url 'delete-tire' tire.id %}"><i class="fas fa-trash-alt"></a></td>
             </tr>
         {% endfor %}
         
@@ -38,6 +39,7 @@
     </table>
     
 </div>
+</body>
 
 {% endblock content %}
 

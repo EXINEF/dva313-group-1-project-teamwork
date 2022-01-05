@@ -18,13 +18,41 @@
         <button class="btn btn-light" onclick="location.href='{% url 'edit-tire' tire.id %}'"><i class="fas fa-wrench"></i> Edit</button>
         <button class="btn btn-light" onclick="location.href='{% url 'delete-tire' tire.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
     </div>
-    <h2>ID: {{tire.id}}</h2>
+    <div class="col-sm-6">
+        <div class="card" >
+            <div class="card-body">
+                <ul class="list-group ">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      ID:
+                      <span class="badge bg-info rounded-pill">{{tire.id}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Remaining life
+                      <span class="badge bg-info rounded-pill">{{tire.remaining_life}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Baseline pressure:
+                      <span class="badge bg-info rounded-pill">{{tire.baseline_pressure}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Fill material:
+                        <span class="badge bg-info rounded-pill">{{tire.fill_material}}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Thread depth:
+                        <span class="badge bg-info rounded-pill">{{tire.tread_depth}}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Revolutions:
+                        <span class="badge bg-info rounded-pill">{{tire.revolutions}}</span>
+                      </li>
+                  </ul>
+            </div>
+        
+        </div>
+        
+    </div>
 
-    <h4>remaining life: {{tire.remaining_life}}</h4>
-    <h4>baseline pressure: {{tire.baseline_pressure}}</h4>
-    <h4>fill material: {{tire.fill_materiale}}</h4>
-    <h4>tread depth: {{tire.distance_driven}}</h4>
-    <h4>revolutions: {{tire.revolutions}}</h4>
   
     <h3>Tire Sensor</h3>
     <table class="table table-light table-striped">
@@ -45,7 +73,7 @@
         <th scope="row"><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></th>
         <td>{{tire.sensor.temperature}}</td>
         <td>{{tire.sensor.pressure}}</td>
-        <td>{{tire.sensor.remaning_battery}}</td>
+        <td>{{tire.sensor.getRemaningBattery}}</td>
         <td>{{tire.sensor.status}}</td>
         </tr>  
         {% endif %}    

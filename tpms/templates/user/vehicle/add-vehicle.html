@@ -2,19 +2,25 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="../../../../static/css/form.css">
 
-<div class="container">
+<body class="bg-dark">
+<div class="container col-lg-7">
 
-    <h1>Add a new vehicle</h1>
-
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Add Vehicle" class="btn btn-dark">
-    </form> 
-    
+    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+        <div class=" card-header">
+            <h1 class="text-light">Add a new vehicle</h1>
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <a href="{% url 'add-tire' %}" target="_blank" class="btn btn-primary">Add a Tire</a>
+            <input type="submit" value="Add Vehicle" class="btn btn-success">
+        </form> 
+    </div>
     
 </div>
+</body>
 
 {% endblock content %}
 

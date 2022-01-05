@@ -1,20 +1,24 @@
 {% extends 'core/base-template.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="../../../../static/css/form.css">
 
 
-<div class="container">
-
-    <h1>Add a new sensor</h1>
-
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Add Sensor" class="btn btn-dark">
-    </form> 
-    
+<body class="bg-dark">
+<div class="container col-lg-7">
+    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+        <div class=" card-header">
+            <h1>Add a new sensor</h1>
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Add Sensor" class="btn btn-success">
+        </form> 
+    </div>
     
 </div>
+</body>
 
 {% endblock content %}
 

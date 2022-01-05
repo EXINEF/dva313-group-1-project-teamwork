@@ -11,7 +11,7 @@
             <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
             <td>{{tire.sensor.temperature}}</td>
             <td>{{tire.sensor.pressure}}</td>
-            <td>{{tire.remaining_life}}</td>
+            <td>{{tire.sensor.getRemaningBattery}}</td>
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>
         {% endif %}
