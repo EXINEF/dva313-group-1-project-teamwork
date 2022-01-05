@@ -165,8 +165,8 @@ namespace CopilotApp
         {
             //This formula is based of using non linear regression and curve fit it into a polynomial function. This takes the precentage lost from base pressure and 
             //returns the precentage lost from lifespan.
-            decimal val = Decimal.Multiply(((decimal)Math.Pow((double)x, 4) + (decimal)3.743),(decimal)Math.Pow((double)x, 3)) - Decimal.Multiply((decimal)3.882, (decimal)Math.Pow((double)x, 2)) - Decimal.Multiply((decimal)0.2472, x) + Decimal.Multiply((decimal)4.436, (decimal)Math.Pow(10, -5));
-            return Decimal.Multiply(val, -1);
+            return (decimal)Math.Pow((double)x, 4) + Decimal.Multiply((decimal)3.743,(decimal)Math.Pow((double)x, 3)) - Decimal.Multiply((decimal)3.882, (decimal)Math.Pow((double)x, 2)) - Decimal.Multiply((decimal)0.2472, x) + Decimal.Multiply((decimal)4.436, (decimal)Math.Pow(10, -5));
+           
         }
 
         public void CalcL()
