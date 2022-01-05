@@ -136,7 +136,6 @@ namespace CopilotApp
             if (rearRightSensorTemp != null && rearRightSensorTemp != "") { SensorData.rearRightSensorTemperature = double.Parse(rearRightSensorTemp); }
             if (rearRightSensorPressure != null && rearRightSensorPressure != "") { SensorData.rearRightSensorPressure = double.Parse(rearRightSensorPressure); }
             if (rearRightSensorStatus != null && rearRightSensorStatus != "") { SensorData.rearRightSensorStatus = rearRightSensorStatus; }
-
         }
     }
 }

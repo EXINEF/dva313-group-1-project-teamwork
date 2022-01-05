@@ -13,7 +13,7 @@ namespace CopilotApp
     {
         //Tire specifications for an 875/65 R33,  ! Might want to consider adding tire specific measurements in the future for more accurate calculations.
         public static double tireDiameter = 2.080; // in meters
-        public static double rollingCircumference = 0.0;//in meters
+        public static double rollingCircumference = 6.061;//in meters
 
         //Front Left Tire
         public static string frontLeftTireID;

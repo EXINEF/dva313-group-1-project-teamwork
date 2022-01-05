@@ -46,17 +46,19 @@ namespace CopilotApp
         public static double previousTotalDistanceDrivenLoaded;
         public static void UpdateTireRevolutions()
         {
+            
             double deltaDistance = (distanceDrivenEmpty + distanceDrivenLoaded) - (previousTotalDistanceDrivenEmpty + previousTotalDistanceDrivenLoaded);
 
             //Check just in case
-            if(deltaDistance > 0 && TireData.rollingCircumference != 0)
+            if (deltaDistance > 0 && TireData.rollingCircumference != 0)
             {
                 double deltaRevolutions = (deltaDistance / TireData.rollingCircumference);
 
-                TireData.frontLeftTireRevolutions += deltaRevolutions;
-                TireData.frontRightTireRevolutions += deltaRevolutions;
-                TireData.rearLeftTireRevolutions += deltaRevolutions;
-                TireData.rearRightTireRevolutions += deltaRevolutions;
+                TireData.frontLeftTireRevolutions = TireData.frontLeftTireRevolutions + deltaRevolutions;
+                TireData.frontRightTireRevolutions = TireData.frontRightTireRevolutions + deltaRevolutions;
+                TireData.rearLeftTireRevolutions = TireData.rearLeftTireRevolutions + deltaRevolutions;
+                TireData.rearRightTireRevolutions = TireData.rearRightTireRevolutions + deltaRevolutions;
+
             }       
         }
     }

@@ -12,7 +12,7 @@ namespace CopilotApp
         //Async request coordinate update from the android device internal GPS system
         public static async Task UpdateCoordinates(int maxGeolocationDelayms)
         {
-            //What the fuck?
+            //GPS must be called from MainThread so we have to do this roundabout to be able to call it from an async thread.
             Device.BeginInvokeOnMainThread(async
             () =>
             {
