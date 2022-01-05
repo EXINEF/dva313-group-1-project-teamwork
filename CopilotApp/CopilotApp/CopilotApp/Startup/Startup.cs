@@ -18,7 +18,7 @@ namespace CopilotApp
                 await TKPHCalculations.LoadK1Data();
                 await StartupMachineDataLoader.LoadMachineData();
                 await StartupTireDataLoader.LoadTireData();
-                Task.Run(async () => { await calc.run(); });
+                //Task.Run(async () => { await calc.run(); });
                 await AutomatedDataSending.StartSending();
             });
 
