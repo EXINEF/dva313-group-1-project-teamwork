@@ -21,6 +21,7 @@ namespace CopilotApp
             isSending = true;
             int sleepMilliseconds = delayBetweenSendsSeconds * 1000;
             Console.WriteLine("Starting the automated data sending process");
+            Thread.Sleep(6000);
             while (isSending)
             {
                 Console.WriteLine("Auto Sending Data, " + delayBetweenSendsSeconds + " seconds until next update.");

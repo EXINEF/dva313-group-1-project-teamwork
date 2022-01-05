@@ -31,16 +31,16 @@ namespace CopilotApp
 			{
 				
 				//endDate = DateTime.Now;
-			ls.CalcL();
+				ls.CalcL();
 				//for the purpose of testing. Set (endDate - startDate).TotalMinutes == 10.0
 				//if ((endDate - startDate).TotalDays == 7.0)
 				//{
 				
 					tkph.Calc();
-					//startDate = DateTime.Now;
-					
-			//	}
-				Thread.Sleep(1000);
+				//startDate = DateTime.Now;
+				Thread.Sleep(6000);
+				//	}
+
 			}
 			await Task.CompletedTask;
 		}
