@@ -11,10 +11,14 @@ namespace CopilotApp
 
         public static void Run()
         {
+            Calculations calc = new Calculations();
+            
+
             Task.Run(async () => { 
                 await TKPHCalculations.LoadK1Data();
                 await StartupMachineDataLoader.LoadMachineData();
                 await StartupTireDataLoader.LoadTireData();
+                Task.Run(async () => { await calc.run(); });
                 await AutomatedDataSending.StartSending();
             });
 
