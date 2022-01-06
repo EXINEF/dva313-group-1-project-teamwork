@@ -23,6 +23,7 @@ namespace CopilotApp
         private string sqlStatement;
         private decimal t = 0;
          private int cov_to_sec= 0;
+        private decimal p = 0;
         //private int nrOfRowsAffected;
         DateTime t2;
 
@@ -89,7 +90,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-            tire_ls[0] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 *12* 24 * 60 * 60;
+            tire_ls[0] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[1] + "'";
             reader = (Database.SendQuery(query));
@@ -98,7 +99,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-            tire_ls[1] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 *12* 24 * 60 * 60;
+            tire_ls[1] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[2] + "'";
             reader = (Database.SendQuery(query));
@@ -107,7 +108,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-            tire_ls[2] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 *12* 24 * 60 * 60;
+            tire_ls[2] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[3] + "'";
             reader = (Database.SendQuery(query));
@@ -116,7 +117,7 @@ namespace CopilotApp
                 reader = (Database.SendQuery(query));
             }
             reader.Read();
-            tire_ls[3] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 *12* 24 * 60 * 60;
+            tire_ls[3] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
 
             //getting base pressure for each tire.
@@ -164,28 +165,35 @@ namespace CopilotApp
         private decimal Func(decimal x)
         {
             //This formula is based of using non linear regression and curve fit it into a polynomial function. This takes the precentage lost from base pressure and 
-            //returns the precentage lost from lifespan.
-            return (decimal)Math.Pow((double)x, 4) + Decimal.Multiply((decimal)3.743,(decimal)Math.Pow((double)x, 3)) - Decimal.Multiply((decimal)3.882, (decimal)Math.Pow((double)x, 2)) - Decimal.Multiply((decimal)0.2472, x) + Decimal.Multiply((decimal)4.436, (decimal)Math.Pow(10, -5));
-           
+            //returns the precentage lost from lifespan. It is designed from the data given.  
+            //This calculation is not fitted for when x < -30 and x > 50. 
+            decimal x7 = Decimal.Multiply((decimal)Math.Pow((double)x, 7), Decimal.Multiply((decimal)Math.Pow(10, -10), (decimal)-7.9365079369092));
+            decimal x6 = Decimal.Multiply((decimal)Math.Pow((double)x, 6), Decimal.Multiply((decimal)Math.Pow(10, -7), (decimal)1.2301587301849));
+            decimal x5 = Decimal.Multiply((decimal)Math.Pow((double)x, 5), Decimal.Multiply((decimal)Math.Pow(10, -6), (decimal)-6.3888888888529));
+            decimal x4 = Decimal.Multiply((decimal)Math.Pow((double)x, 4), Decimal.Multiply((decimal)Math.Pow(10, -5), (decimal)7.0634920631109));
+            decimal x3 = Decimal.Multiply((decimal)Math.Pow((double)x, 3), (decimal)0.0036706349206332);
+            decimal x2 = Decimal.Multiply((decimal)Math.Pow((double)x, 2),(decimal)-0.12829365079234);
+            decimal x1 = Decimal.Multiply((decimal)x, (decimal)0.49761904761878);
+            decimal constant = Decimal.Multiply((decimal)Math.Pow(10, -11), (decimal)-5.5510776531705);
+            decimal val = x7+x6+x5+x4 + x3 + x2 + x1 + constant;
+            //at x = -50 the function starts to increase so we have to set it to negative, as mentioned before the values will not be resonable.
+            if (x == 0 || x < -50 || val > 0)
+            { 
+                val = val *-1;
+            }
+            val = val/100;
+            return val;
         }
 
         public void CalcL()
         {
-            //t1 is the previous time,  t2 todays time.
-            /*SELECT base*/
-            //sql take base pressure from all 4 wheels.
-            // precentage = frontRightTireBaselinePressure/baselinepressure
-
-            /*IF NOT EXISTS(select* __)
-                beginl
-                    
-                end
-         */
+           
+         
             /* LSn = LSn-1  + ∆ t * f(x) - ∆t/(LSn-1)  */
 
           
 
-            t2 = DateTime.Now;
+                t2 = DateTime.Now;
             tire_curr_pressure[0] = (decimal)SensorData.frontLeftSensorPressure;
             tire_curr_pressure[1] = (decimal)SensorData.rearLeftSensorPressure;
             tire_curr_pressure[2] = (decimal)SensorData.frontRightSensorPressure;
@@ -200,19 +208,33 @@ namespace CopilotApp
             
             for(int i= 0; i < tire_ls.Length; i++)
             {
-               
-               tire_ls[i] = tire_ls[i] + Decimal.Multiply(t,Func((tire_curr_pressure[i]/tire_base_pressure[i]))) - (t /tire_ls[i]);
+
+                p = tire_curr_pressure[i] / tire_base_pressure[i];
+                
+                if(p > 1)
+                {
+                    p = (p - 1)*100;
+                }
+                else
+                {
+                    p = p * -100;
+                   
+                }
+                if (tire_ls[i] != 0)
+                {
+                    tire_ls[i] = tire_ls[i] + Decimal.Multiply(t, Func(p)) - (t / tire_ls[i]);
+                }
                 //tire_ls[i] = tire_ls[i] + Decimal.Multiply((decimal)(t2-t1).Seconds,Func(tire_curr_pressure[i]/tire_base_pressure[i])) - (((decimal)(t2-t1).Seconds) /tire_ls[i]);
                 //if tire life is below 0 then we just update the column with 0.
                
-                if (tire_ls[i] < 0)
+                if (tire_ls[i] <= 0)
                 {
                      sqlStatement = "UPDATE tmps_tire SET remaining_life = 0 WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
                 }
                 else
                 {
                     //decimal new_val = (tire_ls[i] / (365 * 24 * 60 * 60));
-                    decimal new_val = Math.Ceiling((tire_ls[i]*10000) / (365 *12* 24 * 60 * 60))/10000;
+                    decimal new_val = Math.Ceiling((tire_ls[i]*10000) / (365 * 24 * 60 * 60))/10000;
                      sqlStatement = "UPDATE tpms_tire SET remaining_life = "+ new_val +" WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
                 }
                 
