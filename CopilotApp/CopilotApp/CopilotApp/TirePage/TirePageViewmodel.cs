@@ -109,7 +109,7 @@ namespace CopilotApp
         public static async Task SendTireDataAsync(string tireIDDisplayValue, string tireBaselinePressureDisplayValue, string tireFillMaterialDisplayValue, string tireTreadDepthDisplayValue)
         {
 
-            int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, MachineData.companyName, null);
+            int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, null, null);
 
             //If the database was successfully updated, then update the internal values as well.s
             if (nrOfRowsAffected != -1)
