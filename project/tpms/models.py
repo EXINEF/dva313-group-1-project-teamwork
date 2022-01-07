@@ -38,10 +38,10 @@ class Sensor(models.Model):
     def getStatus(self):
         status = 'OK'
         problems = ''
-        if self.temperature > 75:
+        if self.temperature > 75 and self.temperature <= 80:
             status = 'WARNING'
             problems += 'Sensor Temperature is High\n'
-        if self.getRemaningBattery() < 20:
+        if self.getRemaningBattery() < 20 and self.temperature >= 10:
             status = 'WARNING'
             problems += 'Sensor Battery is Low\n'    
         if self.status != 'WORKING':
@@ -110,6 +110,10 @@ class Tire(models.Model):
         if pressurePercentage > 140:
             status = 'DANGER'
             problems += 'Tire pressure is Very High\n'
+
+        if self.sensor.getStatus()[0] != 'OK':
+            status = self.sensor.getStatus()[0]
+            problems += 'Sensor ('+ self.sensor.id + ') ' + self.sensor.getStatusMotivation()
         return status, problems
 
     def getStatusStatus(self):
@@ -186,19 +190,20 @@ class Vehicle(models.Model):
             return status, problems       
         if self.tire_left_front.getStatus()[0] != 'OK':
             status = self.tire_left_front.getStatus()[0]
-            problems += 'Left Front ' + self.tire_left_front.getStatus()[1]
+            problems += 'Left Front ('+ self.tire_left_front.id + ') ' + self.tire_left_front.getStatusMotivation()
         if self.tire_left_rear.getStatus()[0] != 'OK':
             status = self.tire_left_rear.getStatus()[0]
-            problems += 'Left Rear ' +self.tire_left_rear.getStatus()[1]
+            problems += 'Left Rear ('+ self.tire_left_rear.id + ') ' + self.tire_left_rear.getStatusMotivation()
         if self.tire_right_front.getStatus()[0] != 'OK':
             status = self.tire_right_front.getStatus()[0]
-            problems += 'Right Front ' +self.tire_right_front.getStatus()[1]
+            problems += 'Right Front ('+ self.tire_right_front.id + ') ' + self.tire_right_front.getStatusMotivation()
         if self.tire_right_rear.getStatus()[0] != 'OK':
             status = self.tire_right_rear.getStatus()[0]
-            problems += 'Right Rear ' +self.tire_right_rear.getStatus()[1]
+            problems += 'Right Rear ('+ self.tire_right_rear.id + ') ' + self.tire_right_rear.getStatusMotivation()
         if self.tire_specc != 'NEUTRAL':
             status = 'WARNING'
             problems +=  'Vehicle\'s tire specc is not NEUTRAL\n' 
+        print(problems)
         return status, problems
 
     def getStatusStatus(self):
