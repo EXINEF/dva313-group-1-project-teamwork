@@ -38,12 +38,16 @@ class Sensor(models.Model):
 
     def getStatus(self):
         if self.status != 'WORKING':
-            return 'DANGER'
+            return 'DANGER', 'Sensor not WORKING'
+        if self.temperature > 80:
+            return 'DANGER', 'Sensor Temperature is Very High' 
         if self.getRemaningBattery() < 10:
-            return 'DANGER'
+            return 'DANGER', 'Sensor Battery is Very Low'
+        if self.temperature > 75:
+            return 'WARNING', 'Sensor Temperature is High'
         if self.getRemaningBattery() < 20:
-            return 'WARNING'
-        return 'OK'
+            return 'WARNING', 'Sensor Battery is Low'
+        return 'OK', ''
 
     def getRemaningBattery(self):
         delta = datetime.now(timezone.utc) - self.creation_datetime
@@ -68,23 +72,25 @@ class Tire(models.Model):
     sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.SET_NULL)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
-    """
-        # TODO we need something to save the history of the previous vehicle that used this tire
-    
-        we need Tire ID, VehicleID, STATUS(USED, NOT_USED), (same parameter that describe how muche the wheel was used, maybe remaining life or else)
-        
-        EXAMPLE: history = models.ManyToManyField(TireVehicleHistory, ect...)
-        
-        class TireVehicleHistory(models.Model):
-            tire = models.ForeignKey(Tire, etc...)
-            status = (USED, NOT_USED)
-            vehicle = models.ForeignKey(Vehicle, etc...)
-            1-parameters to save for see the deterioration of the wheel
-            ...
-            ...
-            n-parameters   
+    def getStatus(self):
+        if self.sensor is None:
+            return 'DANGER', 'Tire has no sensor'
+        pressurePercentage = self.getPressurePercentage()
+        if pressurePercentage < 80:
+            return 'DANGER', 'Tire pressure is Very Low'
+        if pressurePercentage > 140:
+            return 'DANGER', 'Tire pressure is Very High'
+        if pressurePercentage < 90:
+            return 'DANGER', 'Tire pressure is Low'
+        if pressurePercentage > 125:
+            return 'DANGER', 'Tire pressure is High'
+        return 'OK', ''
 
-    """
+    # ((pressure - baselinePressure) / baselinePressure) + 100
+    def getPressurePercentage(self):
+        if self.baseline_pressure == 0:
+            return 0
+        return ((self.sensor.pressure - self.baseline_pressure) / self.baseline_pressure) + 100
     
     def __str__(self):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
@@ -132,28 +138,28 @@ class Vehicle(models.Model):
     
     def getStatus(self):
         if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
-            return 'DANGER'
+            return 'DANGER', 'Vehicle is missing tires'
         if self.tire_left_front.sensor is None or self.tire_left_rear.sensor  is None or self.tire_right_front.sensor  is None or self.tire_right_rear.sensor  is None:
-            return 'DANGER'
+            return 'DANGER', 'Vehicle is missing sensors'
         if self.tire_left_front.sensor.getRemaningBattery() < 10:
-            return 'DANGER'
+            return 'DANGER', 'Left Front Tire\' sensor battery is Very Low'
         if self.tire_left_rear.sensor.getRemaningBattery() < 10:
-            return 'DANGER'
+            return 'DANGER', 'Left Rear Tire\' sensor battery is Very Low'
         if self.tire_right_front.sensor.getRemaningBattery() < 10:
-            return 'DANGER'
+            return 'DANGER', 'Right Front Tire\' sensor battery is Very Low'
         if self.tire_right_rear.sensor.getRemaningBattery() < 10:
-            return 'DANGER'
+            return 'DANGER', 'Right Rear Tire\' sensor battery is Very Low'
         if self.tire_left_front.sensor.getRemaningBattery() < 20:
-            return 'WARNING'
+            return 'WARNING', 'Left Front Tire\' sensor battery is Low'
         if self.tire_left_rear.sensor.getRemaningBattery() < 20:
-            return 'WARNING'
+            return 'WARNING', 'Left Rear Tire\' sensor battery is Low'
         if self.tire_right_front.sensor.getRemaningBattery() < 20:
-            return 'WARNING'
+            return 'WARNING', 'Right Front Tire\' sensor battery is Low'
         if self.tire_right_rear.sensor.getRemaningBattery() < 20:
-            return 'WARNING'
+            return 'WARNING', 'Right Rear Tire\' sensor battery is Low'
         if self.tire_specc != 'NEUTRAL':
-            return 'WARNING'
-        return 'OK'
+            return 'WARNING', 'Vehicle\'s tire specc is not NEUTRAL'
+        return 'OK', ''
 
     def getType(self):
         return 'Wheel Loader'

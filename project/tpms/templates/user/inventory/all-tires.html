@@ -10,6 +10,7 @@
     <thead>
         <tr>
         <th scope="col">Id</th>
+        <th scope="col">Status</th>
         <th scope="col">Remaining_life</th>
         <th scope="col">Baseline Pressure</th>
         <th scope="col">Fill Material</th>
@@ -24,6 +25,7 @@
         {% for tire in tires %}
             <tr>
             <th scope="row"><a class="table" href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
+            <td>{{tire.getStatus}}</td>
             <td>{{tire.remaining_life}}</td>
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>

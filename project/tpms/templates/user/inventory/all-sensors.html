@@ -10,6 +10,7 @@
     <thead>
         <tr>
         <th scope="col">Id</th>
+        <th scope="col">Status</th>
         <th scope="col">Temperature</th>
         <th scope="col">Pressure</th>
         <th scope="col">Remaning Battery</th>
@@ -23,6 +24,7 @@
         {% for sensor in sensors %}
             <tr>
             <th scope="row"><a class="table" href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
+            <td>{{sensor.getStatus}}</td>
             <td>{{sensor.temperature}}</td>
             <td>{{sensor.pressure}}</td>
             <td>{{sensor.getRemaningBattery}}</td>
