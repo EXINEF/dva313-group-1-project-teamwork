@@ -25,7 +25,7 @@
         {% for sensor in sensors %}
             <tr>
             <th scope="row"><a class="table" href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
-            <td>{% include "core/status-icon.html" with status=sensor.getStatusStatus %}</td>
+            <td>{% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %}</td>
             <td>{{sensor.getTireThatMountIt.id}}</td>
             <td>{{sensor.temperature}}</td>
             <td>{{sensor.pressure}}</td>

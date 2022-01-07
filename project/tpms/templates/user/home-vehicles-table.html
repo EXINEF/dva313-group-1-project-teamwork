@@ -18,7 +18,7 @@
                {% for vehicle in vehicles %}
                <tr>
                <th scope="row"><a class="table"href="{% url 'vehicle' vehicle.id%}" >{{vehicle.id}}</a></th>
-               <td>{% include "core/status-icon.html" with status=vehicle.getStatusStatus %}</td>
+               <td>{% include "core/status-icon.html" with status=vehicle.getStatusStatus motivation=vehicle.getStatusMotivation %}</td>
                <td>{{vehicle.getType}}</td>
                <td><a class="table"href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench"></i></a></td>
                <td><a class="table"href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"></i></a></td>

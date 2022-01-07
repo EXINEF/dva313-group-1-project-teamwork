@@ -26,7 +26,7 @@
         {% for tire in tires %}
             <tr>
             <th scope="row"><a class="table" href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
-            <td>{% include "core/status-icon.html" with status=tire.getStatusStatus %}</td>
+            <td>{% include "core/status-icon.html" with status=tire.getStatusStatus motivation=tire.getStatusMotivation %}</td>
             <td>{{tire.getVehicleThatMountIt.id}}</td>
             <td>{{tire.remaining_life}}</td>
             <td>{{tire.baseline_pressure}}</td>
