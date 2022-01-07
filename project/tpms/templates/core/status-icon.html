@@ -1,0 +1,17 @@
+{% load static %}
+{% if status == 'OK' %}
+    <img src="{% static 'icons/success.png' %}" alt="success icon">
+{% elif status == 'WARNING' %}
+    <img src="{% static 'icons/warning.png' %}" alt="warning icon">
+{% else %}
+    <img src="{% static 'icons/danger.png' %}" alt="danger icon">
+{% endif %}
+
+
+
+
+
+
+
+
+

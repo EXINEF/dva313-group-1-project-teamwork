@@ -72,8 +72,12 @@
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center">
                             Tire Specc:
-                            <span class="badge bg-info rounded-pill">{{vehicle.tire_specc}}</span>
-                          </li>
+                            {% if vehicle.getStatusStatus == 'OK' %}
+                                <span class="badge bg-success rounded-pill">{{vehicle.tire_specc}}</span>
+                            {% else %}
+                                <span class="badge bg-danger rounded-pill">{{vehicle.tire_specc}}</span>
+                            {% endif %}
+                            </li>
                       </ul>
                 </div>
             

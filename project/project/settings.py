@@ -170,4 +170,4 @@ MESSAGE_TAGS = {
         messages.SUCCESS: 'alert-success',  #green
         messages.WARNING: 'alert-warning',  #yellow
         messages.ERROR: 'alert-danger',     #red
- }
+}
