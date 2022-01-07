@@ -7,6 +7,7 @@
        <thread>
            <tr>
                <th scope="col">Vehicle (ID)</th>
+               <th scope="col">Status</th>
                <th scope="col">Type</th>
                <th scope="col"><i class="fas fa-wrench"></i> Edit</th>
                <th scope="col"><i class="fas fa-trash-alt"></i> Delete</th>
@@ -17,6 +18,7 @@
                {% for vehicle in vehicles %}
                <tr>
                <th scope="row"><a class="table"href="{% url 'vehicle' vehicle.id%}" >{{vehicle.id}}</a></th>
+               <td>{{vehicle.getStatusStatus}}</td>
                <td>{{vehicle.getType}}</td>
                <td><a class="table"href="{% url 'edit-vehicle' vehicle.id %}"><i class="fas fa-wrench"></i></a></td>
                <td><a class="table"href="{% url 'delete-vehicle' vehicle.id %}"><i class="fas fa-trash-alt"></i></a></td>

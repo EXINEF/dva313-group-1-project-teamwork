@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from datetime import datetime, timedelta, timezone
+from django.db.models import Q
 
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
@@ -18,8 +19,6 @@ class Company(models.Model):
 class Sensor(models.Model):
     ALL_SENSOR_STATUS = (
         ('WORKING', 'WORKING'),
-        ('WARNING', 'WARNING'),
-        ('DANGER', 'DANGER'),
         ('LOST', 'LOST'),
         ('BROKEN', 'BROKEN'),
     )
@@ -37,17 +36,30 @@ class Sensor(models.Model):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
 
     def getStatus(self):
-        if self.status != 'WORKING':
-            return 'DANGER', 'Sensor not WORKING'
-        if self.temperature > 80:
-            return 'DANGER', 'Sensor Temperature is Very High' 
-        if self.getRemaningBattery() < 10:
-            return 'DANGER', 'Sensor Battery is Very Low'
+        status = 'OK'
+        problems = ''
         if self.temperature > 75:
-            return 'WARNING', 'Sensor Temperature is High'
+            status = 'WARNING'
+            problems += 'Sensor Temperature is High\n'
         if self.getRemaningBattery() < 20:
-            return 'WARNING', 'Sensor Battery is Low'
-        return 'OK', ''
+            status = 'WARNING'
+            problems += 'Sensor Battery is Low\n'    
+        if self.status != 'WORKING':
+            status = 'DANGER'
+            problems += 'Sensor is not WORKING\n'
+        if self.temperature > 80:
+            status = 'DANGER'
+            problems += 'Sensor Temperature is Very High\n'
+        if self.getRemaningBattery() < 10:
+            status = 'DANGER'
+            problems += 'Sensor Battery is Very Low\n'
+        return status, problems
+
+    def getStatusStatus(self):
+        return self.getStatus()[0]
+    
+    def getStatusMotivation(self):
+        return self.getStatus()[1]
 
     def getRemaningBattery(self):
         delta = datetime.now(timezone.utc) - self.creation_datetime
@@ -58,6 +70,12 @@ class Sensor(models.Model):
 
     def getExpiredDate(self):
         return self.creation_datetime + timedelta(weeks=52*3)
+
+    def getTireThatMountIt(self):
+        tire = Tire.objects.get(sensor=self)
+        print(tire)
+        if tire is not None:    
+            return tire
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
@@ -73,27 +91,46 @@ class Tire(models.Model):
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def getStatus(self):
+        status = 'OK'
+        problems = ''
         if self.sensor is None:
-            return 'DANGER', 'Tire has no sensor'
+            status = 'DANGER'
+            problems += 'Tire has no sensor\n'
+            return status, problems
         pressurePercentage = self.getPressurePercentage()
+        if pressurePercentage < 90 and pressurePercentage >= 80:
+            status = 'WARNING'
+            problems += 'Tire pressure is Low\n'
+        if pressurePercentage > 125 and pressurePercentage <= 140:
+            status = 'WARNING'
+            problems += 'Tire pressure is High\n'
         if pressurePercentage < 80:
-            return 'DANGER', 'Tire pressure is Very Low'
+            status = 'DANGER'
+            problems += 'Tire pressure is Very Low\n'
         if pressurePercentage > 140:
-            return 'DANGER', 'Tire pressure is Very High'
-        if pressurePercentage < 90:
-            return 'DANGER', 'Tire pressure is Low'
-        if pressurePercentage > 125:
-            return 'DANGER', 'Tire pressure is High'
-        return 'OK', ''
+            status = 'DANGER'
+            problems += 'Tire pressure is Very High\n'
+        return status, problems
+
+    def getStatusStatus(self):
+        return self.getStatus()[0]
+    
+    def getStatusMotivation(self):
+        return self.getStatus()[1]
 
     # ((pressure - baselinePressure) / baselinePressure) + 100
     def getPressurePercentage(self):
         if self.baseline_pressure == 0:
             return 0
         return ((self.sensor.pressure - self.baseline_pressure) / self.baseline_pressure) + 100
-    
+
     def __str__(self):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
+
+    def getVehicleThatMountIt(self):
+        vehicle = Vehicle.objects.get(Q(tire_left_front=self) |Q(tire_left_rear=self) |Q(tire_right_front=self) |Q(tire_right_rear=self))
+        if vehicle is not None:    
+            return vehicle
 
 class Location(models.Model):
     latitude = models.FloatField()
@@ -137,29 +174,38 @@ class Vehicle(models.Model):
         return 'ID:%s model:%s by %s STATUS:%s'%(self.id,self.model,self.company,self.getStatus())
     
     def getStatus(self):
+        status = 'OK'
+        problems = ''
         if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
-            return 'DANGER', 'Vehicle is missing tires'
+            status = 'DANGER'
+            problems +=  'Vehicle is missing tires\n'
+            return status, problems
         if self.tire_left_front.sensor is None or self.tire_left_rear.sensor  is None or self.tire_right_front.sensor  is None or self.tire_right_rear.sensor  is None:
-            return 'DANGER', 'Vehicle is missing sensors'
-        if self.tire_left_front.sensor.getRemaningBattery() < 10:
-            return 'DANGER', 'Left Front Tire\' sensor battery is Very Low'
-        if self.tire_left_rear.sensor.getRemaningBattery() < 10:
-            return 'DANGER', 'Left Rear Tire\' sensor battery is Very Low'
-        if self.tire_right_front.sensor.getRemaningBattery() < 10:
-            return 'DANGER', 'Right Front Tire\' sensor battery is Very Low'
-        if self.tire_right_rear.sensor.getRemaningBattery() < 10:
-            return 'DANGER', 'Right Rear Tire\' sensor battery is Very Low'
-        if self.tire_left_front.sensor.getRemaningBattery() < 20:
-            return 'WARNING', 'Left Front Tire\' sensor battery is Low'
-        if self.tire_left_rear.sensor.getRemaningBattery() < 20:
-            return 'WARNING', 'Left Rear Tire\' sensor battery is Low'
-        if self.tire_right_front.sensor.getRemaningBattery() < 20:
-            return 'WARNING', 'Right Front Tire\' sensor battery is Low'
-        if self.tire_right_rear.sensor.getRemaningBattery() < 20:
-            return 'WARNING', 'Right Rear Tire\' sensor battery is Low'
+            status = 'DANGER'
+            problems +=  'Vehicle is missing sensors\n' 
+            return status, problems       
+        if self.tire_left_front.getStatus()[0] != 'OK':
+            status = self.tire_left_front.getStatus()[0]
+            problems += 'Left Front ' + self.tire_left_front.getStatus()[1]
+        if self.tire_left_rear.getStatus()[0] != 'OK':
+            status = self.tire_left_rear.getStatus()[0]
+            problems += 'Left Rear ' +self.tire_left_rear.getStatus()[1]
+        if self.tire_right_front.getStatus()[0] != 'OK':
+            status = self.tire_right_front.getStatus()[0]
+            problems += 'Right Front ' +self.tire_right_front.getStatus()[1]
+        if self.tire_right_rear.getStatus()[0] != 'OK':
+            status = self.tire_right_rear.getStatus()[0]
+            problems += 'Right Rear ' +self.tire_right_rear.getStatus()[1]
         if self.tire_specc != 'NEUTRAL':
-            return 'WARNING', 'Vehicle\'s tire specc is not NEUTRAL'
-        return 'OK', ''
+            status = 'WARNING'
+            problems +=  'Vehicle\'s tire specc is not NEUTRAL\n' 
+        return status, problems
+
+    def getStatusStatus(self):
+        return self.getStatus()[0]
+    
+    def getStatusMotivation(self):
+        return self.getStatus()[1]
 
     def getType(self):
         return 'Wheel Loader'

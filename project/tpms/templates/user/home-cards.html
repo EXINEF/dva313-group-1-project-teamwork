@@ -11,8 +11,8 @@
                             <div class="accordion-collapse collapse" id="collapse1" style>
                                 <div class="card card-body container bg-warning">
                                     {% for vehicle in vehicles %}
-                                        {% if vehicle.getStatus == 'WARNING' %}
-                                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% if vehicle.getStatusStatus == 'WARNING' %}
+                                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a><span style="white-space: pre-line">{{vehicle.getStatusMotivation}}</span><br>
                                         {% endif %}
                                     {% endfor %}    
                                 </div>
@@ -38,8 +38,8 @@
                                 <div class ="accoridon-body">
                                     <div class="card card-body container bg-danger">
                                         {% for vehicle in vehicles %}
-                                            {% if vehicle.getStatus == 'DANGER' %}
-                                                <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                            {% if vehicle.getStatusStatus == 'DANGER' %}
+                                                <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a><span style="white-space: pre-line">{{vehicle.getStatusMotivation}}</span><br>
                                             {% endif %}
                                         {% endfor %} 
                                     </div>
@@ -67,14 +67,14 @@
                             <div class ="accoridon-body">
                                 <div class="card card-body container bg-info">
                                     {% for sensor in sensors %}
-                                        {% if sensor.getStatus != 'OK' %}
-                                            <a href="{% url 'sensor' sensor.id %}">{{sensor.id}} {{sensor.getStatus}}</a>
+                                        {% if sensor.getStatusStatus != 'OK' %}
+                                            <a href="{% url 'sensor' sensor.id %}">{{sensor.id}} {{sensor.getStatusStatus}}</a><span style="white-space: pre-line">{{sensor.getStatusMotivation}}</span><br>
                                         {% endif %}
                                     {% endfor %}
 
                                     {% for tire in tires %}
-                                        {% if tire.getStatus != 'OK' %}
-                                            <a href="{% url 'tire' tire.id %}">{{tire.id}} {{tire.getStatus}}</a>
+                                        {% if tire.getStatusStatus != 'OK' %}
+                                            <a href="{% url 'tire' tire.id %}">{{tire.id}} {{tire.getStatusStatus}}</a><span style="white-space: pre-line">{{tire.getStatusMotivation}}</span><br>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
