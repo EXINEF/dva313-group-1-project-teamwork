@@ -3,8 +3,8 @@
 
 {% block content %}
 <body class="bg-dark">
-<div class="container col-sm">
-    <h1 class="text-white">All Tires of {{fleet_manager.company}}</h1>
+<div class="container-fluid col-sm">
+    <h1>All Tires of {{fleet_manager.company}}</h1>
 
     <table class="table table-light table-striped" id="sortTable">
     <thead>
@@ -34,8 +34,8 @@
             <td>{{tire.tread_depth}}</td>
             <td>{{tire.revolutions}}</td>
             <td>{{tire.creation_datetime}}</td>
-            <td><a class="table" href="{% url 'edit-tire' tire.id %}"><i class="fas fa-wrench"></i></a></td>
-            <td><a class="table" href="{% url 'delete-tire' tire.id %}"><i class="fas fa-trash-alt"></a></td>
+            <td><a class="table" href="{% url 'edit-tire' tire.id %}">Edit</a></td>
+            <td><a class="table" href="{% url 'delete-tire' tire.id %}">Delete</a></td>
             </tr>
         {% endfor %}
         
