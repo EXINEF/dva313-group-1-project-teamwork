@@ -6,21 +6,15 @@ using System.Threading.Tasks;
 using MySqlConnector;
 using Xamarin.Essentials;
 
-/****************************************
- * Static database functionality        *
- * that can be called from anywhere     *
- ****************************************/
+/*******************************
+ * Local instantiable database *
+ *******************************/
 
 namespace CopilotApp
 {
-    public class DatabaseFunctions
+    public partial class DatabaseL
     {
-        public DatabaseFunctions()
-        {
-
-        }
-
-        public static int SendTireData(string tireID, string remaining_life, string tireBaselinePressure, string tireFillMaterial, string tireTreadDepth,
+        public int SendTireData(string tireID, string remaining_life, string tireBaselinePressure, string tireFillMaterial, string tireTreadDepth,
                                        string revolutions, string companyID, string sensorID, string is_used)
         {
             //dict["database_variable_name"] = value; // Only place filled in values in the dictionary
@@ -67,7 +61,7 @@ namespace CopilotApp
             return nrOfRowsAffected;
         }
 
-        public static void SendSensorData(string sensorID, string pressure, string temperature, string status, string remainingBattery, string companyID, string is_used)
+        public void SendSensorData(string sensorID, string pressure, string temperature, string status, string remainingBattery, string companyID, string is_used)
         {
             //dict["database_variable_name"] = value; // Only place filled in values in the dictionary
             Dictionary<string, string> dict = new Dictionary<string, string>();
@@ -110,7 +104,7 @@ namespace CopilotApp
 
         }
 
-        public static int SendMachineData(string machineID, string model, string ambientTemp, string distanceDrivenEmpty, string distanceDrivenLoaded,
+        public int SendMachineData(string machineID, string model, string ambientTemp, string distanceDrivenEmpty, string distanceDrivenLoaded,
         string machineHoursEmpty, string machineHoursLoaded, string payloadTonnes, string payloadBuckets, string consumedFuel,
         string tire_left_front_id, string tire_left_rear_id, string tire_right_front_id, string tire_right_rear_id, string tire_specc, string companyID)
         {
@@ -164,7 +158,7 @@ namespace CopilotApp
             return nrOfRowsAffected;
         }
 
-        public static void SendLocationData(string machineID, string latitude, string longitude)
+        public void SendLocationData(string machineID, string latitude, string longitude)
         {
             if (machineID != null && machineID != "" && latitude != null && latitude != "" && longitude != null && longitude != "")
             {
@@ -188,6 +182,5 @@ namespace CopilotApp
                 }
             }
         }
-
     }
 }

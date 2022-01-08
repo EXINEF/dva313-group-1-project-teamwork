@@ -80,6 +80,7 @@
                     <RowDefinition Height="15" />
                     <RowDefinition Height="15" />
                     <RowDefinition Height="15" />
+                    <RowDefinition Height="15" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -129,6 +130,8 @@
                 <Label Text="Latitude" Grid.Row="10" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
                 <Entry Text="{Binding latitude}" BackgroundColor="#5e5e5e" Grid.Row="10" Grid.Column="1" TextColor="White" Keyboard="Numeric" FontSize="10"/>
 
+                <Label Text="Company ID" Grid.Row="11" Grid.Column="0" TextColor="White" FontSize="10" VerticalTextAlignment="Center" />
+                <Entry Text="{Binding companyID}" BackgroundColor="#5e5e5e" Grid.Row="11" Grid.Column="1" TextColor="White" Keyboard="Plain" FontSize="10"/>
 
                 <Grid BackgroundColor="White" Grid.Row="13" Grid.Column="0">
                     <Grid.RowDefinitions>

@@ -12,11 +12,13 @@ namespace CopilotApp
     //Thoughs,  maybe THPH should inherent from tire class?  then we have tire ID and such.
     public partial class TKPHCalculations
     {
+        DatabaseL database = new DatabaseL();
+
         //All K1 values Gets loaded into the dictionary on startup from K1Loader.cs
         //Use like an array: k1Values["1"] = 1.0
         //                   k1Values["6"] = 1.04
         //                   3.0 * k1Values["6"] = 3.12
-        private static Dictionary<string, double> k1Values = new Dictionary<string, double>();
+        public static Dictionary<string, double> k1Values = new Dictionary<string, double>();
        
        
 
@@ -62,10 +64,10 @@ namespace CopilotApp
 
             //query to get current TKHP for that tire. Set id to the local machine's
              string query = "SELECT tkph FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL. maybe
-             MySqlDataReader reader = (Database.SendQuery(query));
+             MySqlDataReader reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
              preSetTKPH = double.Parse(reader["tkph"].ToString());
@@ -73,10 +75,10 @@ namespace CopilotApp
            
 
             query = "SELECT weight FROM tpms_vehicle WHERE id = '"+ MachineData.machineID +"'"; //ADD MODEL ASWELL. maybe
-            reader = Database.SendQuery(query);
+            reader = database.SendQuery(query);
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             qv = decimal.Parse(reader["weight"].ToString());
@@ -168,7 +170,7 @@ namespace CopilotApp
             */
             string result = res.ToString();
             string sqlStatement = "UPDATE tpms_vehicle SET tire_specc = '"+ result +"' WHERE id = '"+ MachineData.machineID +"'";//assuming these is already a value in that column.
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
+            int nrOfRowsAffected = database.SendNonQuery(sqlStatement);
        
              
             return;

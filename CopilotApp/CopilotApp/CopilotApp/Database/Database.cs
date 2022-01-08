@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 using MySqlConnector;
 using Xamarin.Essentials;
 
+/****************************************
+ * Static database functionality        *
+ * that can be called from anywhere     *
+ ****************************************/
+
 namespace CopilotApp
 {
     public class Database

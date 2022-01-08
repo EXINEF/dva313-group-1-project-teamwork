@@ -9,9 +9,10 @@ namespace CopilotApp
     class StartupMachineDataLoader
     {
 
-        public static async Task LoadMachineData()
+        public async Task LoadMachineData()
         {
 
+            DatabaseL database = new DatabaseL();
 
             /************************************************************
              * Loads the machine data for the vehicle from the database *
@@ -21,7 +22,7 @@ namespace CopilotApp
             string SQLQuery = "SELECT distance_driven_empty, distance_driven_loaded FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'";
 
             //Send Query and get the data into the reader
-            MySqlDataReader reader = Database.SendQuery(SQLQuery);
+            MySqlDataReader reader = database.SendQuery(SQLQuery);
 
             if (reader != null)
             {

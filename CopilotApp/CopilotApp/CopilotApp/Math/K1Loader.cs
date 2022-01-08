@@ -9,6 +9,7 @@ namespace CopilotApp
 {
     public partial class TKPHCalculations
     {
+
         //private static Dictionary<string, double> k1Values = new Dictionary<string, double>(); <-- Exists in TKPHCalculations.cs
         private static string k1FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "k1values.csv");
         
@@ -140,7 +141,6 @@ namespace CopilotApp
             }
 
             fileWriter.Close();
-
 
             await Task.CompletedTask;
         }
