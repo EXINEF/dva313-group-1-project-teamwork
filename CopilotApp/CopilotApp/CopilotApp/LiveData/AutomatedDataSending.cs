@@ -21,26 +21,21 @@ namespace CopilotApp
         {
             isSending = true;
             int sleepMilliseconds = delayBetweenSendsSeconds * 1000;
-            Console.WriteLine("Starting the automated data sending process");
             Thread.Sleep(6000);
             while (isSending)
             {
                 Console.WriteLine("Auto Sending Data, " + delayBetweenSendsSeconds + " seconds until next update.");
 
-                int maxGeolocationDelayms = 5000; //ms;
+                int maxGeolocationDelayms = 5000; // max wait for GPS to respond in ms;
                 await GPS.UpdateCoordinates(maxGeolocationDelayms);
                 await Task.Delay(maxGeolocationDelayms);
 
-                Console.WriteLine("SendLiveMachineData();");
                 await SendLiveMachineData();
 
-                Console.WriteLine("SendLiveTireData();");
                 await SendLiveTireData();
 
-                Console.WriteLine("SendLiveSensorData();");
                 await SendLiveSensorData();
 
-                Console.WriteLine("SendLiveLocationData();");
                 await SendLiveLocationData();
 
                 Thread.Sleep(sleepMilliseconds);

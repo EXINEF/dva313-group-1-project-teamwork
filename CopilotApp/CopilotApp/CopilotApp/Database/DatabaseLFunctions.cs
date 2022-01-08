@@ -56,7 +56,7 @@ namespace CopilotApp
 
             string sqlStatement = insertStatement + updateStatement;
 
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
+            int nrOfRowsAffected = SendNonQuery(sqlStatement);
 
             return nrOfRowsAffected;
         }
@@ -100,7 +100,7 @@ namespace CopilotApp
 
             string sqlStatement = insertStatement + updateStatement;
 
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
+            int nrOfRowsAffected = SendNonQuery(sqlStatement);
 
         }
 
@@ -153,7 +153,7 @@ namespace CopilotApp
             string updateStatement = " ON DUPLICATE KEY UPDATE " + updateList;
 
             string sqlStatement = insertStatement + updateStatement;
-            int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
+            int nrOfRowsAffected = SendNonQuery(sqlStatement);
 
             return nrOfRowsAffected;
         }
@@ -167,7 +167,7 @@ namespace CopilotApp
                                   "VALUES(DEFAULT, " + latitude + ", " + longitude + ", CURRENT_TIME); " +
                                   "SELECT LAST_INSERT_ID();";
 
-                MySqlDataReader reader = Database.SendQuery(sqlQuery);
+                MySqlDataReader reader = SendQuery(sqlQuery);
 
                 if (reader != null)
                 {
@@ -178,7 +178,7 @@ namespace CopilotApp
                     string sqlCommand = "INSERT into tpms_vehicle_locations(id, vehicle_id, location_id)" +
                                         "VALUES(DEFAULT, '" + machineID + "'," + locationID + ")";
 
-                    int nrOfAffectedRows = Database.SendNonQuery(sqlCommand);
+                    int nrOfAffectedRows = SendNonQuery(sqlCommand);
                 }
             }
         }

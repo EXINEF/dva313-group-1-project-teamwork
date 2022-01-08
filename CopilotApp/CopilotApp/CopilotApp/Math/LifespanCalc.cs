@@ -239,7 +239,7 @@ namespace CopilotApp
                      sqlStatement = "UPDATE tpms_tire SET remaining_life = "+ new_val +" WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
 
                     //Update TireData page values
-                    UpdateTirePageValues(tire_id[i], new_val);
+                    UpdateTirePageLifeValues(tire_id[i], new_val);
                 }
                 
                int nrOfRowsAffected = database.SendNonQuery(sqlStatement);
@@ -249,12 +249,8 @@ namespace CopilotApp
         }
 
 
-        public void UpdateTirePageValues(string tireID, decimal lifeValue)
+        public void UpdateTirePageLifeValues(string tireID, decimal lifeValue)
         {
-            Console.WriteLine("UpdateTirePageValues(string tireID, decimal lifeValue)");
-            Console.WriteLine("tireID = " + tireID);
-            Console.WriteLine("lifeValue = " + lifeValue);
-
             if (tireID == TireData.frontLeftTireID) 
             { 
                     TireData.frontLeftTireLife = Decimal.ToDouble(lifeValue);
