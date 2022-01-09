@@ -97,6 +97,8 @@ class Tire(models.Model):
             status = 'DANGER'
             problems += 'Tire has no sensor\n'
             return status, problems
+
+        # VERY LOW < 80 < LOW < 90 < OK < 125 < HIGH < 140 < VERY HIGH
         pressurePercentage = self.getPressurePercentage()
         if pressurePercentage < 90 and pressurePercentage >= 80:
             status = 'WARNING'
@@ -116,17 +118,17 @@ class Tire(models.Model):
             problems += 'Sensor ('+ self.sensor.id + ') ' + self.sensor.getStatusMotivation()
         return status, problems
 
+    # ( pressure / baselinePressure ) * 100
+    def getPressurePercentage(self):
+        if self.baseline_pressure == 0:
+            return 0
+        return (self.sensor.pressure / self.baseline_pressure) * 100
+
     def getStatusStatus(self):
         return self.getStatus()[0]
     
     def getStatusMotivation(self):
         return self.getStatus()[1]
-
-    # ((pressure - baselinePressure) / baselinePressure) + 100
-    def getPressurePercentage(self):
-        if self.baseline_pressure == 0:
-            return 0
-        return ((self.sensor.pressure - self.baseline_pressure) / self.baseline_pressure) + 100
 
     def __str__(self):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)

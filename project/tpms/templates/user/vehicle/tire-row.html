@@ -7,7 +7,8 @@
         <td><a href="{% url 'tire' tire.id %}">{{tire.id}}</a></td>    
         {% if tire.sensor is None %}
             <td>MISSING SENSOR</td>
-        {% else %}  
+        {% else %} 
+            <td>{% include "core/status-icon.html" with status=tire.getStatusStatus motivation=tire.getStatusMotivation %}</td> 
             <td><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></td>
             <td>{{tire.sensor.temperature}}</td>
             <td>{{tire.sensor.pressure}}</td>
