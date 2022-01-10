@@ -99,8 +99,8 @@ DATABASES = {
         'NAME': 'tpmsDB',
         'USER': 'bob',
         'PASSWORD': 'MVa5fPoA',
-        'HOST': 'mysql-64846-0.cloudclusters.net',   # Or an IP Address that your DB is hosted on
-        'PORT': '12457',
+        'HOST': 'mysql-65662-0.cloudclusters.net',   # Or an IP Address that your DB is hosted on
+        'PORT': '12293',
         "OPTIONS": {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         },
@@ -170,4 +170,4 @@ MESSAGE_TAGS = {
         messages.SUCCESS: 'alert-success',  #green
         messages.WARNING: 'alert-warning',  #yellow
         messages.ERROR: 'alert-danger',     #red
- }
+}
