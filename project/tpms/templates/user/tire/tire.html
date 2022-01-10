@@ -76,7 +76,7 @@
         <th>MISSING SENSOR</th>
         {% else %}  
         <th scope="row"><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></th>
-        <td>{% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %}</td>
+        <td>{% include "core/status-icon.html" with status=tire.sensor.getStatusStatus motivation=tire.sensor.getStatusMotivation %}</td>
         <td>{{tire.sensor.temperature}}</td>
         <td>{{tire.sensor.pressure}}</td>
         <td>{{tire.sensor.getRemaningBattery}}</td>
