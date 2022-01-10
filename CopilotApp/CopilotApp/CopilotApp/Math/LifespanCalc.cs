@@ -43,45 +43,7 @@ namespace CopilotApp
             tire_id[1] = reader["tire_left_rear_id"].ToString();
             tire_id[2] = reader["tire_right_front_id"].ToString();
             tire_id[3] = reader["tire_right_rear_id"].ToString();
-            /*
-            //sets todays datetime.
-            //getting id for each tire.
-            query = "SELECT tire_left_front_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-           // MySqlDataReader reader = (database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[0] = reader["tire_left_front_id"].ToString();
-
-            query = "SELECT tire_left_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            reader = (database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[1] = reader["tire_left_rear_id"].ToString();
-
-            query = "SELECT tire_right_front_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            reader = (database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[2] = reader["tire_right_front_id"].ToString();
-
-            query = "SELECT tire_right_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            reader = (database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[3] = reader["tire_right_rear_id"].ToString();*/
-
+            
             //getting remaining life for each tire. It is also converted into seconds.
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[0] + "'";
             reader = (database.SendQuery(query));
@@ -167,6 +129,7 @@ namespace CopilotApp
             //This formula is based of using non linear regression and curve fit it into a polynomial function. This takes the precentage lost from base pressure and 
             //returns the precentage lost from lifespan. It is designed from the data given.  
             //This calculation is not fitted for when x < -30 and x > 50. 
+
             decimal x7 = Decimal.Multiply((decimal)Math.Pow((double)x, 7), Decimal.Multiply((decimal)Math.Pow(10, -10), (decimal)-7.9365079369092));
             decimal x6 = Decimal.Multiply((decimal)Math.Pow((double)x, 6), Decimal.Multiply((decimal)Math.Pow(10, -7), (decimal)1.2301587301849));
             decimal x5 = Decimal.Multiply((decimal)Math.Pow((double)x, 5), Decimal.Multiply((decimal)Math.Pow(10, -6), (decimal)-6.3888888888529));
@@ -188,12 +151,9 @@ namespace CopilotApp
         public void CalcL()
         {
            
-         
-            /* LSn = LSn-1  + ∆ t * f(x) - ∆t/(LSn-1)  */
 
           
 
-                t2 = DateTime.Now;
             tire_curr_pressure[0] = (decimal)SensorData.frontLeftSensorPressure;
             tire_curr_pressure[1] = (decimal)SensorData.rearLeftSensorPressure;
             tire_curr_pressure[2] = (decimal)SensorData.frontRightSensorPressure;
@@ -218,10 +178,21 @@ namespace CopilotApp
                 }
                 if (tire_ls[i] != 0)
                 {
+                    /* The formula:
+                     *LSn = LSn-1  + ∆ t * f(x) - ∆t/(LSn-1)
+                     *
+                     *Where: LSn-1: the current remaining life
+                     *       LSn: the new remaining life
+                     *       ∆ t: the time passed.
+                     *       f(x): the function for life reduction based on pressure lost/gained (will always return negative value).
+                     *       
+                     *       The formula calculated the remaining life by reducing the current one with the life reduced based on pressure but
+                     *       also subtract by the time passed.
+                     */
                     tire_ls[i] = tire_ls[i] + Decimal.Multiply(t, Func(p)) - (t / tire_ls[i]);
                 }
                 /*This type was used when daytime factors in.*/
-                //tire_ls[i] = tire_ls[i] + Decimal.Multiply((decimal)(t2-t1).Seconds,Func(tire_curr_pressure[i]/tire_base_pressure[i])) - (((decimal)(t2-t1).Seconds) /tire_ls[i]);
+            
                 
                 //if tire life is below 0 then we just update the column with 0.
                
