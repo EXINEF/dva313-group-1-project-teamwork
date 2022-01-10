@@ -22,12 +22,11 @@ namespace CopilotApp
         private decimal[] tire_curr_pressure = new decimal[4];
         private string sqlStatement;
         private decimal t = 0;
-         private int cov_to_sec= 0;
+        private int cov_to_sec= 0;
         private decimal p = 0;
-        //private int nrOfRowsAffected;
-        DateTime t2;
+        private decimal new_val;
 
-       /* if (reader["distance_driven_empty"] != DBNull.Value)*/
+
 
         public LifespanCalc()
         {
@@ -46,41 +45,7 @@ namespace CopilotApp
             /*
             //sets todays datetime.
             //getting id for each tire.
-            query = "SELECT tire_left_front_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-           // MySqlDataReader reader = (Database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (Database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[0] = reader["tire_left_front_id"].ToString();
-
-            query = "SELECT tire_left_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            reader = (Database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (Database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[1] = reader["tire_left_rear_id"].ToString();
-
-            query = "SELECT tire_right_front_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            reader = (Database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (Database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[2] = reader["tire_right_front_id"].ToString();
-
-            query = "SELECT tire_right_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            reader = (Database.SendQuery(query));
-            while (reader == null)
-            {
-                reader = (Database.SendQuery(query));
-            }
-            reader.Read();
-            tire_id[3] = reader["tire_right_rear_id"].ToString();*/
+            */
 
             //getting remaining life for each tire. It is also converted into seconds.
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[0] + "'";
@@ -198,10 +163,6 @@ namespace CopilotApp
             tire_curr_pressure[1] = (decimal)SensorData.rearLeftSensorPressure;
             tire_curr_pressure[2] = (decimal)SensorData.frontRightSensorPressure;
             tire_curr_pressure[3] = (decimal)SensorData.rearRightSensorPressure;
-            /*tire_curr_pressure[0] = 475;
-            tire_curr_pressure[1] = 475;
-            tire_curr_pressure[2] = 475;
-            tire_curr_pressure[3] = 475;*/
             cov_to_sec = 60 * 60;
             t=Decimal.Multiply((decimal)MachineBusData.machineHoursEmpty+(decimal)MachineBusData.machineHoursLoaded,(decimal)cov_to_sec);
                
@@ -224,7 +185,9 @@ namespace CopilotApp
                 {
                     tire_ls[i] = tire_ls[i] + Decimal.Multiply(t, Func(p)) - (t / tire_ls[i]);
                 }
+                /*This type was used when daytime factors in.*/
                 //tire_ls[i] = tire_ls[i] + Decimal.Multiply((decimal)(t2-t1).Seconds,Func(tire_curr_pressure[i]/tire_base_pressure[i])) - (((decimal)(t2-t1).Seconds) /tire_ls[i]);
+                
                 //if tire life is below 0 then we just update the column with 0.
                
                 if (tire_ls[i] <= 0)
@@ -233,8 +196,8 @@ namespace CopilotApp
                 }
                 else
                 {
-                    //decimal new_val = (tire_ls[i] / (365 * 24 * 60 * 60));
-                    decimal new_val = Math.Ceiling((tire_ls[i]*10000) / (365 * 24 * 60 * 60))/10000;
+               
+                     new_val = Math.Ceiling((tire_ls[i]*10000) / (365 * 24 * 60 * 60))/10000;
                      sqlStatement = "UPDATE tpms_tire SET remaining_life = "+ new_val +" WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
                 }
                 
