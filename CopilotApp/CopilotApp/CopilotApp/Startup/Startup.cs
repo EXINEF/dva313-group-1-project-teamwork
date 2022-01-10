@@ -8,20 +8,20 @@ namespace CopilotApp
 {
     class Startup
     {
+        StartupMachineDataLoader startupMachineDataLoader = new StartupMachineDataLoader();
+        StartupTireDataLoader startupTireDataLoader = new StartupTireDataLoader();
+        AutomatedDataSending automatedDataSending = new AutomatedDataSending();
+        Calculations calc = new Calculations();
 
-        public static void Run()
+        public async Task<Task> Run()
         {
-            Calculations calc = new Calculations();
-            
+            await TKPHCalculations.LoadK1Data();
+            await startupMachineDataLoader.LoadMachineData();
+            await startupTireDataLoader.LoadTireData();
+            Task.Run(async () => { await calc.run(); });
+            Task.Run(async () => { await automatedDataSending.StartSending(); });
 
-            Task.Run(async () => { 
-                await TKPHCalculations.LoadK1Data();
-                await StartupMachineDataLoader.LoadMachineData();
-                await StartupTireDataLoader.LoadTireData();
-                Task.Run(async () => { await calc.run(); });
-                await AutomatedDataSending.StartSending();
-            });
-
+            return Task.CompletedTask;
         }
 
     }

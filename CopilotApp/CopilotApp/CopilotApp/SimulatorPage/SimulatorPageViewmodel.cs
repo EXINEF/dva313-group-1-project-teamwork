@@ -12,7 +12,7 @@ namespace CopilotApp
         //Variables:
         //_backingfield ; public string varName {get; set} 
         //OnPropertyChanged(nameof(varName)) updates the value shown on screen(SimulatorPage.xaml) if we update the variable in here in code
-
+        DatabaseL database = new DatabaseL();
 
         public SimulatorPageViewmodel()
         {

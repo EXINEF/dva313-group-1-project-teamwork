@@ -8,38 +8,34 @@ namespace CopilotApp
 {
     class AutomatedDataSending
     {
-        public static bool isSending = false;
-        public static int delayBetweenSendsSeconds = (60 * 1);
+        bool isSending = false;
+        int delayBetweenSendsSeconds = (60 * 1);
+        DatabaseL database = new DatabaseL();
 
-        public static void StopSending()
+        public void StopSending()
         {
             isSending = false;
         }
 
-        public static async Task StartSending()
+        public async Task StartSending()
         {
             isSending = true;
             int sleepMilliseconds = delayBetweenSendsSeconds * 1000;
-            Console.WriteLine("Starting the automated data sending process");
             Thread.Sleep(6000);
             while (isSending)
             {
                 Console.WriteLine("Auto Sending Data, " + delayBetweenSendsSeconds + " seconds until next update.");
 
-                int maxGeolocationDelayms = 5000; //ms;
+                int maxGeolocationDelayms = 5000; // max wait for GPS to respond in ms;
                 await GPS.UpdateCoordinates(maxGeolocationDelayms);
                 await Task.Delay(maxGeolocationDelayms);
 
-                Console.WriteLine("SendLiveMachineData();");
                 await SendLiveMachineData();
 
-                Console.WriteLine("SendLiveTireData();");
                 await SendLiveTireData();
 
-                Console.WriteLine("SendLiveSensorData();");
                 await SendLiveSensorData();
 
-                Console.WriteLine("SendLiveLocationData();");
                 await SendLiveLocationData();
 
                 Thread.Sleep(sleepMilliseconds);
@@ -48,7 +44,7 @@ namespace CopilotApp
             await Task.CompletedTask;
         }
 
-        public static async Task SendLiveTireData()
+        public async Task SendLiveTireData()
         {
             string tire1Query = "UPDATE tpms_tire SET revolutions = '" + TireData.frontLeftTireRevolutions + "' WHERE id = '" + TireData.frontLeftTireID + "';";
             string tire2Query = "UPDATE tpms_tire SET revolutions = '" + TireData.frontRightTireRevolutions + "' WHERE id = '" + TireData.frontRightTireID + "';";
@@ -57,12 +53,12 @@ namespace CopilotApp
 
             string sqlQuery = tire1Query + tire2Query + tire3Query + tire4Query;
 
-            int nrOfRowsAffected = Database.SendNonQuery(sqlQuery);
+            int nrOfRowsAffected = database.SendNonQuery(sqlQuery);
 
             await Task.CompletedTask;
         }
 
-        public static async Task SendLiveSensorData()
+        public async Task SendLiveSensorData()
         {
             //Cast the values to strings
             string frontLeftSensorID = SensorData.frontLeftSensorID;
@@ -81,15 +77,15 @@ namespace CopilotApp
             string rearRightSensorPressure = SensorData.rearRightSensorPressure.ToString();
             string rearRightSensorTemperature = SensorData.rearRightSensorTemperature.ToString();
 
-            DatabaseFunctions.SendSensorData(frontLeftSensorID, frontLeftSensorPressure, frontLeftSensorTemperature, null, null, null);
-            DatabaseFunctions.SendSensorData(frontRightSensorID, frontRightSensorPressure, frontRightSensorTemperature, null, null, null);
-            DatabaseFunctions.SendSensorData(rearLeftSensorID, rearLeftSensorPressure, rearLeftSensorTemperature, null, null, null);
-            DatabaseFunctions.SendSensorData(rearRightSensorID, rearRightSensorPressure, rearRightSensorTemperature, null, null, null);
+            database.SendSensorData(frontLeftSensorID, frontLeftSensorPressure, frontLeftSensorTemperature, null, null, MachineData.companyID, "0");
+            database.SendSensorData(frontRightSensorID, frontRightSensorPressure, frontRightSensorTemperature, null, null, MachineData.companyID, "0");
+            database.SendSensorData(rearLeftSensorID, rearLeftSensorPressure, rearLeftSensorTemperature, null, null, MachineData.companyID, "0");
+            database.SendSensorData(rearRightSensorID, rearRightSensorPressure, rearRightSensorTemperature, null, null, MachineData.companyID, "0");
 
             await Task.CompletedTask;
         }
 
-        public static async Task SendLiveMachineData()
+        public async Task SendLiveMachineData()
         {
             //Cast the values to strings
             string machineID = MachineData.machineID;
@@ -101,21 +97,22 @@ namespace CopilotApp
             string payloadTonnes = MachineBusData.payloadTonnes.ToString();
             string payloadBuckets = MachineBusData.payloadBuckets.ToString();
             string consumedFuel = MachineBusData.consumedFuel.ToString();
+            string companyID = MachineData.companyID.ToString();
 
-            DatabaseFunctions.SendMachineData(machineID, null, ambientTemperature, distanceDrivenEmpty, distanceDrivenLoaded, machineHoursEmpty,
-                                              machineHoursLoaded, payloadTonnes, payloadBuckets, consumedFuel, null, null, null, null, null);
+            database.SendMachineData(machineID, null, ambientTemperature, distanceDrivenEmpty, distanceDrivenLoaded, machineHoursEmpty,
+                                              machineHoursLoaded, payloadTonnes, payloadBuckets, consumedFuel, null, null, null, null, null, companyID);
 
             await Task.CompletedTask;
         }
 
-        public static async Task SendLiveLocationData()
+        public async Task SendLiveLocationData()
         {
             //Cast the values to strings
             string machineID = MachineData.machineID;
             string latitude = GPSData.latitude.ToString();
             string longitude = GPSData.longitude.ToString();
 
-            DatabaseFunctions.SendLocationData(machineID, latitude, longitude);
+            database.SendLocationData(machineID, latitude, longitude);
 
             await Task.CompletedTask;
         }

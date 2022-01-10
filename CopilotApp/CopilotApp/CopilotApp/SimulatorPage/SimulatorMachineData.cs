@@ -14,42 +14,16 @@ namespace CopilotApp
         string _ambientTemp; public string ambientTemp { get => _ambientTemp; set { _ambientTemp = value; OnPropertyChanged(nameof(ambientTemp)); } }
         string _longitude; public string longitude { get => _longitude; set { _longitude = value; OnPropertyChanged(nameof(longitude)); } }
         string _latitude; public string latitude { get => _latitude; set { _latitude = value; OnPropertyChanged(nameof(latitude)); } }
+        string _companyID; public string companyID { get => _latitude; set { _latitude = value; OnPropertyChanged(nameof(companyID)); } }
 
-        void LoadMachineDataFromDatabase()
-        {
-            LoadTireDataFromDatabase();
-        }
-
-        private void LoadTireDataFromDatabase()
-        {
-            string query = "SELECT tire_left_front_id, tire_right_front_id, tire_left_rear_id, tire_right_rear_id FROM tpms_vehicle WHERE id='" + machineID + "';";
-
-            //foreach tire{ load tire data from database() }
-        }
 
         private void SendMachineDataToDatabase()
         {
 
             DatabaseFunctions.SendMachineData(machineID, "Wheel loader", ambientTemp, distanceDrivenEmpty, distanceDrivenLoaded, machineHoursEmpty, machineHoursLoaded, 
-                                                       payloadTonnes, payloadBuckets, consumedFuel, frontLeftTireID, rearLeftTireID, frontRightTireID, rearRightTireID, null);
+                                                       payloadTonnes, payloadBuckets, consumedFuel, frontLeftTireID, rearLeftTireID, frontRightTireID, rearRightTireID, null, companyID);
 
             return;
-
-            /*
-            string SQLCommand = "UPDATE tpms_vehicle SET " +
-                "ambient_temperature = '" + ambientTemp + "', " +
-                "distance_driven_empty = '" + distanceDrivenEmpty + "', " +
-                "distance_driven_loaded = '" + distanceDrivenLoaded + "', " +
-                "machine_hours_empty = '" + machineHoursEmpty + "', " +
-                "machine_hours_loaded = '" + machineHoursLoaded + "', " +
-                "machine_hours_loaded = '" + machineHoursLoaded + "', " +
-                "payload = '" + payloadTonnes + "', " +
-                "buckets = '" + payloadBuckets + "', " +
-                "consumed_fuel = '" + consumedFuel + "' " +
-                "WHERE id = '" + machineID + "';";
-
-            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
-            */
         }
 
         //Sends the longitude and latitude of the machine to the database.

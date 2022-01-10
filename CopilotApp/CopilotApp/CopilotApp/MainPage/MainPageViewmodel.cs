@@ -10,6 +10,7 @@ namespace CopilotApp
 {
     public partial class MainPageViewmodel : INotifyPropertyChanged
     {
+        Startup startup = new Startup();
         public enum TEMPERATURE_STATUS { OK, HIGH, VERY_HIGH }
         public enum PRESSURE_STATUS { VERY_LOW, LOW, OK, HIGH, VERY_HIGH }
 
@@ -52,10 +53,8 @@ namespace CopilotApp
             DismissNotificationCommand = new Command(DismissNotification);
             TestNotificationCommand = new Command(TestNotification);
 
-            Startup.Run();
-            //Moved to Startup.cs so it only begins calculating after all data is loaded
-            //Calculations calc = new Calculations();
-            //Task.Run(async () => { await calc.run(); });
+            //Load Machine data, Tire data, Start specc/tire life calculation loop, start automated data sending loop
+            Task.Run(async () => { await startup.Run(); });
 
             //Subscribe to messaging so that other pages can tell us to update our displayvalues.
             MessagingCenter.Subscribe<object>(this, "UpdateMainPageDisplayValues", (sender) => { UpdateDisplay(); });

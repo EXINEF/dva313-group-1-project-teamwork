@@ -24,13 +24,12 @@ namespace CopilotApp
         string _life;
         string _revolutions;
 
-        public string tireIDDisplayValue { get => _tireID; set { _tireID = value; OnPropertyChanged("tireID"); } }
-        public string tireBaselinePressureDisplayValue { get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressure"); } }
-        public string tireFillMaterialDisplayValue { get => _fillMaterial; set { _fillMaterial = value; OnPropertyChanged("tireFillMaterial"); } }
-        public string tireTreadDepthDisplayValue { get => _treadDepth; set { _treadDepth = value; OnPropertyChanged("tireTreadDepth"); } }
-        public string tireLifeDisplayValue { get => _life; set { _life = value; OnPropertyChanged("tireLife"); } }
-        public string tireRevolutionsDisplayValue { get => _revolutions; set { _revolutions = value; OnPropertyChanged("tireRevolutions"); } }
-
+        public string tireIDDisplayValue { get => _tireID; set { _tireID = value; OnPropertyChanged("tireIDDisplayValue"); } }
+        public string tireBaselinePressureDisplayValue { get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressureDisplayValue"); } }
+        public string tireFillMaterialDisplayValue { get => _fillMaterial; set { _fillMaterial = value; OnPropertyChanged("tireFillMaterialDisplayValue"); } }
+        public string tireTreadDepthDisplayValue { get => _treadDepth; set { _treadDepth = value; OnPropertyChanged("tireTreadDepthDisplayValue"); } }
+        public string tireLifeDisplayValue { get => _life; set { _life = value; OnPropertyChanged("tireLifeDisplayValue"); } }
+        public string tireRevolutionsDisplayValue { get => _revolutions; set { _revolutions = value; OnPropertyChanged("tireRevolutionsDisplayValue"); } }
 
         //Event handler
         public event PropertyChangedEventHandler PropertyChanged;
@@ -58,58 +57,12 @@ namespace CopilotApp
         {
             Task.Run(async () => { await SendTireDataAsync(tireIDDisplayValue, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue); });
             ReturnToMainPage();
-
-            /*
-            //SendTireDataAsync(tirePosition);
-            int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, null, null);
-
-            //Update machine data in the database and the internal values if the database was successfully updated so they match
-            if (nrOfRowsAffected != -1)
-            {
-                switch (tirePosition)
-                {
-                    case TIRE_POSITION.FRONT_LEFT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null, null);
-                        TireData.frontLeftTireID = tireIDDisplayValue;
-                        TireData.frontLeftTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
-                        TireData.frontLeftTireFillMaterial = tireFillMaterialDisplayValue;
-                        TireData.frontLeftTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
-                        break;
-                    case TIRE_POSITION.FRONT_RIGHT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null);
-                        TireData.frontRightTireID = tireIDDisplayValue;
-                        TireData.frontRightTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
-                        TireData.frontRightTireFillMaterial = tireFillMaterialDisplayValue;
-                        TireData.frontRightTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
-                        break;
-                    case TIRE_POSITION.REAR_LEFT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null);
-                        TireData.rearLeftTireID = tireIDDisplayValue;
-                        TireData.rearLeftTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
-                        TireData.rearLeftTireFillMaterial = tireFillMaterialDisplayValue;
-                        TireData.rearLeftTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
-                        break;
-                    case TIRE_POSITION.REAR_RIGHT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, null, null, tireIDDisplayValue);
-                        TireData.rearRightTireID = tireIDDisplayValue;
-                        TireData.rearRightTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
-                        TireData.rearRightTireFillMaterial = tireFillMaterialDisplayValue;
-                        TireData.rearRightTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-            */
-            //ReturnToMainPage();
-
         }
 
         public static async Task SendTireDataAsync(string tireIDDisplayValue, string tireBaselinePressureDisplayValue, string tireFillMaterialDisplayValue, string tireTreadDepthDisplayValue)
         {
 
-            int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, null, null);
+            int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, MachineData.companyID, null, "0");
 
             //If the database was successfully updated, then update the internal values as well.s
             if (nrOfRowsAffected != -1)
@@ -117,28 +70,28 @@ namespace CopilotApp
                 switch (tirePosition)
                 {
                     case TIRE_POSITION.FRONT_LEFT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null, null, null);
+                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null, null, null, null);
                         TireData.frontLeftTireID = tireIDDisplayValue;
                         TireData.frontLeftTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
                         TireData.frontLeftTireFillMaterial = tireFillMaterialDisplayValue;
                         TireData.frontLeftTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
                         break;
                     case TIRE_POSITION.FRONT_RIGHT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null);
+                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null, null);
                         TireData.frontRightTireID = tireIDDisplayValue;
                         TireData.frontRightTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
                         TireData.frontRightTireFillMaterial = tireFillMaterialDisplayValue;
                         TireData.frontRightTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
                         break;
                     case TIRE_POSITION.REAR_LEFT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null, null);
+                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null, null, null);
                         TireData.rearLeftTireID = tireIDDisplayValue;
                         TireData.rearLeftTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
                         TireData.rearLeftTireFillMaterial = tireFillMaterialDisplayValue;
                         TireData.rearLeftTireTreadDepth = double.Parse(tireTreadDepthDisplayValue);
                         break;
                     case TIRE_POSITION.REAR_RIGHT:
-                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null);
+                        DatabaseFunctions.SendMachineData(MachineData.machineID, MachineData.machineType, null, null, null, null, null, null, null, null, null, null, null, tireIDDisplayValue, null, null);
                         TireData.rearRightTireID = tireIDDisplayValue;
                         TireData.rearRightTireBaselinePressure = double.Parse(tireBaselinePressureDisplayValue);
                         TireData.rearRightTireFillMaterial = tireFillMaterialDisplayValue;
@@ -167,24 +120,32 @@ namespace CopilotApp
                     tireBaselinePressureDisplayValue = TireData.frontLeftTireBaselinePressure.ToString();
                     tireFillMaterialDisplayValue = TireData.frontLeftTireFillMaterial;
                     tireTreadDepthDisplayValue = TireData.frontLeftTireTreadDepth.ToString();
+                    tireLifeDisplayValue = TireData.frontLeftTireLife.ToString();
+                    tireRevolutionsDisplayValue = TireData.frontLeftTireRevolutions.ToString();
                     break;
                 case TIRE_POSITION.FRONT_RIGHT:
                     tireIDDisplayValue = TireData.frontRightTireID;
                     tireBaselinePressureDisplayValue = TireData.frontRightTireBaselinePressure.ToString();
                     tireFillMaterialDisplayValue = TireData.frontRightTireFillMaterial;
                     tireTreadDepthDisplayValue = TireData.frontRightTireTreadDepth.ToString();
+                    tireLifeDisplayValue = TireData.frontRightTireLife.ToString();
+                    tireRevolutionsDisplayValue = TireData.frontRightTireRevolutions.ToString();
                     break;
                 case TIRE_POSITION.REAR_LEFT:
                     tireIDDisplayValue = TireData.rearLeftTireID;
                     tireBaselinePressureDisplayValue = TireData.rearLeftTireBaselinePressure.ToString();
                     tireFillMaterialDisplayValue = TireData.rearLeftTireFillMaterial;
                     tireTreadDepthDisplayValue = TireData.rearLeftTireTreadDepth.ToString();
+                    tireLifeDisplayValue = TireData.rearLeftTireLife.ToString();
+                    tireRevolutionsDisplayValue = TireData.rearLeftTireRevolutions.ToString();
                     break;
                 case TIRE_POSITION.REAR_RIGHT:
                     tireIDDisplayValue = TireData.rearRightTireID;
                     tireBaselinePressureDisplayValue = TireData.rearRightTireBaselinePressure.ToString();
                     tireFillMaterialDisplayValue = TireData.rearRightTireFillMaterial;
                     tireTreadDepthDisplayValue = TireData.rearRightTireTreadDepth.ToString();
+                    tireLifeDisplayValue = TireData.rearRightTireLife.ToString();
+                    tireRevolutionsDisplayValue = TireData.rearRightTireRevolutions.ToString();
                     break;
                 default:
                     tireIDDisplayValue = "Not found";

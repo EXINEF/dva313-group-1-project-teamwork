@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace CopilotApp
 {
-    class LifespanCalc
+    public class LifespanCalc
     {
+        DatabaseL database = new DatabaseL();
         //declaring array where:
         //0 = left front
         //1 = left rear
@@ -32,10 +33,10 @@ namespace CopilotApp
         {
 
             string query = "SELECT tire_left_front_id,tire_left_rear_id,tire_right_front_id,tire_right_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
-            MySqlDataReader reader = (Database.SendQuery(query));
+            MySqlDataReader reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_id[0] = reader["tire_left_front_id"].ToString();
@@ -45,41 +46,75 @@ namespace CopilotApp
             /*
             //sets todays datetime.
             //getting id for each tire.
-            */
+            query = "SELECT tire_left_front_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
+           // MySqlDataReader reader = (database.SendQuery(query));
+            while (reader == null)
+            {
+                reader = (database.SendQuery(query));
+            }
+            reader.Read();
+            tire_id[0] = reader["tire_left_front_id"].ToString();
+
+            query = "SELECT tire_left_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
+            reader = (database.SendQuery(query));
+            while (reader == null)
+            {
+                reader = (database.SendQuery(query));
+            }
+            reader.Read();
+            tire_id[1] = reader["tire_left_rear_id"].ToString();
+
+            query = "SELECT tire_right_front_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
+            reader = (database.SendQuery(query));
+            while (reader == null)
+            {
+                reader = (database.SendQuery(query));
+            }
+            reader.Read();
+            tire_id[2] = reader["tire_right_front_id"].ToString();
+
+            query = "SELECT tire_right_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'"; //ADD MODEL ASWELL.
+            reader = (database.SendQuery(query));
+            while (reader == null)
+            {
+                reader = (database.SendQuery(query));
+            }
+            reader.Read();
+            tire_id[3] = reader["tire_right_rear_id"].ToString();*/
 
             //getting remaining life for each tire. It is also converted into seconds.
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[0] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_ls[0] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[1] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_ls[1] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[2] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_ls[2] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
 
             query = "SELECT remaining_life FROM tpms_tire WHERE id = '" + tire_id[3] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_ls[3] = Decimal.Parse(reader["remaining_life"].ToString()) * 365 * 24 * 60 * 60;
@@ -87,34 +122,34 @@ namespace CopilotApp
 
             //getting base pressure for each tire.
             query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '" + tire_id[0] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_base_pressure[0] = Decimal.Parse(reader["baseline_pressure"].ToString());
             query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '" + tire_id[1] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_base_pressure[1] = Decimal.Parse(reader["baseline_pressure"].ToString());
             query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '" + tire_id[2] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_base_pressure[2] = Decimal.Parse(reader["baseline_pressure"].ToString());
             query = "SELECT baseline_pressure FROM tpms_tire WHERE id = '" + tire_id[3] + "'";
-            reader = (Database.SendQuery(query));
+            reader = (database.SendQuery(query));
             while (reader == null)
             {
-                reader = (Database.SendQuery(query));
+                reader = (database.SendQuery(query));
             }
             reader.Read();
             tire_base_pressure[3] = Decimal.Parse(reader["baseline_pressure"].ToString());
@@ -199,12 +234,36 @@ namespace CopilotApp
                
                      new_val = Math.Ceiling((tire_ls[i]*10000) / (365 * 24 * 60 * 60))/10000;
                      sqlStatement = "UPDATE tpms_tire SET remaining_life = "+ new_val +" WHERE id = '"+ tire_id[i] +"'";//assuming these is already a value in that column.
+
+                    //Update TireData page values
+                    UpdateTirePageLifeValues(tire_id[i], new_val);
                 }
                 
-               int nrOfRowsAffected = Database.SendNonQuery(sqlStatement);
+               int nrOfRowsAffected = database.SendNonQuery(sqlStatement);
             }
 
             return;
+        }
+
+
+        public void UpdateTirePageLifeValues(string tireID, decimal lifeValue)
+        {
+            if (tireID == TireData.frontLeftTireID) 
+            { 
+                    TireData.frontLeftTireLife = Decimal.ToDouble(lifeValue);
+            }
+            else if(tireID == TireData.frontRightTireID)
+            {
+                TireData.frontRightTireLife = Decimal.ToDouble(lifeValue);
+            }
+            else if (tireID == TireData.rearLeftTireID)
+            {
+                TireData.rearLeftTireLife = Decimal.ToDouble(lifeValue);
+            }
+            else if (tireID == TireData.rearRightTireID)
+            {
+                TireData.rearRightTireLife = Decimal.ToDouble(lifeValue);
+            }
         }
     }
 }

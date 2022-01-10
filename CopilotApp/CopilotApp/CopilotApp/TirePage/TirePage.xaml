@@ -48,10 +48,10 @@
                 <Label Text="mm" Grid.Row="3" Grid.Column="2" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
 
                 <Label Text="Tire Life:" Grid.Row="4" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                <Label Text="{Binding tireLife}" Grid.Row="4" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                <Label Text="{Binding tireLifeDisplayValue}" Grid.Row="4" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
                 
                 <Label Text="Revolutions:" Grid.Row="5" Grid.Column="0" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
-                <Label Text="{Binding tireRevolutions}" Grid.Row="5" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
+                <Label Text="{Binding tireRevolutionsDisplayValue}" Grid.Row="5" Grid.Column="1" TextColor="White" FontSize="15" VerticalTextAlignment="Center" />
             </Grid>
         </Frame>
 

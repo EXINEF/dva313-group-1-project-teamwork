@@ -32,11 +32,6 @@ namespace CopilotApp
         string _rearRightTireFillMaterial; public string rearRightTireFillMaterial { get => _rearRightTireFillMaterial; set { _rearRightTireFillMaterial = value; OnPropertyChanged(nameof(rearRightTireFillMaterial)); } }
         string _rearRightTireTreadDepth; public string rearRightTireTreadDepth { get => _rearRightTireTreadDepth; set { _rearRightTireTreadDepth = value; OnPropertyChanged(nameof(rearRightTireTreadDepth)); } }
 
-        int frontLeftTireRevolutions;
-        int frontRightTireRevolutions;
-        int rearLeftTireRevolutions;
-        int rearRightTireRevolutions;
-
         //Indicator for which position on the machine the tire is fitted.
         public enum POSITION { FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT, CENTER_LEFT, CENTER_RIGHT }
         public POSITION position;
@@ -53,45 +48,10 @@ namespace CopilotApp
 
         public void SendTireDataToDatabase()
         {
-            DatabaseFunctions.SendTireData(frontLeftTireID, null,frontLeftTireBaselinePressure, frontLeftTireFillMaterial, frontLeftTireTreadDepth, null, null, frontLeftSensorID);
-            DatabaseFunctions.SendTireData(frontRightTireID, null, frontRightTireBaselinePressure, frontRightTireFillMaterial, frontRightTireTreadDepth, null, null, frontRightSensorID);
-            DatabaseFunctions.SendTireData(rearLeftTireID, null, rearLeftTireBaselinePressure, rearLeftTireFillMaterial, rearLeftTireTreadDepth, null, null, rearLeftSensorID);
-            DatabaseFunctions.SendTireData(rearRightTireID, null, rearRightTireBaselinePressure, rearRightTireFillMaterial, rearRightTireTreadDepth, null, null, rearRightSensorID);
-
-            /*
-            //Front Left Tire
-            string SQLCommand = "UPDATE tpms_tire SET " +
-                                "baseline_pressure = '" + frontLeftTireBaselinePressure + "', " +
-                                "fill_material = '" + frontLeftTireFillMaterial + "', " +
-                                "tread_depth = '" + frontLeftTireTreadDepth + "' " +
-                                "WHERE id = '" + frontLeftTireID + "'; ";
-            int ColumnsAffected = Database.SendNonQuery(SQLCommand);
-
-            //Front Right Tire
-            SQLCommand = "UPDATE tpms_tire SET " +
-                                "baseline_pressure = '" + frontRightTireBaselinePressure + "', " +
-                                "fill_material = '" + frontRightTireFillMaterial + "', " +
-                                "tread_depth = '" + frontRightTireTreadDepth + "' " +
-                                "WHERE id = '" + frontRightTireID + "'; ";
-            ColumnsAffected += Database.SendNonQuery(SQLCommand);
-
-            //Rear Left Tire
-            SQLCommand = "UPDATE tpms_tire SET " +
-                                "baseline_pressure = '" + rearLeftTireBaselinePressure + "', " +
-                                "fill_material = '" + rearLeftTireFillMaterial + "', " +
-                                "tread_depth = '" + rearLeftTireTreadDepth + "' " +
-                                "WHERE id = '" + rearLeftTireID + "'; ";
-            ColumnsAffected = Database.SendNonQuery(SQLCommand);
-
-            //Rear Right Tire
-            SQLCommand = "UPDATE tpms_tire SET " +
-                                "baseline_pressure = '" + rearRightTireBaselinePressure + "', " +
-                                "fill_material = '" + rearRightTireFillMaterial + "', " +
-                                "tread_depth = '" + rearRightTireTreadDepth + "' " +
-                                "WHERE id = '" + rearRightTireID + "'; ";
-            ColumnsAffected += Database.SendNonQuery(SQLCommand);
-
-            */
+            DatabaseFunctions.SendTireData(frontLeftTireID, null,frontLeftTireBaselinePressure, frontLeftTireFillMaterial, frontLeftTireTreadDepth, null, companyID, frontLeftSensorID, "0");
+            DatabaseFunctions.SendTireData(frontRightTireID, null, frontRightTireBaselinePressure, frontRightTireFillMaterial, frontRightTireTreadDepth, null, companyID, frontRightSensorID, "0");
+            DatabaseFunctions.SendTireData(rearLeftTireID, null, rearLeftTireBaselinePressure, rearLeftTireFillMaterial, rearLeftTireTreadDepth, null, companyID, rearLeftSensorID, "0");
+            DatabaseFunctions.SendTireData(rearRightTireID, null, rearRightTireBaselinePressure, rearRightTireFillMaterial, rearRightTireTreadDepth, null, companyID, rearRightSensorID, "0");
         }
 
 

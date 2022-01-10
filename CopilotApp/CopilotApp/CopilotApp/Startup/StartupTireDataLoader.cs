@@ -8,9 +8,10 @@ namespace CopilotApp
 {
     class StartupTireDataLoader
     {
-        public static bool isLoaded;
 
-        public static async Task LoadTireData()
+        DatabaseL database = new DatabaseL();
+
+        public async Task LoadTireData()
         {
 
             /*********************************************************
@@ -21,7 +22,7 @@ namespace CopilotApp
             string SQLQuery = "SELECT tire_left_front_id, tire_right_front_id, tire_left_rear_id, tire_right_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'";
 
             //Send Query and get the results(tire id's) into the reader
-            MySqlDataReader tireIDReader = Database.SendQuery(SQLQuery);
+            MySqlDataReader tireIDReader = database.SendQuery(SQLQuery);
 
             //Reader used to grab the inividual tires data, needed because tireIDReader is used contiuously and we do not want to overwrite its contents.
             MySqlDataReader reader = null;
@@ -38,7 +39,7 @@ namespace CopilotApp
                     TireData.frontLeftTireID = tireIDReader["tire_left_front_id"].ToString();
 
                     SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.frontLeftTireID + "'";
-                    reader = Database.SendQuery(SQLQuery);
+                    reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
                     {
@@ -58,7 +59,7 @@ namespace CopilotApp
                     Console.WriteLine("LOADING TIRE DATA FOR ID: " + TireData.frontRightTireID);
 
                     SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.frontRightTireID + "'";
-                    reader = Database.SendQuery(SQLQuery);
+                    reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
                     {
@@ -78,7 +79,7 @@ namespace CopilotApp
                     Console.WriteLine("LOADING TIRE DATA FOR ID: " + TireData.rearLeftTireID);
 
                     SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.rearLeftTireID + "'";
-                    reader = Database.SendQuery(SQLQuery);
+                    reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
                     {
@@ -98,7 +99,7 @@ namespace CopilotApp
                     Console.WriteLine("LOADING TIRE DATA FOR ID: " + TireData.rearRightTireID);
 
                     SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.rearRightTireID + "'";
-                    reader = Database.SendQuery(SQLQuery);
+                    reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
                     {
