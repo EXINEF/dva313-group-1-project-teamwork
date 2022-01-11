@@ -38,7 +38,7 @@ namespace CopilotApp
                 {
                     TireData.frontLeftTireID = tireIDReader["tire_left_front_id"].ToString();
 
-                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.frontLeftTireID + "'";
+                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions, remaining_life FROM tpms_tire WHERE id = '" + TireData.frontLeftTireID + "'";
                     reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
@@ -49,6 +49,7 @@ namespace CopilotApp
                         if (reader["tread_depth"] != DBNull.Value) TireData.frontLeftTireTreadDepth = double.Parse(reader["tread_depth"].ToString());
                         if (reader["sensor_id"] != DBNull.Value) SensorData.frontLeftSensorID = reader["sensor_id"].ToString();
                         if (reader["revolutions"] != DBNull.Value) TireData.frontLeftTireRevolutions = double.Parse(reader["revolutions"].ToString());
+                        if (reader["remaining_life"] != DBNull.Value) TireData.frontLeftTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
                 }
 
@@ -58,7 +59,7 @@ namespace CopilotApp
                     TireData.frontRightTireID = tireIDReader["tire_right_front_id"].ToString();
                     Console.WriteLine("LOADING TIRE DATA FOR ID: " + TireData.frontRightTireID);
 
-                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.frontRightTireID + "'";
+                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions, remaining_life FROM tpms_tire WHERE id = '" + TireData.frontRightTireID + "'";
                     reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
@@ -69,6 +70,7 @@ namespace CopilotApp
                         if (reader["tread_depth"] != DBNull.Value) TireData.frontRightTireTreadDepth = double.Parse(reader["tread_depth"].ToString());
                         if (reader["sensor_id"] != DBNull.Value) SensorData.frontRightSensorID = reader["sensor_id"].ToString();
                         if (reader["revolutions"] != DBNull.Value) TireData.frontRightTireRevolutions = double.Parse(reader["revolutions"].ToString());
+                        if (reader["remaining_life"] != DBNull.Value) TireData.frontRightTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
                 }
 
@@ -78,7 +80,7 @@ namespace CopilotApp
                     TireData.rearLeftTireID = tireIDReader["tire_left_rear_id"].ToString();
                     Console.WriteLine("LOADING TIRE DATA FOR ID: " + TireData.rearLeftTireID);
 
-                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.rearLeftTireID + "'";
+                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions, remaining_life FROM tpms_tire WHERE id = '" + TireData.rearLeftTireID + "'";
                     reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
@@ -89,6 +91,7 @@ namespace CopilotApp
                         if (reader["tread_depth"] != DBNull.Value) TireData.rearLeftTireTreadDepth = double.Parse(reader["tread_depth"].ToString());
                         if (reader["sensor_id"] != DBNull.Value) SensorData.rearLeftSensorID = reader["sensor_id"].ToString();
                         if (reader["revolutions"] != DBNull.Value) TireData.rearLeftTireRevolutions = double.Parse(reader["revolutions"].ToString());
+                        if (reader["remaining_life"] != DBNull.Value) TireData.rearLeftTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
                 }
 
@@ -98,7 +101,7 @@ namespace CopilotApp
                     TireData.rearRightTireID = tireIDReader["tire_right_rear_id"].ToString();
                     Console.WriteLine("LOADING TIRE DATA FOR ID: " + TireData.rearRightTireID);
 
-                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions FROM tpms_tire WHERE id = '" + TireData.rearRightTireID + "'";
+                    SQLQuery = "SELECT baseline_pressure, fill_material, tread_depth, sensor_id, revolutions, remaining_life FROM tpms_tire WHERE id = '" + TireData.rearRightTireID + "'";
                     reader = database.SendQuery(SQLQuery);
 
                     if (reader != null)
@@ -108,7 +111,8 @@ namespace CopilotApp
                         if (reader["fill_material"] != DBNull.Value) TireData.rearRightTireFillMaterial = reader["fill_material"].ToString();
                         if (reader["tread_depth"] != DBNull.Value) TireData.rearRightTireTreadDepth = double.Parse(reader["tread_depth"].ToString());
                         if (reader["sensor_id"] != DBNull.Value) SensorData.rearRightSensorID = reader["sensor_id"].ToString();
-                        if (reader["revolutions"] != DBNull.Value) TireData.frontLeftTireRevolutions = double.Parse(reader["revolutions"].ToString());
+                        if (reader["revolutions"] != DBNull.Value) TireData.rearRightTireRevolutions = double.Parse(reader["revolutions"].ToString());
+                        if (reader["remaining_life"] != DBNull.Value) TireData.rearRightTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
                 }
             }

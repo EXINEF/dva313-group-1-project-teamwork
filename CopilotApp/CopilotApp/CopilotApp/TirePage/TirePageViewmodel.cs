@@ -23,6 +23,7 @@ namespace CopilotApp
         string _treadDepth;
         string _life;
         string _revolutions;
+        DatabaseL database = new DatabaseL();
 
         public string tireIDDisplayValue { get => _tireID; set { _tireID = value; OnPropertyChanged("tireIDDisplayValue"); } }
         public string tireBaselinePressureDisplayValue { get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressureDisplayValue"); } }
@@ -59,10 +60,10 @@ namespace CopilotApp
             ReturnToMainPage();
         }
 
-        public static async Task SendTireDataAsync(string tireIDDisplayValue, string tireBaselinePressureDisplayValue, string tireFillMaterialDisplayValue, string tireTreadDepthDisplayValue)
+        public async Task SendTireDataAsync(string tireIDDisplayValue, string tireBaselinePressureDisplayValue, string tireFillMaterialDisplayValue, string tireTreadDepthDisplayValue)
         {
 
-            int nrOfRowsAffected = DatabaseFunctions.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, MachineData.companyID, null, "0");
+            int nrOfRowsAffected = database.SendTireData(tireIDDisplayValue, null, tireBaselinePressureDisplayValue, tireFillMaterialDisplayValue, tireTreadDepthDisplayValue, null, MachineData.companyID, null, "0");
 
             //If the database was successfully updated, then update the internal values as well.s
             if (nrOfRowsAffected != -1)

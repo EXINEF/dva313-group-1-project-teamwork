@@ -108,7 +108,7 @@ namespace CopilotApp
 
         public void TestNotification()
         {
-            PushNotification("Just some text to try the notification system");
+            PushNotification("Front left tire has experienced pressure levels above safe thresholds, please bring the machine in to the workshop for damage inspection.");
         }
 
         //Update All graphics

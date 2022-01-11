@@ -14,9 +14,9 @@ namespace CopilotApp
 {
     public class Database
     {
-        //Heroku ClearDB Credentials
-        static string _ip = "mysql-64846-0.cloudclusters.net";
-        static string _port = "12457";
+        //Database Credentials
+        static string _ip = "mysql-65662-0.cloudclusters.net";
+        static string _port = "12293";
         static string _username = "bob";
         static string _password = "MVa5fPoA";
         static string _databaseName = "tpmsDB";
