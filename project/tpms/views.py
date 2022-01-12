@@ -33,14 +33,14 @@ def logoutPage(request):
 def countVehiclesInStatus(vehicles, status):
     counter = 0
     for vehicle in vehicles:
-        if vehicle.getStatus() == status:
+        if vehicle.getStatus()[0] == status:
             counter += 1
     return counter
 
 def countSensorsInventory(sensors):
     counter = 0
     for sensor in sensors:
-        if sensor.getStatus() != 'OK':
+        if sensor.getStatus()[0] != 'OK':
             counter += 1
     return counter
 
@@ -49,15 +49,16 @@ def countSensorsInventory(sensors):
 def homePage(request):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicles = Vehicle.objects.filter(company=fleet_manager.company)
+    tires = Tire.objects.filter(company=fleet_manager.company)
     sensors = Sensor.objects.filter(company=fleet_manager.company)
     vehicles_warning_num = countVehiclesInStatus(vehicles, 'WARNING')
     vehicles_danger_num = countVehiclesInStatus(vehicles, 'DANGER')
-    sensors_inventory_num = countSensorsInventory(sensors)
+    inventory_not_ok_num = countSensorsInventory(tires) + countSensorsInventory(sensors)
 
-    tires_num = Tire.objects.count()
-    sensors_num = Sensor.objects.count()
+    tires_num = tires.count()
+    sensors_num = sensors.count()
 
-    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, 'sensors':sensors, 'sensors_inventory_num':sensors_inventory_num, }
+    context = {'vehicles':vehicles, 'fleet_manager':fleet_manager, 'tires':tires, 'tires_num':tires_num, 'sensors_num':sensors_num, 'vehicles_warning_num':vehicles_warning_num, 'vehicles_danger_num':vehicles_danger_num, 'sensors':sensors, 'inventory_not_ok_num':inventory_not_ok_num, }
     return render(request, 'user/home.html', context) 
 
 @login_required(login_url='index')
@@ -83,7 +84,7 @@ def allSensors(request):
 def vehicle(request, pk):
     fleet_manager = FleetManager.objects.get(user=request.user)
     vehicle = get_object_or_404(Vehicle, id=pk, company=fleet_manager.company)
-    locations = vehicle.locations.all().order_by('-creation_datetime')
+    locations = vehicle.locations.all().order_by('creation_datetime')
     lastLoaction = locations.first()
 
     context = {'vehicle':vehicle, 'locations':locations , 'lastLocation':lastLoaction}

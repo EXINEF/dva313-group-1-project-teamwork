@@ -1,5 +1,9 @@
 {% extends 'core/base-template.html' %}
 {% block content %}
+<link ref=" ../../../../static/css/main.css" type="stylesheet">
+<style>
+    h1,h2,h3,h4,h5{color:white;}
+</style>
 
 <body class="bg-dark">
     
@@ -8,21 +12,28 @@
    <div class="card-sm">
         <div class="card-body">
             <div style="text-align: right;">
-                <button class="btn btn-light" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add Vehicle</button>
-                <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add Tire</button>
-                <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add Sensor</button>
+                <div class="d-grid gap-1 d-md-flex justify-content-md-end ">
+                    <button class="btn btn-light" onclick="location.href='add-vehicle'"><i class="fas fa-plus"></i> Add Vehicle</button>
+                    <button class="btn btn-light" onclick="location.href='add-tire'"><i class="fas fa-plus"></i> Add Tire</button>
+                    <button class="btn btn-light" onclick="location.href='add-sensor'"><i class="fas fa-plus"></i> Add Sensor</button>
+                  </div>
+                
+                
             </div>
             <h1 class="text-white">Fleet Manager Overview</h1>
-            <h3 class="text-white">Company: {{fleet_manager.company}}</h3>
+            <div class="info" style="text-align:right;">
+                <h5 class="text-white" >Username: {{fleet_manager.user.username}}</h5>
+                <h5 class="text-white" >Company: {{fleet_manager.company}}</h5>
+            </div>
             <div class="row">
-                <div class="col-sm">
-                    <h4 class="text-white">Vehicles: {{vehicles.count}}</h4>
+                <div class="col-sm" style="text-align:center;">
+                    <h4>Vehicles: {{vehicles.count}}</h4>
                 </div>
-                <div class="col-sm">
-                    <h4 class="text-white"><a href="{% url 'all-tires' %}">Tires: {{tires_num}}</a></h4>
+                <div class="col-sm"style="text-align:center;">
+                    <h4><a href="{% url 'all-tires' %}">Tires: {{tires_num}}</a></h4>
                 </div>
-                <div class="col-sm">
-                    <h4 class="text-white"><a href="{% url 'all-sensors' %}">Sensors: {{sensors_num}}</a></h4>
+                <div class="col-sm"style="text-align:center;">
+                    <h4><a href="{% url 'all-sensors' %}">Sensors: {{sensors_num}}</a></h4>
                 </div>
             </div>
         </div>
