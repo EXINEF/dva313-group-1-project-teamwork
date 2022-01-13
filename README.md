@@ -42,6 +42,8 @@ The data entered in the simulator may also be copied over to the active Co-Pilot
   
   ### Database
   Functions for sending SQL queries and commands as well as custom functions for managing sending of machine, tire and sensor data.
+  Database.cs is static and accessible from anywhere, use with caution as it may cause conflicts with multithreaded calls.  
+  DatabaseL.cs is local instantiable version of the Database.
 
   ### GPS
   Function that grabs the current GPS location of the Android device.
@@ -74,7 +76,7 @@ The data entered in the simulator may also be copied over to the active Co-Pilot
 # BUILDING THE CO-PILOT APP
 The Co-Pilot project was created using Visual Studio 2019 and includes Visual Studio project files.
 
-  To Build the Co-Pilot from the repository following steps are required:  
+  To Build the Co-Pilot from the repository the following steps are required:  
   (I): Install Visual Studio 2019 (although other versions should probably work as well.)  
   (II): Install Xamarin for Visual Studio  
   (III): Install Github extension for Visual Studio  
@@ -156,4 +158,3 @@ You should now in Visual Studio see the device in the Run dropdown list.
 Select the desired device and Run.  
 
 ![VSRun](https://user-images.githubusercontent.com/58140569/149230484-cbe65b7a-ca65-472c-9f15-2a4393fd85e5.jpg)
-
