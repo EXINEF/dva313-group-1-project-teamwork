@@ -116,7 +116,7 @@ Hit Clone.
 
 ![VSClone2](https://user-images.githubusercontent.com/58140569/149240843-dea340bd-f54c-404e-b2c2-289d48b55192.jpg)
 
-You should now have a folder with the respoitory contents that can be seen in the Solution Explorer in Visual Studio.  
+You should now have a folder with the repository contents that can be seen in the Solution Explorer in Visual Studio.  
 
 ![VSSolutionExplorer](https://user-images.githubusercontent.com/58140569/149224401-98d40295-e89a-4093-92eb-cdd67b657d18.jpg)
 
