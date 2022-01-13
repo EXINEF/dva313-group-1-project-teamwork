@@ -29,7 +29,7 @@ Pressing Cancel till return the user to the Main Page.
 ## Simulator page
 This page allows the user to create a complete mock-up of an entire vehicle including tires and sensors.
 The buttons at the bottom allows the user to send the entered data to the database, it should be noted that any queries made by the application is bound by the rules of the database and all constraints apply. Only filled in fields will be sent or copied.   
-By sending data the application will attempt to update the data for the entered ID for either the machine, tire or sensor. If no such ID exists in the database it will be created by attempting to send data.  
+By sending data the application will attempt to update the data for the entered ID for either the machine, tire or sensor. If no such ID exists in the database it will be created.  
 The data entered in the simulator may also be copied over to the active Co-Pilot app by pressing the top button. However it also allows for the changing of the IDs of the machine, tires and sensors and should be exercised with caution.
 
 ## CO-PILOT RESPOSITORY STRUCTURE (main branch)
