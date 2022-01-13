@@ -131,8 +131,8 @@ All of the other packages should come with the project as is. But incase of diff
 ![VSNugetSQL](https://user-images.githubusercontent.com/58140569/149230670-8b121ae5-45cc-4dd7-af26-600652c8d901.jpg)
 
 # RUNNING THE CO-PILOT APP
-Running the Co-Pilot app requires either the use of an android emulator or a plugged in Android tablet device.  
-Any plugged in device should be recognized by Visual Studio and shown by the Run button dropdown menu.
+Running the Co-Pilot app requires either the use of an Android emulator or a plugged in Android tablet device.  
+Any plugged in device should be recognized by Visual Studio and shown by the run button dropdown menu.
 
 ![VSRun](https://user-images.githubusercontent.com/58140569/149230484-cbe65b7a-ca65-472c-9f15-2a4393fd85e5.jpg)
 
@@ -154,7 +154,7 @@ The newly added emulator device should now show up in the Android Device Manager
 Hit Start to start the emulator.  
 Depending on hardware and feature like Hyper-V this process may also take a minute to perform.  
 
-You should now in Visual Studio see the device in the Run dropdown list.
-Select the desired device and Run.  
+You should now in Visual Studio see the device in the run dropdown menu.
+Select the desired device and run.  
 
 ![VSRun](https://user-images.githubusercontent.com/58140569/149230484-cbe65b7a-ca65-472c-9f15-2a4393fd85e5.jpg)
