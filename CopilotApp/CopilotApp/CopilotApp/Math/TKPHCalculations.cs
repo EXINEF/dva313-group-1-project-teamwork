@@ -182,15 +182,7 @@ namespace CopilotApp
                 Evaluate(TKPH);
             }
             tracker = 0;
-            
-            //l_empt = 0;
-            //h_empt = 0;
-            //l_load = 0;
-            //h_load = 0;
             qc=0;
-            //n_curr = 0;
-
-
             l = 0;
             h = 0;
             n = 0;
