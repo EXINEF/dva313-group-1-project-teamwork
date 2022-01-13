@@ -1,30 +1,27 @@
 # dva313-group-1-project-teamwork
-This is the official Repository of DVA313 - Software Engineering 2: Project Teamwork - 2021 Group 1
+This is the official Repository of DVA313 - Software Engineering 2: Project Teamwork - 2021 Group 1 Branch DEV
 
-## GENERAL INFORMATION
+## HOW TO RUN SERVER LOCALLY
+1) Have python 3.9 or higher installed, if you don't have install it.
+2) Open the terminal inside the folder "dva313-group-1-project-teamwork"
+3) Install the requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
-### GITHUB REPOSITORY
-All the code and the documentation will be put here
-
-### DRIVE REPOSITORY
-All the Slides and Documents are saved online in Google Forms, this is the link https://drive.google.com/drive/folders/1VwTZ5TwBOPFctPu6N8V95nMGaWkTEnNd?usp=sharing
-
-### TRELLO REPOSITORY
-We put all the activities schedule on Trello Website.
-
-### HOW TO RUN SERVER LOCALLY
-
-1) Go in the folder /project
+4) Go in the folder /project
 ```bash
 cd project
 ```
 
-2) Start the local server
+5) Start the local server
 ```bash
 python manage.py runserver
 ```
 
-3) Check the website<br>http://127.0.0.1:8000/
+6) Check the website<br>http://127.0.0.1:8000/
+
+## CERDENTIALS
 
 ### TEST DATABASE Credentials
 <br>Hostname:   eu-cdbr-west-02.cleardb.net
@@ -32,10 +29,20 @@ python manage.py runserver
 <br>Password:   0d107855
 <br>Database:   heroku_5b190513145da9f
 
-### ADMIN CREDENTIALS TO LOG IN DJANGO locally
+### SUPERADMIN CREDENTIALS TO LOG IN
 http://127.0.0.1:8000/admin
 <br>Username:   a
 <br>Password:   a
+
+### COMPANY ADMIN CREDENTIALS TO LOG IN
+http://127.0.0.1:8000/admin
+<br>Username:   volvoadmin
+<br>Password:   volvo2021
+
+### FLEET MANAGER CREDENTIALS TO LOG IN
+http://127.0.0.1:8000/admin
+<br>Username:   fm1
+<br>Password:   volvo2021
 
 ### CREATING CLASS DIAGRAM
 ```bash
