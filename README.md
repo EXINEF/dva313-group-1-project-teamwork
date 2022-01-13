@@ -17,8 +17,8 @@ The application is made up of three different pages or views that may be display
 This is the primary view. This page gives an overview of the machine and it's tires.  
 Each tire has two values associated with them: the temperature and the pressure.  
 The page uses color coding and any values marked in green indicates that the values are within the recommended range.
-Should either value be outside the recommended range they, and the tire will be marked in yellow for slight deviations and red for severe deviations from the recommended values.  
-By default on startup no values will be shown as the display values are bound to the actuall internal values waiting to be recieved. These values however can be simulated from the simulator.
+Should either value be outside the recommended range they, and the tire will be marked in yellow for slight deviations and red for severe deviations from the recommended values. 
+By default on startup no values will be shown as the display values are bound to the actual internal values waiting to be recieved. These values however can be simulated from the simulator.
 
 ## Tire page
 From the Main page the user may navigate to the Tire page for each of the individual tires by pressing the desired tire on the Main page.
@@ -90,7 +90,6 @@ Visual Studio can be downloaded an installed from https://visualstudio.microsoft
 First start the Visual Studio Installer.  
   Then select Modify on your Visual Studio installation:  
 ![VSModify](https://user-images.githubusercontent.com/58140569/149240652-50825edf-2f6f-45c3-b407-f24556c1dd17.jpg)
-
 
   Under the Workloads tab navigate to the section Desktop & Mobile.  
   Install "Mobile development with .NET"  
