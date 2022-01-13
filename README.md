@@ -43,7 +43,7 @@ The data entered in the simulator may also be copied over to the active Co-Pilot
   ### Database
   Functions for sending SQL queries and commands as well as custom functions for managing sending of machine, tire and sensor data.
   Database.cs is static and accessible from anywhere, use with caution as it may cause conflicts with multithreaded calls.  
-  DatabaseL.cs is local instantiable version of the Database.
+  DatabaseL.cs is a local instantiable version of the Database.
 
   ### GPS
   Function that grabs the current GPS location of the Android device.
