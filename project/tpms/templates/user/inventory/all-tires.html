@@ -1,17 +1,14 @@
 {% extends 'core/base-template.html' %}
-<link ref=" ../../../../static/css/main.css" type="stylesheet">
 
 {% block content %}
-<body class="bg-dark">
-<div class="container-fluid col-sm">
-    <h1 class="text-white">All Tires of {{fleet_manager.company}}</h1>
 
-    <table class="table table-light table-striped" id="sortTable">
+<div class="container">
+    <h1>All Tires of {{fleet_manager.company}}</h1>
+
+    <table class="table table-dark table-striped" id="sortTable">
     <thead>
         <tr>
         <th scope="col">Id</th>
-        <th scope="col">Status</th>
-        <th scope="col">Vehicle</th>
         <th scope="col">Remaining_life</th>
         <th scope="col">Baseline Pressure</th>
         <th scope="col">Fill Material</th>
@@ -25,17 +22,15 @@
     <tbody>
         {% for tire in tires %}
             <tr>
-            <th scope="row"><a class="table" href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
-            <td>{% include "core/status-icon.html" with status=tire.getStatusStatus motivation=tire.getStatusMotivation %}</td>
-            <td>{{tire.getVehicleThatMountIt.id}}</td>
+            <th scope="row"><a href="{% url 'tire' tire.id%}">{{tire.id}}</a></th>
             <td>{{tire.remaining_life}}</td>
             <td>{{tire.baseline_pressure}}</td>
             <td>{{tire.fill_material}}</td>
             <td>{{tire.tread_depth}}</td>
             <td>{{tire.revolutions}}</td>
             <td>{{tire.creation_datetime}}</td>
-            <td><a class="table" href="{% url 'edit-tire' tire.id %}">Edit</a></td>
-            <td><a class="table" href="{% url 'delete-tire' tire.id %}">Delete</a></td>
+            <td><a href="{% url 'edit-tire' tire.id %}">Edit</a></td>
+            <td><a href="{% url 'delete-tire' tire.id %}">Delete</a></td>
             </tr>
         {% endfor %}
         
@@ -43,7 +38,6 @@
     </table>
     
 </div>
-</body>
 
 {% endblock content %}
 

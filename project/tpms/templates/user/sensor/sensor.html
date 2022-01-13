@@ -2,56 +2,21 @@
 
 {% block content %}
 
-<style>
-    h1,h2,h3,h4{
-        color:white;
-    }
-</style>
-
 <body class="bg-dark">
 
 <div class="container">
 
-    <h1 class="text-white">Sensor: {{sensor.id}} Information Page</h1>
+    <h1>SENSOR Page</h1>
     <div style="text-align: right;">
-        <button class="btn btn-light" onclick="location.href='{% url 'edit-sensor' sensor.id %}'"><i class="fas fa-wrench"></i> Edit</button>
-        <button class="btn btn-light" onclick="location.href='{% url 'delete-sensor' sensor.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
+        <a  class="btn btn-dark"href="{% url 'edit-sensor' sensor.id %}">Edit</a>
+        <a class="btn btn-dark"href="{% url 'delete-sensor' sensor.id %}">Delete</a>
     </div>
+    <h2>ID: {{sensor.id}}</h2>
 
-    <div class="col-sm-6">
-        <div class="card" >
-            <div class="card-body">
-                <ul class="list-group ">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      ID:
-                      <span class="badge bg-info rounded-pill">{{sensor.id}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Status:
-                      <span> {% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %} </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Remaining battery:
-                      <span class="badge bg-info rounded-pill">{{sensor.getRemaningBattery}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Pressure:
-                      <span class="badge bg-info rounded-pill">{{sensor.pressure}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Temperature:
-                        <span class="badge bg-info rounded-pill">{{sensor.temperature}}</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Status:
-                        <span class="badge bg-info rounded-pill">{{sensor.status}}</span>
-                      </li>
-                  </ul>
-            </div>
-        
-        </div>
-        
-    </div>
+    <h4>temperature: {{sensor.temperature}}</h4>
+    <h4>pressure: {{sensor.pressure}}</h4>
+    <h4>remaining battery: {{sensor.remaining_battery}}</h4>
+    <h4>status: {{sensor.status}}</h4>
 
 </div>
 </body>

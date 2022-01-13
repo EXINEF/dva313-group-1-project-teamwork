@@ -1,28 +1,48 @@
 {% extends 'core/base-template.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="../../../../static/css/form.css">
-<style>
-    h1{color:white;}
-</style>
-<body class="bg-dark">
-<div class="container col-lg-7">
-    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
-        <div class=" card-header">
-            <h1 class="text-white">Edit VEHICLE{{vehicle.id}}</h1>
-        </div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{form.as_p}}
-            <a href="{% url 'add-tire' %}" target="_blank" class="btn btn-primary">Add a Tire</a>
-            <a class = "btn btn-danger" href="{% url 'vehicle' vehicle.id %}">Don't save it</a>
-            <button type="submit" class="btn btn-success">Save it</button>
-        </form>
-    </div>
-</div>
-</body>
-{% endblock content %}
 
+<body class="bg-dark">
+
+    <div class="container-fluid px-4">
+
+        <h1 class="text-white">Edit VEHICLE{{vehicle.id}}</h1>
+    
+        
+                   
+                <form action="" method="POST">
+                    {% csrf_token %}
+                   
+                   
+                    <div class="card">
+                        <div class="card-body">
+
+                            {{form.as_p}}
+                            
+                            <a class = "btn btn-dark" href="{% url 'vehicle' vehicle.id %}">Don't save it</a>
+                            <button type="submit" class="btn btn-success">Save it</button>
+                        </div>
+                    </div>
+                    
+                
+                
+                    
+                    
+                </form>
+            
+            
+                
+            </div>
+        </div>
+    
+    </div>
+    
+    {% endblock content %}
+
+
+
+</body>
+    
     
 
 

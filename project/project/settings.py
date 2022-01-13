@@ -96,11 +96,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'tpmsDB',
-        'USER': 'bob',
-        'PASSWORD': 'MVa5fPoA',
-        'HOST': 'mysql-65662-0.cloudclusters.net',   # Or an IP Address that your DB is hosted on
-        'PORT': '12293',
+        'NAME': 'heroku_449df15fabad088',
+        'USER': 'b2df0156b0be15',
+        'PASSWORD': 'ddbbe928',
+        'HOST': 'eu-cdbr-west-02.cleardb.net',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
         "OPTIONS": {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         },
@@ -170,4 +170,4 @@ MESSAGE_TAGS = {
         messages.SUCCESS: 'alert-success',  #green
         messages.WARNING: 'alert-warning',  #yellow
         messages.ERROR: 'alert-danger',     #red
-}
+ }
