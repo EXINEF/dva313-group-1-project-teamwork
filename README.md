@@ -127,7 +127,7 @@ With the project open right click the "Solution 'CopilotApp'" and hit Build.
 
 
 ## Troubleshooting:
-All of the other packages should come with the project as is. But incase of difficulties we are using the NuGet packages for MySqlConnector, Xamarin Essentials & Xamarin forms.   Should there be any troubles with these options you can install or update them by firstly opening the project by doubleclicking the CopilotApp.sln in the Solution Explorer then rightclicking the top Solution 'CopilotApp' in the solution explorer clicking Manage NuGet packages for Solution and installing or updating MySqlConnector, Xamarin Essentials & Xamarin forms.
+All of the other packages should come with the project as is. But incase of difficulties we are using the NuGet packages for MySqlConnector, Xamarin Essentials & Xamarin forms.   Should there be any troubles with these options you can install or update them by firstly opening the project by double clicking the CopilotApp.sln in the Solution Explorer then right clicking the top Solution 'CopilotApp' in the solution explorer clicking Manage NuGet packages for Solution and installing or updating MySqlConnector, Xamarin Essentials & Xamarin forms.
 ![VSNugetSQL](https://user-images.githubusercontent.com/58140569/149230670-8b121ae5-45cc-4dd7-af26-600652c8d901.jpg)
 
 # RUNNING THE CO-PILOT APP
