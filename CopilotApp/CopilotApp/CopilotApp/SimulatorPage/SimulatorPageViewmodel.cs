@@ -67,6 +67,7 @@ namespace CopilotApp
             //Machine
             if (machineID != null && machineID != "") { MachineData.machineID = machineID; }
             if (ambientTemp != null && ambientTemp != "") { MachineData.ambientTemperature = double.Parse(ambientTemp); }
+            if (companyID != null && companyID != "") { MachineData.companyID = companyID; }
 
             //MachineBus
             if (distanceDrivenEmpty != null && distanceDrivenEmpty != "") { MachineBusData.distanceDrivenEmpty = double.Parse(distanceDrivenEmpty);  }
