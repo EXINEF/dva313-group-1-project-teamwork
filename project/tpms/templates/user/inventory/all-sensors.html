@@ -1,14 +1,17 @@
 {% extends 'core/base-template.html' %}
+<link ref=" ../../../../static/css/main.css" type="stylesheet">
 
 {% block content %}
+<body class="bg-dark">
+<div class="container col-sm">
+    <h1 class="text-white">All Sensors of {{fleet_manager.company}}</h1>
 
-<div class="container">
-    <h1>All Sensors of {{fleet_manager.company}}</h1>
-
-    <table class="table table-dark table-striped" id="sortTable">
+    <table class="table table-light table-striped" id="sortTable">
     <thead>
         <tr>
         <th scope="col">Id</th>
+        <th scope="col">Status</th>
+        <th scope="col">Tire associated</th>
         <th scope="col">Temperature</th>
         <th scope="col">Pressure</th>
         <th scope="col">Remaning Battery</th>
@@ -21,14 +24,16 @@
     <tbody>
         {% for sensor in sensors %}
             <tr>
-            <th scope="row"><a href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
+            <th scope="row"><a class="table" href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
+            <td>{% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %}</td>
+            <td>{{sensor.getTireThatMountIt.id}}</td>
             <td>{{sensor.temperature}}</td>
             <td>{{sensor.pressure}}</td>
-            <td>{{sensor.remaning_battery}}</td>
+            <td>{{sensor.getRemaningBattery}}</td>
             <td>{{sensor.status}}</td>
-            <td>{{sensor.creation_datetime}}</td>
-            <td><a href="{% url 'edit-sensor' sensor.id %}">Edit</a></td>
-            <td><a href="{% url 'delete-sensor' sensor.id %}">Delete</a></td>
+            <td>{{sensor.getExpiredDate}}</td>
+            <td><a class="table"href="{% url 'edit-sensor' sensor.id %}"><i class="fas fa-wrench"></i></a></td>
+            <td><a class="table"href="{% url 'delete-sensor' sensor.id %}"><i class="fas fa-trash-alt"></a></td>
             </tr>
         {% endfor %}
         
@@ -36,7 +41,7 @@
     </table>
     
 </div>
-
+</body>
 {% endblock content %}
 
 

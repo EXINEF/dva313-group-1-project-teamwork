@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from .algorithms import attentionValueCalculator
-
+from datetime import datetime, timedelta, timezone
+from django.db.models import Q
 
 class Company(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
@@ -19,8 +19,6 @@ class Company(models.Model):
 class Sensor(models.Model):
     ALL_SENSOR_STATUS = (
         ('WORKING', 'WORKING'),
-        ('WARNING', 'WARNING'),
-        ('DANGER', 'DANGER'),
         ('LOST', 'LOST'),
         ('BROKEN', 'BROKEN'),
     )
@@ -28,7 +26,6 @@ class Sensor(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     temperature = models.FloatField(blank=True, null=True, default=0)
     pressure = models.FloatField(blank=True, null=True, default=0)
-    remaning_battery = models.FloatField(blank=True, null=True, default=0)
     status = models.CharField(max_length=30, null=True, default="WORKING", choices=ALL_SENSOR_STATUS)
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -39,48 +36,46 @@ class Sensor(models.Model):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
 
     def getStatus(self):
+        status = 'OK'
+        problems = ''
+        if self.temperature > 75 and self.temperature <= 80:
+            status = 'WARNING'
+            problems += 'Sensor Temperature is High\n'
+        if self.getRemaningBattery() < 20 and self.temperature >= 10:
+            status = 'WARNING'
+            problems += 'Sensor Battery is Low\n'    
         if self.status != 'WORKING':
-            return 'DANGER'
-        if self.remaning_battery < 10:
-            return 'DANGER'
-        if self.remaning_battery < 20:
-            return 'WARNING'
-        return 'OK'
+            status = 'DANGER'
+            problems += 'Sensor is not WORKING\n'
+        if self.temperature > 80:
+            status = 'DANGER'
+            problems += 'Sensor Temperature is Very High\n'
+        if self.getRemaningBattery() < 10:
+            status = 'DANGER'
+            problems += 'Sensor Battery is Very Low\n'
+        return status, problems
 
-
-class Used(models.Model):
-   
-    id = models.CharField(max_length=50, primary_key=True)
+    def getStatusStatus(self):
+        return self.getStatus()[0]
     
-    
+    def getStatusMotivation(self):
+        return self.getStatus()[1]
 
-    def __str__(self):
-        return 'Used(yes/no):%d' % (self.id)    
+    def getRemaningBattery(self):
+        delta = datetime.now(timezone.utc) - self.creation_datetime
+        days = delta.days
+        if(days >+ 730):
+            return 0
+        return int((1 - (days / 730)) * 100)
 
+    def getExpiredDate(self):
+        return self.creation_datetime + timedelta(weeks=52*3)
 
-class Yes(models.Model):
-   
-    remaining_life = models.FloatField(blank=True, null=True)
-    set_up_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    swap_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    
-    used = models.OneToOneField(Used, blank=True, null=True, on_delete=models.DO_NOTHING)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.DO_NOTHING, blank=True, null=True)
-
-    def __str__(self):
-        return 'Used(yes):%d Remaining_life:%f Set_up_datetime:%f Swap_datetime:%f' % (self.id, self.remaining_life, self.set_up_datetime, self.swap_datetime)     
-
-class No(models.Model):
-   
-    location = models.CharField(max_length=50, blank=True) 
-    creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    
-    used = models.OneToOneField(Used, blank=True, null=True, on_delete=models.DO_NOTHING)
-
-    def __str__(self):
-        return 'Used(no):%d Location:%f creation_datetime:%f ' % (self.id, self.location, self.creation_datetime)    
-
-
+    def getTireThatMountIt(self):
+        tire = Tire.objects.get(sensor=self)
+        print(tire)
+        if tire is not None:    
+            return tire
 
 class Tire(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
@@ -92,29 +87,56 @@ class Tire(models.Model):
     is_used = models.BooleanField(default=False, blank = True, null=True)
     creation_datetime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
-    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.DO_NOTHING)
+    sensor = models.OneToOneField(Sensor, blank=True, null=True, on_delete=models.SET_NULL)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
-    """
-        # TODO we need something to save the history of the previous vehicle that used this tire
-    
-        we need Tire ID, VehicleID, STATUS(USED, NOT_USED), (same parameter that describe how muche the wheel was used, maybe remaining life or else)
-        
-        EXAMPLE: history = models.ManyToManyField(TireVehicleHistory, ect...)
-        
-        class TireVehicleHistory(models.Model):
-            tire = models.ForeignKey(Tire, etc...)
-            status = (USED, NOT_USED)
-            vehicle = models.ForeignKey(Vehicle, etc...)
-            1-parameters to save for see the deterioration of the wheel
-            ...
-            ...
-            n-parameters   
+    def getStatus(self):
+        status = 'OK'
+        problems = ''
+        if self.sensor is None:
+            status = 'DANGER'
+            problems += 'Tire has no sensor\n'
+            return status, problems
 
-    """
+        # VERY LOW < 80 < LOW < 90 < OK < 125 < HIGH < 140 < VERY HIGH
+        pressurePercentage = self.getPressurePercentage()
+        if pressurePercentage < 90 and pressurePercentage >= 80:
+            status = 'WARNING'
+            problems += 'Tire pressure is Low\n'
+        if pressurePercentage > 125 and pressurePercentage <= 140:
+            status = 'WARNING'
+            problems += 'Tire pressure is High\n'
+        if pressurePercentage < 80:
+            status = 'DANGER'
+            problems += 'Tire pressure is Very Low\n'
+        if pressurePercentage > 140:
+            status = 'DANGER'
+            problems += 'Tire pressure is Very High\n'
+
+        if self.sensor.getStatus()[0] != 'OK':
+            status = self.sensor.getStatus()[0]
+            problems += 'Sensor ('+ self.sensor.id + ') ' + self.sensor.getStatusMotivation()
+        return status, problems
+
+    # ( pressure / baselinePressure ) * 100
+    def getPressurePercentage(self):
+        if self.baseline_pressure == 0:
+            return 0
+        return (self.sensor.pressure / self.baseline_pressure) * 100
+
+    def getStatusStatus(self):
+        return self.getStatus()[0]
     
+    def getStatusMotivation(self):
+        return self.getStatus()[1]
+
     def __str__(self):
         return 'ID:%s used:%s by %s'%(self.id,self.is_used,self.company)
+
+    def getVehicleThatMountIt(self):
+        vehicle = Vehicle.objects.get(Q(tire_left_front=self) |Q(tire_left_rear=self) |Q(tire_right_front=self) |Q(tire_right_rear=self))
+        if vehicle is not None:    
+            return vehicle
 
 class Location(models.Model):
     latitude = models.FloatField()
@@ -145,12 +167,12 @@ class Vehicle(models.Model):
     tkph = models.FloatField(blank=True, null=True, default=0) #This is the TKPH that is precalculated. This attribute should be set on tires in the future.
     weight = models.FloatField(blank=True, null=True, default=0)
 
-    tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.DO_NOTHING)
-    tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.DO_NOTHING)
-    tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.DO_NOTHING)
-    tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.DO_NOTHING)
+    tire_left_front = models.OneToOneField(Tire, related_name='tire_left_front', blank=True, null=True, on_delete=models.SET_NULL)
+    tire_left_rear = models.OneToOneField(Tire, related_name='tire_left_rear', blank=True, null=True, on_delete=models.SET_NULL)
+    tire_right_front = models.OneToOneField(Tire, related_name='tire_right_front',  blank=True, null=True, on_delete=models.SET_NULL)
+    tire_right_rear = models.OneToOneField(Tire, related_name='tire_right_rear',  blank=True, null=True, on_delete=models.SET_NULL)
 
-    tire_specc = models.CharField(max_length=30, blank=True, null=True, choices=SPECC_TYPE)
+    tire_specc = models.CharField(max_length=30, default='NEUTRAL', blank=True, null=True, choices=SPECC_TYPE)
     locations = models.ManyToManyField(Location, blank=True)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True, null=True)
 
@@ -158,27 +180,39 @@ class Vehicle(models.Model):
         return 'ID:%s model:%s by %s STATUS:%s'%(self.id,self.model,self.company,self.getStatus())
     
     def getStatus(self):
+        status = 'OK'
+        problems = ''
         if self.tire_left_front is None or self.tire_left_rear is None or self.tire_right_front is None or self.tire_right_rear is None:
-            return 'DANGER'
-        if self.tire_left_front.sensor.remaning_battery < 10:
-            return 'DANGER'
-        if self.tire_left_rear.sensor.remaning_battery < 10:
-            return 'DANGER'
-        if self.tire_right_front.sensor.remaning_battery < 10:
-            return 'DANGER'
-        if self.tire_right_rear.sensor.remaning_battery < 10:
-            return 'DANGER'
-        if self.tire_left_front.sensor.remaning_battery < 20:
-            return 'WARNING'
-        if self.tire_left_rear.sensor.remaning_battery < 20:
-            return 'WARNING'
-        if self.tire_right_front.sensor.remaning_battery < 20:
-            return 'WARNING'
-        if self.tire_right_rear.sensor.remaning_battery < 20:
-            return 'WARNING'
+            status = 'DANGER'
+            problems +=  'Vehicle is missing tires\n'
+            return status, problems
+        if self.tire_left_front.sensor is None or self.tire_left_rear.sensor  is None or self.tire_right_front.sensor  is None or self.tire_right_rear.sensor  is None:
+            status = 'DANGER'
+            problems +=  'Vehicle is missing sensors\n' 
+            return status, problems       
+        if self.tire_left_front.getStatus()[0] != 'OK':
+            status = self.tire_left_front.getStatus()[0]
+            problems += 'Left Front ('+ self.tire_left_front.id + ') ' + self.tire_left_front.getStatusMotivation()
+        if self.tire_left_rear.getStatus()[0] != 'OK':
+            status = self.tire_left_rear.getStatus()[0]
+            problems += 'Left Rear ('+ self.tire_left_rear.id + ') ' + self.tire_left_rear.getStatusMotivation()
+        if self.tire_right_front.getStatus()[0] != 'OK':
+            status = self.tire_right_front.getStatus()[0]
+            problems += 'Right Front ('+ self.tire_right_front.id + ') ' + self.tire_right_front.getStatusMotivation()
+        if self.tire_right_rear.getStatus()[0] != 'OK':
+            status = self.tire_right_rear.getStatus()[0]
+            problems += 'Right Rear ('+ self.tire_right_rear.id + ') ' + self.tire_right_rear.getStatusMotivation()
         if self.tire_specc != 'NEUTRAL':
-            return 'WARNING'
-        return 'OK'
+            status = 'WARNING'
+            problems +=  'Vehicle\'s tire specc is not NEUTRAL\n' 
+        print(problems)
+        return status, problems
+
+    def getStatusStatus(self):
+        return self.getStatus()[0]
+    
+    def getStatusMotivation(self):
+        return self.getStatus()[1]
 
     def getType(self):
         return 'Wheel Loader'

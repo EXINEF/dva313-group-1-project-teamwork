@@ -1,5 +1,7 @@
-<!--Warning Cards-->
+<!-- CARDS starts -->
 <div class="row">
+
+    <!-- DANGER VEHICLE CARD starts -->
     <div class="col-xl-4 col-md-4">
         <div class="card bg-warning text-white mb-4">
             <div class="card-body" style="text-align:center;">Warning Vehicles: {{vehicles_warning_num}}</div>
@@ -11,8 +13,8 @@
                             <div class="accordion-collapse collapse" id="collapse1" style>
                                 <div class="card card-body container bg-warning">
                                     {% for vehicle in vehicles %}
-                                        {% if vehicle.getStatus == 'WARNING' %}
-                                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                        {% if vehicle.getStatusStatus == 'WARNING' %}
+                                            <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a><span style="white-space: pre-line">{{vehicle.getStatusMotivation}}</span><br>
                                         {% endif %}
                                     {% endfor %}    
                                 </div>
@@ -25,7 +27,9 @@
             </div>
         </div>
     </div>
+    <!-- DANGER VEHICLE CARD ends -->
     
+    <!-- WARNING CARD starts -->
     <div class="col-xl-4 col-md-4">
         <div class="card bg-danger text-white mb-4">
             <div class="card-body" style="text-align:center;">Danger Vehicles: {{vehicles_danger_num}}</div>
@@ -38,8 +42,8 @@
                                 <div class ="accoridon-body">
                                     <div class="card card-body container bg-danger">
                                         {% for vehicle in vehicles %}
-                                            {% if vehicle.getStatus == 'DANGER' %}
-                                                <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a>
+                                            {% if vehicle.getStatusStatus == 'DANGER' %}
+                                                <a href="{% url 'vehicle' vehicle.id %}">{{vehicle.id}}</a><span style="white-space: pre-line">{{vehicle.getStatusMotivation}}</span><br>
                                             {% endif %}
                                         {% endfor %} 
                                     </div>
@@ -54,33 +58,43 @@
             </div>
         </div>
     </div>
+    <!-- WARNING CARD starts -->
 
+    <!-- INVENTORY CARD starts -->
     <div class="col-xl-4 col-md-4">
         <div class="card bg-info text-white mb-4">
-            <div class="card-body" style="text-align:center;">Inventory Sensors Not OK: {{sensors_inventory_num}}</div>
+            <div class="card-body" style="text-align:center;">Inventory (Tires & Sensors) Not OK: {{inventory_not_ok_num}}</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <div class="container">
                     <div class="accordion">
-                        {% if sensors_inventory_num != 0 %}
-                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding: 0;" >View Sensors</a>
+                        {% if inventory_not_ok_num != 0%}
+                        <a class="small text-white stretched-link accordion-button collapsed" type="link" data-bs-toggle="collapse" href="#collapse3" style=" background-color:transparent; float:right;  padding: 0;" >View Those</a>
                         <div class="accordion-collapse collapse" id="collapse3" style>
                             <div class ="accoridon-body">
                                 <div class="card card-body container bg-info">
                                     {% for sensor in sensors %}
-                                        {% if sensor.getStatus != 'OK' %}
-                                            <a href="{% url 'sensor' sensor.id %}">{{sensor.id}}</a>
+                                        {% if sensor.getStatusStatus != 'OK' %}
+                                            <a href="{% url 'sensor' sensor.id %}">{{sensor.id}} {{sensor.getStatusStatus}}</a><span style="white-space: pre-line">{{sensor.getStatusMotivation}}</span><br>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% for tire in tires %}
+                                        {% if tire.getStatusStatus != 'OK' %}
+                                            <a href="{% url 'tire' tire.id %}">{{tire.id}} {{tire.getStatusStatus}}</a><span style="white-space: pre-line">{{tire.getStatusMotivation}}</span><br>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
                         </div>
                         {% else %}
-                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >All Sensors are OK</a>
+                            <a class="small text-white stretched-link accordion-button collapsed" style=" background-color:transparent; float:right;  padding:0;" >All Tires & Sensors are OK</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- INVENTORY CARD ends -->
+    
 </div>
-<!--Warning Cards Ends-->
+<!-- CARDS ends-->
