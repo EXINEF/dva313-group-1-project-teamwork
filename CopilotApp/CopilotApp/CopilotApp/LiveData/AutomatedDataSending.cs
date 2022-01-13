@@ -109,7 +109,7 @@ namespace CopilotApp
             string latitude = GPSData.latitude.ToString();
             string longitude = GPSData.longitude.ToString();
 
-            database.SendLocationData(machineID, latitude, longitude);
+            database.SendLocationData(machineID, latitude, longitude, null);
 
             await Task.CompletedTask;
         }

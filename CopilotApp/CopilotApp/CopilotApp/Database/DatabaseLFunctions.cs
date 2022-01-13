@@ -158,13 +158,18 @@ namespace CopilotApp
             return nrOfRowsAffected;
         }
 
-        public void SendLocationData(string machineID, string latitude, string longitude)
+        public void SendLocationData(string machineID, string latitude, string longitude, string date_time)
         {
             if (machineID != null && machineID != "" && latitude != null && latitude != "" && longitude != null && longitude != "")
             {
+                if(date_time == null || date_time == "")
+                {
+                    date_time = "CURRENT_TIME";
+                }
+
 
                 string sqlQuery = "INSERT INTO tpms_location(id, latitude, longitude, creation_datetime)" +
-                                  "VALUES(DEFAULT, " + latitude + ", " + longitude + ", CURRENT_TIME); " +
+                                  "VALUES(DEFAULT, " + latitude + ", " + longitude + ", "+ date_time +"); " +
                                   "SELECT LAST_INSERT_ID();";
 
                 MySqlDataReader reader = SendQuery(sqlQuery);

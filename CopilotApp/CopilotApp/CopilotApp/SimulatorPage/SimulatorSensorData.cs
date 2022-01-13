@@ -32,10 +32,10 @@ namespace CopilotApp
 
         public void SendSensorDataToDatabase()
         {
-            DatabaseFunctions.SendSensorData(_frontLeftSensorID, frontLeftSensorPressure, frontLeftSensorTemp, frontLeftSensorStatus, null, companyID, "0");
-            DatabaseFunctions.SendSensorData(_frontRightSensorID, frontRightSensorPressure, frontRightSensorTemp, frontRightSensorStatus, null, companyID, "0");
-            DatabaseFunctions.SendSensorData(_rearLeftSensorID, rearLeftSensorPressure, rearLeftSensorTemp, frontLeftSensorStatus, null, companyID, "0");
-            DatabaseFunctions.SendSensorData(_rearRightSensorID, rearRightSensorPressure, rearRightSensorTemp, frontRightSensorStatus, null, companyID, "0");
+            database.SendSensorData(_frontLeftSensorID, frontLeftSensorPressure, frontLeftSensorTemp, frontLeftSensorStatus, null, companyID, "0");
+            database.SendSensorData(_frontRightSensorID, frontRightSensorPressure, frontRightSensorTemp, frontRightSensorStatus, null, companyID, "0");
+            database.SendSensorData(_rearLeftSensorID, rearLeftSensorPressure, rearLeftSensorTemp, frontLeftSensorStatus, null, companyID, "0");
+            database.SendSensorData(_rearRightSensorID, rearRightSensorPressure, rearRightSensorTemp, frontRightSensorStatus, null, companyID, "0");
         }
     }
 }

@@ -18,8 +18,20 @@ namespace CopilotApp
 
         private string GetDateTime()
         {
+
+            if( year == null || year == "" ||
+                month == null || month == ""||
+                day == null || day == ""||
+                hour == null || hour == ""||
+                minute == null || minute == ""||
+                second == null || second == "")
+            {
+                return null;
+            }
+
+            //2021-06-15 11:16:47.000000
             //Format example: 2021-12-15 18:56:53.632463
-            string dateTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second + ".000000";
+            string dateTime = "'" + year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second + ".000000'";
             return dateTime;
         }
     }

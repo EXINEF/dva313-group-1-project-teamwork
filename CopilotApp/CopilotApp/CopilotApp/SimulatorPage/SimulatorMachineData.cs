@@ -20,7 +20,7 @@ namespace CopilotApp
         private void SendMachineDataToDatabase()
         {
 
-            DatabaseFunctions.SendMachineData(machineID, "Wheel loader", ambientTemp, distanceDrivenEmpty, distanceDrivenLoaded, machineHoursEmpty, machineHoursLoaded, 
+            database.SendMachineData(machineID, "Wheel loader", ambientTemp, distanceDrivenEmpty, distanceDrivenLoaded, machineHoursEmpty, machineHoursLoaded, 
                                                        payloadTonnes, payloadBuckets, consumedFuel, frontLeftTireID, rearLeftTireID, frontRightTireID, rearRightTireID, null, companyID);
 
             return;
@@ -29,7 +29,7 @@ namespace CopilotApp
         //Sends the longitude and latitude of the machine to the database.
         private void SendLocationDataToDatabase()
         {
-            DatabaseFunctions.SendLocationData(machineID, latitude, longitude);
+            database.SendLocationData(machineID, latitude, longitude, GetDateTime());
         }
 
     }
