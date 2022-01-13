@@ -81,8 +81,8 @@ The Co-Pilot project was created using Visual Studio 2019 and includes Visual St
   (II): Install Xamarin for Visual Studio  
   (III): Install Github extension for Visual Studio  
   (IV): Clone the repository  
-  (V): Build
-  (VI): Troubleshooting
+  (V): Build  
+  (VI): Troubleshooting  
 
 ## Step 1: Installing Visual Studio
 Visual Studio can be downloaded an installed from https://visualstudio.microsoft.com/downloads/ (Latest) or https://docs.microsoft.com/en-us/visualstudio/releases/2019/system-requirements (Visual Studio 2019)
