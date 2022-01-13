@@ -44,6 +44,8 @@ namespace CopilotApp
 
         public static double previousTotalDistanceDrivenEmpty;
         public static double previousTotalDistanceDrivenLoaded;
+
+        //Recalculate tire revolutions
         public static void UpdateTireRevolutions()
         {
             

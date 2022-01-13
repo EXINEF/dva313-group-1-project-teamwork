@@ -12,8 +12,7 @@ namespace CopilotApp
 {
     public class TirePageViewmodel : INotifyPropertyChanged
     {
-        //Copies of the fields in the XAML because apparently grabbing data from code behind is considered bad practice.
-        //So we'll just keep automatically updated copies here for now.
+        //Display values backing fields
 
         public enum TIRE_POSITION { FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT }
         public static TIRE_POSITION tirePosition;
@@ -23,8 +22,9 @@ namespace CopilotApp
         string _treadDepth;
         string _life;
         string _revolutions;
-        DatabaseL database = new DatabaseL();
+        
 
+        //Display values bound from the TirePage.xaml, any change to these values will be reflected on the display.
         public string tireIDDisplayValue { get => _tireID; set { _tireID = value; OnPropertyChanged("tireIDDisplayValue"); } }
         public string tireBaselinePressureDisplayValue { get => _baselinePressure; set { _baselinePressure = value; OnPropertyChanged("tireBaselinePressureDisplayValue"); } }
         public string tireFillMaterialDisplayValue { get => _fillMaterial; set { _fillMaterial = value; OnPropertyChanged("tireFillMaterialDisplayValue"); } }
@@ -35,9 +35,11 @@ namespace CopilotApp
         //Event handler
         public event PropertyChangedEventHandler PropertyChanged;
 
+        DatabaseL database = new DatabaseL();
+
         public TirePageViewmodel()
         {
-            //Binds "OKCommand" which is called by a button in XAML to the "OKButtonPressed()" function in this class.
+            //Binds "OKCommand" which is called by a button in TirePage.XAML to the "OKButtonPressed()" function in this class.
             OKCommand = new Command(OKButtonPressed);
             CancelCommand = new Command(CancelButtonPressed);
             LoadTireDisplayValues(tirePosition);

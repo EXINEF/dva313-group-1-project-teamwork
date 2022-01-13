@@ -20,6 +20,7 @@ namespace CopilotApp
 
         }
 
+        //Dynamically extracts the filled in values and produces a SQL command that send all data fields that are not null or empty
         public static int SendTireData(string tireID, string remaining_life, string tireBaselinePressure, string tireFillMaterial, string tireTreadDepth,
                                        string revolutions, string companyID, string sensorID, string is_used)
         {
@@ -67,6 +68,7 @@ namespace CopilotApp
             return nrOfRowsAffected;
         }
 
+        //Dynamically extracts the filled in values and produces a SQL command that send all data fields that are not null or empty
         public static void SendSensorData(string sensorID, string pressure, string temperature, string status, string remainingBattery, string companyID, string is_used)
         {
             //dict["database_variable_name"] = value; // Only place filled in values in the dictionary
@@ -110,6 +112,7 @@ namespace CopilotApp
 
         }
 
+        //Dynamically extracts the filled in values and produces a SQL command that send all data fields that are not null or empty
         public static int SendMachineData(string machineID, string model, string ambientTemp, string distanceDrivenEmpty, string distanceDrivenLoaded,
         string machineHoursEmpty, string machineHoursLoaded, string payloadTonnes, string payloadBuckets, string consumedFuel,
         string tire_left_front_id, string tire_left_rear_id, string tire_right_front_id, string tire_right_rear_id, string tire_specc, string companyID)

@@ -9,12 +9,15 @@ namespace CopilotApp
     public partial class MainPageViewmodel : INotifyPropertyChanged
     {
 
-        //Preloaded ImageSources
-        /*
-            TireLine is the lines going from the tire including the circle
-            UpperBranch is the upper branch stemming from the circle on which the pressure is displayed
-            LowerBranch is the lower branch stemming from the circle on which the temperature is displayed
-         */
+
+        /******************************************************************************************************
+         *   Preloaded ImageSources                                                                           *
+         *                                                                                                    *
+         *   TireLine is the lines going from the tire including the circle                                   * 
+         *   UpperBranch is the upper branch stemming from the circle on which the pressure is displayed      *
+         *   LowerBranch is the lower branch stemming from the circle on which the temperature is displayed   *
+         ******************************************************************************************************/
+
         //Tires
         public ImageSource ImageSourceTireDefault = ImageSource.FromFile("TireDefault.png");
         public ImageSource ImageSourceTireRed = ImageSource.FromFile("TireRed.png");

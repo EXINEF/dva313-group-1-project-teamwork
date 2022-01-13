@@ -20,6 +20,7 @@ namespace CopilotApp
             notificationVisible = true;
         }
 
+        //Call this from anywhere to add and display a notification
         public static void PushNotification(string message)
         {
             MessagingCenter.Send(Xamarin.Forms.Application.Current, "NewNotification", message);

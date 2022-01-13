@@ -14,7 +14,7 @@ namespace CopilotApp
         string _ambientTemp; public string ambientTemp { get => _ambientTemp; set { _ambientTemp = value; OnPropertyChanged(nameof(ambientTemp)); } }
         string _longitude; public string longitude { get => _longitude; set { _longitude = value; OnPropertyChanged(nameof(longitude)); } }
         string _latitude; public string latitude { get => _latitude; set { _latitude = value; OnPropertyChanged(nameof(latitude)); } }
-        string _companyID; public string companyID { get => _latitude; set { _latitude = value; OnPropertyChanged(nameof(companyID)); } }
+        string _companyID; public string companyID { get => _companyID; set { _companyID = value; OnPropertyChanged(nameof(companyID)); } }
 
 
         private void SendMachineDataToDatabase()

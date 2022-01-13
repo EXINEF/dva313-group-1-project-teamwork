@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+/*********************************************************
+ * Loads the tire data for the vehicle from the database *
+ *********************************************************/
+
 namespace CopilotApp
 {
     class StartupTireDataLoader
@@ -11,12 +15,9 @@ namespace CopilotApp
 
         DatabaseL database = new DatabaseL();
 
-        public async Task LoadTireData()
+        public bool LoadTireData()
         {
-
-            /*********************************************************
-             * Loads the tire data for the vehicle from the database *
-             *********************************************************/
+            bool loadSuccessful = true;
 
             //Prep SQL Query that grabs all the tire id's for the vehicle
             string SQLQuery = "SELECT tire_left_front_id, tire_right_front_id, tire_left_rear_id, tire_right_rear_id FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'";
@@ -51,6 +52,14 @@ namespace CopilotApp
                         if (reader["revolutions"] != DBNull.Value) TireData.frontLeftTireRevolutions = double.Parse(reader["revolutions"].ToString());
                         if (reader["remaining_life"] != DBNull.Value) TireData.frontLeftTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
+                    else
+                    {
+                        loadSuccessful = false;
+                    }
+                }
+                else
+                {
+                    loadSuccessful = false;
                 }
 
                 //Load Front Right Tire Data
@@ -72,6 +81,14 @@ namespace CopilotApp
                         if (reader["revolutions"] != DBNull.Value) TireData.frontRightTireRevolutions = double.Parse(reader["revolutions"].ToString());
                         if (reader["remaining_life"] != DBNull.Value) TireData.frontRightTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
+                    else
+                    {
+                        loadSuccessful = false;
+                    }
+                }
+                else
+                {
+                    loadSuccessful = false;
                 }
 
                 //Load Rear Left Tire Data
@@ -93,6 +110,14 @@ namespace CopilotApp
                         if (reader["revolutions"] != DBNull.Value) TireData.rearLeftTireRevolutions = double.Parse(reader["revolutions"].ToString());
                         if (reader["remaining_life"] != DBNull.Value) TireData.rearLeftTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
+                    else
+                    {
+                        loadSuccessful = false;
+                    }
+                }
+                else
+                {
+                    loadSuccessful = false;
                 }
 
                 //Load Rear Right Tire Data
@@ -114,14 +139,22 @@ namespace CopilotApp
                         if (reader["revolutions"] != DBNull.Value) TireData.rearRightTireRevolutions = double.Parse(reader["revolutions"].ToString());
                         if (reader["remaining_life"] != DBNull.Value) TireData.rearRightTireLife = double.Parse(reader["remaining_life"].ToString());
                     }
+                    else
+                    {
+                        loadSuccessful = false;
+                    }
+                }
+                else
+                {
+                    loadSuccessful = false;
                 }
             }
             else
             {
-                Console.WriteLine("tireIDReader IS NULL");
+                loadSuccessful = false;
             }
 
-            await Task.CompletedTask;
+            return loadSuccessful;
         }
     }
 }

@@ -217,7 +217,8 @@
                         BorderColor="RoyalBlue"
                         BorderWidth="2"
                         TextColor="RoyalBlue"
-                        IsEnabled="True"
+                        IsEnabled="False"
+                        IsVisible="False"
                         AbsoluteLayout.LayoutBounds="0.0, 0, 0.12, 0.1" 
                         AbsoluteLayout.LayoutFlags="All"
          />

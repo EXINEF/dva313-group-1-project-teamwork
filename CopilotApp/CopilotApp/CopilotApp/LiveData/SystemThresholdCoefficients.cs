@@ -4,6 +4,10 @@ using System.Text;
 
 namespace CopilotApp
 {
+    /************************************************************************
+     * Values that determine the thresholds for                             *
+     * low/very low/high/very high pressure and high/very high temperature. *
+     ************************************************************************/
 
     public class TemperatureThresholds
     {

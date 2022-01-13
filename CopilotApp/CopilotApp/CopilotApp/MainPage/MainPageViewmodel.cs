@@ -39,7 +39,7 @@ namespace CopilotApp
         string _rearRightTemperatureTextColor; public string rearRightTemperatureTextColor { get => _rearRightTemperatureTextColor; set { _rearRightTemperatureTextColor = value; OnPropertyChanged(nameof(rearRightTemperatureTextColor)); } }
 
 
-        //Event handler
+        //Event handler, is responsible for updating the display values displayed.
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainPageViewmodel()
@@ -102,7 +102,7 @@ namespace CopilotApp
 
         protected void OnPropertyChanged(string name)
         {
-            //Some property changed send the event hanlder the name of the property.
+            //Some property changed send the event hanlder the name of the property so it gets updated.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
@@ -148,7 +148,7 @@ namespace CopilotApp
         }
 
 
-        //Evaluate the temperature and pressure and update the graphics accordingly.
+        //Evaluate the temperatures and pressures and update the graphics accordingly.
         private void UpdateFrontLeftTireGraphics()
         {
             //Grab newest data from the Live Data and set as the display values
@@ -391,6 +391,7 @@ namespace CopilotApp
             }
         }
 
+        //Calculate temperature status
         private TEMPERATURE_STATUS GetTemperatureStatus(double temperature)
         {
             TEMPERATURE_STATUS status = TEMPERATURE_STATUS.OK;
@@ -407,6 +408,7 @@ namespace CopilotApp
             return status;
         }
 
+        //Calculate pressure status
         private PRESSURE_STATUS GetPressureStatus(double pressure, double baselinePressure)
         {
             PRESSURE_STATUS status;
@@ -437,9 +439,7 @@ namespace CopilotApp
             }
 
             return status;
-        }
-
-        
+        }      
 
     }
 }

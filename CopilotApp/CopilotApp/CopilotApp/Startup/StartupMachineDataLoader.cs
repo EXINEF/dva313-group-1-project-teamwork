@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+/************************************************************
+ * Loads the machine data for the vehicle from the database *
+ ************************************************************/
+
 namespace CopilotApp
 {
     class StartupMachineDataLoader
     {
 
-        public async Task LoadMachineData()
+        public bool LoadMachineData()
         {
-
+            bool loadSuccessful = true;
             DatabaseL database = new DatabaseL();
-
-            /************************************************************
-             * Loads the machine data for the vehicle from the database *
-             ************************************************************/
 
             //Prep SQL Query that grabs all the columns we want from the database for the vehicle
             string SQLQuery = "SELECT distance_driven_empty, distance_driven_loaded FROM tpms_vehicle WHERE id = '" + MachineData.machineID + "'";
 
-            //Send Query and get the data into the reader
+            //Send Query and store the result data in the reader
             MySqlDataReader reader = database.SendQuery(SQLQuery);
 
             if (reader != null)
@@ -33,20 +33,26 @@ namespace CopilotApp
                 {
                     MachineBusData.distanceDrivenEmpty = double.Parse(reader["distance_driven_empty"].ToString());
                 }
+                else
+                {
+                    loadSuccessful = false;
+                }
                     
                 if(reader["distance_driven_loaded"] != DBNull.Value) 
                 {
                     MachineBusData.distanceDrivenLoaded = double.Parse(reader["distance_driven_loaded"].ToString());
                 }
-
-                Console.WriteLine("MachineBusData.distanceDrivenEmpty:" + MachineBusData.distanceDrivenEmpty + " MachineBusData.distanceDrivenLoaded: " + MachineBusData.distanceDrivenLoaded);
+                else
+                {
+                    loadSuccessful = false;
+                }
             }
             else
             {
-                Console.WriteLine("MySqlDataReader reader is NULL in StartupMachineDataLoader.cs");
+                loadSuccessful = false;
             }
 
-            await Task.CompletedTask;
+            return loadSuccessful;
         }
     }
 }

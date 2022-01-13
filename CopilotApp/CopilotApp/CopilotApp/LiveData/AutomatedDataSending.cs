@@ -9,7 +9,7 @@ namespace CopilotApp
     class AutomatedDataSending
     {
         bool isSending = false;
-        int delayBetweenSendsSeconds = (60 * 1);
+        int delayBetweenSends = (120 * 1000);
         DatabaseL database = new DatabaseL();
 
         public void StopSending()
@@ -20,12 +20,9 @@ namespace CopilotApp
         public async Task StartSending()
         {
             isSending = true;
-            int sleepMilliseconds = delayBetweenSendsSeconds * 1000;
-            Thread.Sleep(6000);
+            Thread.Sleep(5000);
             while (isSending)
             {
-                Console.WriteLine("Auto Sending Data, " + delayBetweenSendsSeconds + " seconds until next update.");
-
                 int maxGeolocationDelayms = 5000; // max wait for GPS to respond in ms;
                 await GPS.UpdateCoordinates(maxGeolocationDelayms);
                 await Task.Delay(maxGeolocationDelayms);
@@ -38,7 +35,7 @@ namespace CopilotApp
 
                 await SendLiveLocationData();
 
-                Thread.Sleep(sleepMilliseconds);
+                Thread.Sleep(delayBetweenSends);
             }
 
             await Task.CompletedTask;
