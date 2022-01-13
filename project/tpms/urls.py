@@ -11,7 +11,6 @@ urlpatterns = [
     path('home', homePage, name='home'),
     path('all-tires', allTires, name='all-tires'),
     path('all-sensors', allSensors, name='all-sensors'),
-    #path('home-extended', homePageExtended, name='home-extended'),
     
     path('vehicle/<str:pk>', vehicle, name='vehicle'),
     path('add-vehicle/', addVehicle, name='add-vehicle'),

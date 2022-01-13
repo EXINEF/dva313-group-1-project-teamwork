@@ -10,84 +10,80 @@
         color:white;
     }
 </style>
-<body class="bg-dark">
-<div class="container">
 
+<body class="bg-dark">
+  <div class="container">
     <h1 class="text-white">Tire: {{tire.id}} Information Page</h1>
     <div style="text-align: right;">
-        <button class="btn btn-light" onclick="location.href='{% url 'edit-tire' tire.id %}'"><i class="fas fa-wrench"></i> Edit</button>
-        <button class="btn btn-light" onclick="location.href='{% url 'delete-tire' tire.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
+      <button class="btn btn-light" onclick="location.href='{% url 'edit-tire' tire.id %}'"><i class="fas fa-wrench"></i> Edit</button>
+      <button class="btn btn-light" onclick="location.href='{% url 'delete-tire' tire.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
     </div>
     <div class="col-sm-6">
-        <div class="card" >
-            <div class="card-body">
-                <ul class="list-group ">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      ID:
-                      <span class="badge bg-info rounded-pill">{{tire.id}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Status:
-                      <span> {% include "core/status-icon.html" with status=tire.getStatusStatus motivation=tire.getStatusMotivation %} </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Remaining life
-                      <span class="badge bg-info rounded-pill">{{tire.remaining_life}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Baseline pressure:
-                      <span class="badge bg-info rounded-pill">{{tire.baseline_pressure}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Fill material:
-                        <span class="badge bg-info rounded-pill">{{tire.fill_material}}</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Thread depth:
-                        <span class="badge bg-info rounded-pill">{{tire.tread_depth}}</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Revolutions:
-                        <span class="badge bg-info rounded-pill">{{tire.revolutions}}</span>
-                      </li>
-                  </ul>
-            </div>
-        
+      <div class="card" >
+        <div class="card-body">
+          <ul class="list-group ">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              ID:
+              <span class="badge bg-info rounded-pill">{{tire.id}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Status:
+              <span> {% include "core/status-icon.html" with status=tire.getStatusStatus motivation=tire.getStatusMotivation %} </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Remaining life
+              <span class="badge bg-info rounded-pill">{{tire.remaining_life}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Baseline pressure:
+              <span class="badge bg-info rounded-pill">{{tire.baseline_pressure}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Fill material:
+              <span class="badge bg-info rounded-pill">{{tire.fill_material}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Thread depth:
+              <span class="badge bg-info rounded-pill">{{tire.tread_depth}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Revolutions:
+              <span class="badge bg-info rounded-pill">{{tire.revolutions}}</span>
+            </li>
+          </ul>
         </div>
-        
+      </div>
     </div>
 
-  
+    
     <h3>Tire Sensor</h3>
     <table class="table table-light table-striped">
-    <thead>
+      <thead>
         <tr>
-        <th scope="col">Sensor ID</th>
-        <th scope="col">Sensor Status</th>
-        <th scope="col">Temperature</th>
-        <th scope="col">Pressure</th>
-        <th scope="col">Remaining  Battery</th>
-        <th scope="col">Status</th>
+          <th scope="col">Sensor ID</th>
+          <th scope="col">Sensor Status</th>
+          <th scope="col">Temperature</th>
+          <th scope="col">Pressure</th>
+          <th scope="col">Remaining  Battery</th>
+          <th scope="col">Status</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         <tr>
-        {% if tire.sensor is None %}
-        <th>MISSING SENSOR</th>
-        {% else %}  
-        <th scope="row"><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></th>
-        <td>{% include "core/status-icon.html" with status=tire.sensor.getStatusStatus motivation=tire.sensor.getStatusMotivation %}</td>
-        <td>{{tire.sensor.temperature}}</td>
-        <td>{{tire.sensor.pressure}}</td>
-        <td>{{tire.sensor.getRemaningBattery}}</td>
-        <td>{{tire.sensor.status}}</td>
+          {% if tire.sensor is None %}
+          <th>MISSING SENSOR</th>
+          {% else %}  
+          <th scope="row"><a href="{% url 'sensor' tire.sensor.id %}">{{tire.sensor.id}}</a></th>
+          <td>{% include "core/status-icon.html" with status=tire.sensor.getStatusStatus motivation=tire.sensor.getStatusMotivation %}</td>
+          <td>{{tire.sensor.temperature}}</td>
+          <td>{{tire.sensor.pressure}}</td>
+          <td>{{tire.sensor.getRemaningBattery}}</td>
+          <td>{{tire.sensor.status}}</td>
         </tr>  
         {% endif %}    
-              
-    </tbody>
+      </tbody>
     </table>
-
-</div>
+  </div>
 </body>
 
 

@@ -3,44 +3,41 @@
 
 {% block content %}
 <body class="bg-dark">
-<div class="container col-sm">
-    <h1 class="text-white">All Sensors of {{fleet_manager.company}}</h1>
-
-    <table class="table table-light table-striped" id="sortTable">
-    <thead>
-        <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Status</th>
-        <th scope="col">Tire associated</th>
-        <th scope="col">Temperature</th>
-        <th scope="col">Pressure</th>
-        <th scope="col">Remaning Battery</th>
-        <th scope="col">Status</th>
-        <th scope="col">Creation Datetime</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for sensor in sensors %}
-            <tr>
-            <th scope="row"><a class="table" href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
-            <td>{% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %}</td>
-            <td>{{sensor.getTireThatMountIt.id}}</td>
-            <td>{{sensor.temperature}}</td>
-            <td>{{sensor.pressure}}</td>
-            <td>{{sensor.getRemaningBattery}}</td>
-            <td>{{sensor.status}}</td>
-            <td>{{sensor.getExpiredDate}}</td>
-            <td><a class="table"href="{% url 'edit-sensor' sensor.id %}"><i class="fas fa-wrench"></i></a></td>
-            <td><a class="table"href="{% url 'delete-sensor' sensor.id %}"><i class="fas fa-trash-alt"></a></td>
-            </tr>
-        {% endfor %}
-        
-    </tbody>
-    </table>
-    
-</div>
+    <div class="container col-sm">
+        <h1 class="text-white">All Sensors of {{fleet_manager.company}}</h1>
+        <table class="table table-light table-striped" id="sortTable">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Tire associated</th>
+                    <th scope="col">Temperature</th>
+                    <th scope="col">Pressure</th>
+                    <th scope="col">Remaning Battery</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Creation Datetime</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sensor in sensors %}
+                    <tr>
+                        <th scope="row"><a class="table" href="{% url 'sensor' sensor.id%}">{{sensor.id}}</a></th>
+                        <td>{% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %}</td>
+                        <td>{{sensor.getTireThatMountIt.id}}</td>
+                        <td>{{sensor.temperature}}</td>
+                        <td>{{sensor.pressure}}</td>
+                        <td>{{sensor.getRemaningBattery}}</td>
+                        <td>{{sensor.status}}</td>
+                        <td>{{sensor.getExpiredDate}}</td>
+                        <td><a class="table"href="{% url 'edit-sensor' sensor.id %}"><i class="fas fa-wrench"></i></a></td>
+                        <td><a class="table"href="{% url 'delete-sensor' sensor.id %}"><i class="fas fa-trash-alt"></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 {% endblock content %}
 

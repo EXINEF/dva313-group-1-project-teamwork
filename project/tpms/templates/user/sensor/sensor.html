@@ -10,50 +10,46 @@
 
 <body class="bg-dark">
 
-<div class="container">
-
+  <div class="container">
     <h1 class="text-white">Sensor: {{sensor.id}} Information Page</h1>
     <div style="text-align: right;">
-        <button class="btn btn-light" onclick="location.href='{% url 'edit-sensor' sensor.id %}'"><i class="fas fa-wrench"></i> Edit</button>
-        <button class="btn btn-light" onclick="location.href='{% url 'delete-sensor' sensor.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
+      <button class="btn btn-light" onclick="location.href='{% url 'edit-sensor' sensor.id %}'"><i class="fas fa-wrench"></i> Edit</button>
+      <button class="btn btn-light" onclick="location.href='{% url 'delete-sensor' sensor.id %}'"><i class="fas fa-trash-alt"></i> Delete</button>
     </div>
 
     <div class="col-sm-6">
-        <div class="card" >
-            <div class="card-body">
-                <ul class="list-group ">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      ID:
-                      <span class="badge bg-info rounded-pill">{{sensor.id}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Status:
-                      <span> {% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %} </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Remaining battery:
-                      <span class="badge bg-info rounded-pill">{{sensor.getRemaningBattery}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Pressure:
-                      <span class="badge bg-info rounded-pill">{{sensor.pressure}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Temperature:
-                        <span class="badge bg-info rounded-pill">{{sensor.temperature}}</span>
-                      </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Status:
-                        <span class="badge bg-info rounded-pill">{{sensor.status}}</span>
-                      </li>
-                  </ul>
-            </div>
-        
+      <div class="card" >
+        <div class="card-body">
+          <ul class="list-group ">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              ID:
+              <span class="badge bg-info rounded-pill">{{sensor.id}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Status:
+              <span> {% include "core/status-icon.html" with status=sensor.getStatusStatus motivation=sensor.getStatusMotivation %} </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Remaining battery:
+              <span class="badge bg-info rounded-pill">{{sensor.getRemaningBattery}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Pressure:
+              <span class="badge bg-info rounded-pill">{{sensor.pressure}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Temperature:
+                <span class="badge bg-info rounded-pill">{{sensor.temperature}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Status:
+              <span class="badge bg-info rounded-pill">{{sensor.status}}</span>
+            </li>
+          </ul>
         </div>
-        
+      </div>
     </div>
-
-</div>
+  </div>
 </body>
 
 

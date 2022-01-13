@@ -5,22 +5,21 @@
 <style>
     h1{color:white;}
 </style>
+
 <body class="bg-dark">
-<div class="container col-lg-7">
-    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
-        <div class=" card-header">
-            <h1>Edit Sensor{{sensor.id}}</h1>
-        </div>      
+    <div class="container col-lg-7">
+        <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+            <div class=" card-header">
+                <h1>Edit Sensor{{sensor.id}}</h1>
+            </div>      
             <form action="" method="POST">
                 {% csrf_token %}
                 {{form.as_p}}
                 <a href="{% url 'sensor' sensor.id %}" class="btn btn-danger">Don't save it</a>
                 <button type="submit" class="btn btn-success">Save it</button>
             </form>
-       
+        </div>
     </div>
-
-</div>
 </body>
 
 {% endblock content %}

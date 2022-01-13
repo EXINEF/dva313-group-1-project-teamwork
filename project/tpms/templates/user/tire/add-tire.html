@@ -7,20 +7,19 @@
 </style>
 
 <body class="bg-dark">
-<div class="container col-lg-7">
-    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
-        <div class=" card-header">
-            <h1>Add a new tire</h1>
+    <div class="container col-lg-7">
+        <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+            <div class=" card-header">
+                <h1>Add a new tire</h1>
+            </div>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <a href="{% url 'add-sensor' %}" target="_blank" class="btn btn-primary">Add a sensor</a>
+                <input type="submit" value="Add Tire" class="btn btn-success">
+            </form> 
         </div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{form.as_p}}
-            <a href="{% url 'add-sensor' %}" target="_blank" class="btn btn-primary">Add a sensor</a>
-            <input type="submit" value="Add Tire" class="btn btn-success">
-        </form> 
     </div>
-    
-</div>
 </body>
 
 {% endblock content %}

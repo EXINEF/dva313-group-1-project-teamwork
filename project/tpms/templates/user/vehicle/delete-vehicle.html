@@ -5,22 +5,21 @@
 <style>
     h1,h2{color:white;}
 </style>
-<body class="bg-dark">
-<div class="container col-lg-4">
-    <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
-        <div class=" card-header">
-            <h1>Delete {{vehicle.id}}</h1>
-        </div>
-        <h2>Are you sure?</h2>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <a class="btn btn-danger"href="{% url 'vehicle' vehicle.id %}">No, keep it</a>
-            <button type="submit" class="btn btn-success">Yes, delete it</button>
-        </form>
-    </div>
-       
 
-</div>
+<body class="bg-dark">
+    <div class="container col-lg-4">
+        <div class="card shadow-lg bg-dark text-white border-light rounded-lg mt-5" style="text-align:center; ">
+            <div class=" card-header">
+                <h1>Delete {{vehicle.id}}</h1>
+            </div>
+            <h2>Are you sure?</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <a class="btn btn-danger"href="{% url 'vehicle' vehicle.id %}">No, keep it</a>
+                <button type="submit" class="btn btn-success">Yes, delete it</button>
+            </form>
+        </div>
+    </div>
 </body>
 {% endblock content %}
 
