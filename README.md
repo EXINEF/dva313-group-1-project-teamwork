@@ -76,13 +76,13 @@ The data entered in the simulator may also be copied over to the active Co-Pilot
 # BUILDING THE CO-PILOT APP
 The Co-Pilot project was created using Visual Studio 2019 and includes Visual Studio project files.
 
-  To Build the Co-Pilot from the repository the following steps are required:  
+To Build the Co-Pilot from the repository the following steps are required:  
   (I): Install Visual Studio 2019 (although other versions should probably work as well.)  
   (II): Install Xamarin for Visual Studio  
   (III): Install Github extension for Visual Studio  
   (IV): Clone the repository  
   (V): Build  
-  (VI): Troubleshooting  
+  (VI): Troubleshooting
 
 ## Step 1: Installing Visual Studio
 Visual Studio can be downloaded an installed from https://visualstudio.microsoft.com/downloads/ (Latest) or https://docs.microsoft.com/en-us/visualstudio/releases/2019/system-requirements (Visual Studio 2019)
