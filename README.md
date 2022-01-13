@@ -49,7 +49,7 @@ The data entered in the simulator may also be copied over to the active Co-Pilot
   Function that grabs the current GPS location of the Android device.
   
   ### LiveData
-  All the actual data that is used by the CoPilot separated into classes for machine, tires and sensors.  
+  All the actual data that is used by the Co-Pilot separated into classes for machine, tires and sensors.  
   Also contains the automated data sending functionality which runs contiuously in the background and the threshold values to indicate warning levels for temperature and pressure.
   
   ### MainPage
